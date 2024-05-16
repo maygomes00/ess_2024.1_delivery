@@ -20,4 +20,17 @@ Cenário: Solicitar envio de código para recuperar senha por e-mail com e-mail 
 
 Cenário: Inserção de código recebido para recuperação de senha corretamente
   Given o usuário está na página de "Recuperar Senha"
-  When o usuário insere o código recebido por e-mail corretamente Then o usuário é redirecionado para página de "Criar nova Senha" 
+  When o usuário insere o código recebido por e-mail corretamente 
+  Then o usuário é redirecionado para página de "Criar nova Senha"
+
+Cenário: Inserção de código para recuperação de senha incorreto
+  Given o usuário está na página de "Recuperar Senha"
+  When o usuário insere o código recebido por e-mail incorretamente Then o usuário recebe uma mensagem "Código inválido"
+  Then o usuário é redirecionado para página de "Recuperar Senha"
+
+Cenário: Inserção de nova senha válida
+  Given o usuário está na página de "Criar nova Senha"
+  When o usuário insere uma "Nova Senha"
+  Then o usuário recebe uma mensagem "Senha Atualizada!"
+  And o usuário é redirecionado para página de "Login"
+
