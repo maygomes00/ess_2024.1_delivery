@@ -14,3 +14,4 @@ Cenário: Solicitar envio de código para recuperar senha por e-mail e-mail com 
   Then o usuário recebe mensagem de "Código enviado para o seu e-mail"
 
 Um linha teste
+Dois linha teste
