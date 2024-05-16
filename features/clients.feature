@@ -13,3 +13,4 @@ Cenário: Solicitar envio de código para recuperar senha por e-mail e-mail com 
   When o usuário insere e-mail do seu cadastro registrado no sistema
   Then o usuário recebe mensagem de "Código enviado para o seu e-mail"
 
+Um linha teste
