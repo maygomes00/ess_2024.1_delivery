@@ -1,11 +1,12 @@
-#LOGO AQUI
+# LOGO AQUI
 
-#NOME
+# NOME
 
-#DESCRIÇÃO/DEMONSTRAÇÃO
+# DESCRIÇÃO/DEMONSTRAÇÃO
 
-#STACKS
+# STACKS
 > Front-end: React
-> Back-end: Node.js
 
-#RODANDNO O PROJETO
+> Back-end: Node.js
+ 
+# RODANDNO O PROJETO
