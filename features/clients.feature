@@ -13,5 +13,11 @@ Cenário: Solicitar envio de código para recuperar senha por e-mail e-mail com 
   When o usuário insere e-mail do seu cadastro registrado no sistema
   Then o usuário recebe mensagem de "Código enviado para o seu e-mail"
 
-Um linha teste
-Dois linha teste
+Cenário: Solicitar envio de código para recuperar senha por e-mail com e-mail incorreto ou inexistente
+  Given o usuário está na página de "Esqueci Senha"
+  When o usuário insere e-mail do seu cadastro incorretamente ou e-mail não cadastrado no sistema
+  Then o usuário recebe mensagem de "Este e-mail não está cadastrado no sistema"
+
+Cenário: Inserção de código recebido para recuperação de senha corretamente
+  Given o usuário está na página de "Recuperar Senha"
+  When o usuário insere o código recebido por e-mail corretamente Then o usuário é redirecionado para página de "Criar nova Senha" 
