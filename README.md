@@ -9,4 +9,4 @@
 
 > Back-end: Node.js
  
-# RODANDNO O PROJETO
+# RODANDO O PROJETO
