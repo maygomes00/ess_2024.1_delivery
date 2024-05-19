@@ -1,4 +1,7 @@
 Feature: Recuperação de conta via E-mail / Esqueci a senha
+    As a usuario
+    I want to poder criar um nova senha
+    So that eu possa recuperar meu acesso ao sistema
 
 Cenário: Solicitar recuperação de senha
     Given o usuário está na página de "Login"
