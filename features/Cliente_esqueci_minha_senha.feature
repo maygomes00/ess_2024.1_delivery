@@ -30,6 +30,9 @@ Cenário: Inserção de código para recuperação de senha incorreto
 
 Cenário: Inserção de nova senha válida
     Given o usuário está na página de "Criar nova Senha"
-   	When o usuário insere uma "Nova Senha"
+    When o usuário insere uma "Nova Senha"
     Then o usuário recebe uma mensagem "Senha Atualizada!"
     And o usuário é redirecionado para página de "Login"
+    Then Teste para roteiro
+
+[teste para roteriro]
