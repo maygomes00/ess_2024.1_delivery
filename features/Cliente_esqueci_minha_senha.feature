@@ -34,5 +34,3 @@ Cenário: Inserção de nova senha válida
     Then o usuário recebe uma mensagem "Senha Atualizada!"
     And o usuário é redirecionado para página de "Login"
     Then Teste para roteiro
-
-[teste para roteriro]
