@@ -34,6 +34,6 @@ Scenario: visualizar estatísticas diárias
     status “entregue”, data “05/05/2024” e o pedido de número “3081” com o item “Hambúrguer”, de valor “39,90”, status “entregue”, 
     data “11/05/2024”
     When eu seleciono “diário” no campo período de detalhamento
-    Then eu estou na aba “detalhes mensais” da página “estatística de pedidos”
+    Then eu estou na aba “detalhes diários” da página “estatística de pedidos”
     And eu consigo ver a lista de detalhamento diário com o dia “05/05/2024” com gastos totais  “59,90” e número de itens “1” e o dia 
     “11/05/2024” com gastos totais “39,90” e número de itens “1”
