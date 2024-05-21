@@ -14,9 +14,7 @@ Scenario: Acessar página de histórico de pedidos sem haver pedidos feitos no a
 Scenario: Acessar página de histórico de pedidos com pedidos feitos no aplicativo
     Given que eu estou logado como “cliente” com o login “usuario_qualquer2” 
     And eu estou na página “home”
-    And o sistema tem registrado, associado a meu perfil,  o pedido de número “3091” com o item “Hot dog”, de valor “9,90”, 
-    status “entregue”, data “15/05/2024” e o pedido de número “4001” com o item “Yakisoba”, de valor “29,90”, status “entregue”, 
-    data “17/05/2024”
+    And o sistema tem registrado, associado a meu perfil,  o pedido “3091” o pedido “4001”
     When eu escolho a opção “Pedidos”
     Then eu estou na página “Histórico de pedidos”
     And eu consigo visualizar a lista de pedidos ordenados de mais recente para mais antigo
