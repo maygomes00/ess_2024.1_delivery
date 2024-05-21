@@ -1,6 +1,6 @@
 Cenário 1 Inserir Restaurante com Sucesso
 Given que estou na página de cadastro de restaurante
-When preencho os campos Nome com Restaurante X, Endereço com Rua Y, 123, Telefone com 1234-5678, Tipo de Cozinha com Italiana e Horário de Funcionamento com 1000 - 2200
+When preencho os campos Nome com Restaurante X, Endereço com Rua Y, 123, Telefone com 1234-5678, Tipo de Cozinha com Italiana e Horário de Funcionamento com 10:00 - 22:00
 And pressiono Salvar
 Then vejo a mensagem Restaurante cadastrado com sucesso!
 And o novo restaurante Restaurante X aparece na lista de restaurantes
@@ -17,7 +17,7 @@ Cenário 3 Atualizar Restaurante com Sucesso
 Given que estou na página de lista de restaurantes
 When seleciono o restaurante Restaurante Z
 And pressiono Editar
-And modifico os campos desejados, como Endereço para Rua Nova, 456 e Horário de Funcionamento para 0900 - 2300
+And modifico os campos desejados, como Endereço para Rua Nova, 456 e Horário de Funcionamento para 09:00 - 23:00
 And pressiono Salvar
 Then vejo a mensagem Restaurante atualizado com sucesso!
 
