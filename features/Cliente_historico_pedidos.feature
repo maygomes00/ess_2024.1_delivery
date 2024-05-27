@@ -56,3 +56,4 @@ Scenario: Acessar restaurante removido através de pedido do histórico
     Then eu vejo uma mensagem “Esse restaurante não está mais disponível”
     And eu continuo na página "Histórico de pedidos"
 
+
