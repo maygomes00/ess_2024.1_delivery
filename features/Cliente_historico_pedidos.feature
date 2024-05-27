@@ -34,4 +34,5 @@ Scenario: Acessar item através de pedido do histórico
     valor “59,90”, status “entregue”, data “11/05/2024” e o pedido de número “3081” com o item “Hamburguer”, restaurante "Hamburgueria legal"
     valor “39,90”, status “entregue”, data “05/05/2024”
     When eu clico no item “Hamburgueria” no primeiro pedido da lista do histórico
-    Then eu estou na página “Cardápio” do restaurante “Hamburgueria legal” no item “Hamburguer”
+    Then eu estou na página “Cardápio” do restaurante “Hamburgueria legal”
+    And eu vejo o item “Hamburguer”
