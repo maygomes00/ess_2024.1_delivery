@@ -6,6 +6,7 @@ app.listen(Env.PORT, () => {
   logger.info(`Server started on http://localhost:${Env.PORT}/api`);
 });
 
-app.get("/ping", (req, res) => {
-  res.send("Ping!")
-})
+// Import routes:
+import pingRoutes from "./routes/ping.routes";
+
+app.use("/ping", pingRoutes)
