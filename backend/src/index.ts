@@ -8,5 +8,7 @@ app.listen(Env.PORT, () => {
 
 // Import routes:
 import pingRoutes from "./routes/ping.routes";
+import itemRoutes from "./routes/item.routes";
 
 app.use("/ping", pingRoutes)
+app.use("/item", itemRoutes)
