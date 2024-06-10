@@ -1,35 +1,40 @@
 {
-    "categorias": [
-      {
-        "id": 1234567890,
-        "nome": "Bebidas",
-        "restauranteId": "RESTAURANTE_ID_AQUI",
-        "temItens": true
-      },
-      {
-        "id": 2345678901,
-        "nome": "Lanches",
-        "restauranteId": "RESTAURANTE_ID_AQUI",
-        "temItens": true
-      },
-      {
-        "id": 3456789012,
-        "nome": "Sobremesas",
-        "restauranteId": "RESTAURANTE_ID_AQUI",
-        "temItens": true
-      },
-      {
-        "id": 4567890123,
-        "nome": "Pratos Principais",
-        "restauranteId": "RESTAURANTE_ID_AQUI",
-        "temItens": false
-      },
-      {
-        "id": 5678901234,
-        "nome": "Entradas",
-        "restauranteId": "RESTAURANTE_ID_AQUI",
-        "temItens": false
-      }
-    ]
-  }
-  
+  "categorias": [
+    {
+      "id": "33b017a0-d",
+      "nome": "Salgado",
+      "restauranteId": "restaurante-1",
+      "temItens": false
+    },
+    {
+      "id": "51b4788e-3",
+      "nome": "Entradas",
+      "restauranteId": "restaurante-1",
+      "temItens": false
+    },
+    {
+      "id": "6405c24f-a",
+      "nome": "Prato Principal",
+      "restauranteId": "restaurante-1",
+      "temItens": false
+    },
+    {
+      "id": "833fa262-e",
+      "nome": "Sobremesa",
+      "restauranteId": "restaurante-1",
+      "temItens": false
+    },
+    {
+      "id": "85672dbb-5",
+      "nome": "Lanches",
+      "restauranteId": "restaurante-1",
+      "temItens": false
+    },
+    {
+      "id": "c9d8c8a3-6",
+      "nome": "Bebidas",
+      "restauranteId": "restaurante-1",
+      "temItens": false
+    }
+  ]
+}
