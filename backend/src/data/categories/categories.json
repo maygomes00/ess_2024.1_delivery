@@ -1,0 +1,35 @@
+{
+    "categorias": [
+      {
+        "id": 1234567890,
+        "nome": "Bebidas",
+        "restauranteId": "RESTAURANTE_ID_AQUI",
+        "temItens": true
+      },
+      {
+        "id": 2345678901,
+        "nome": "Lanches",
+        "restauranteId": "RESTAURANTE_ID_AQUI",
+        "temItens": true
+      },
+      {
+        "id": 3456789012,
+        "nome": "Sobremesas",
+        "restauranteId": "RESTAURANTE_ID_AQUI",
+        "temItens": true
+      },
+      {
+        "id": 4567890123,
+        "nome": "Pratos Principais",
+        "restauranteId": "RESTAURANTE_ID_AQUI",
+        "temItens": false
+      },
+      {
+        "id": 5678901234,
+        "nome": "Entradas",
+        "restauranteId": "RESTAURANTE_ID_AQUI",
+        "temItens": false
+      }
+    ]
+  }
+  
