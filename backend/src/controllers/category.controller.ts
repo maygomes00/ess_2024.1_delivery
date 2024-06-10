@@ -40,6 +40,33 @@ export const categoryGetAllJson = async (req: Request, res: Response): Promise<v
   }
 };
 
+export const categoryGetById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const categoryId = req.params.id;
+    const filePath = path.resolve('./src/data/categories/categories.json');
+    const fileContent = fs.readFileSync(filePath, 'utf-8');
+    const data: { categorias: Categoria[] } = JSON.parse(fileContent);
+
+    const categoria = data.categorias.find(categoria => categoria.id === categoryId);
+
+    if (!categoria) {
+      res.status(404).json({ error: "Categoria não encontrada" });
+      return;
+    }
+
+    res.status(200).json(categoria);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error in getAll:", error.message);
+    } else {
+      console.error("Unknown error in getAll");
+    }
+    res.status(500).json({
+      error: "Internal Server Error"
+  });
+  }
+};
+
 export const categoryAddJson = async (req: Request, res: Response): Promise<void> => {
   try {
     const nomeCategoria = req.body.nome?.trim(); // Obtém o nome da categoria e remove espaços em branco
