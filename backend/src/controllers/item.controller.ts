@@ -1,9 +1,14 @@
 import path from 'path'
 import fs from 'fs'
 import { randomInt } from 'crypto'
+import { Stream } from 'stream'
+import { start } from 'repl'
 
-const itens_json_path = './src/data/Itens/Itens.json'
+const itens_json_path = './src/data/itens/itens.json'
+const store_path = "./src/data/itens/images"
 const max_id = 281474976710655
+
+
 
 export const getItemById = (req : any, res : any) => {
     try {
@@ -19,15 +24,47 @@ export const getItemById = (req : any, res : any) => {
     }
 }
 
+
+
 export const addItem = (req : any, res : any) => {
     try {
+        // Carrega o banco de dados:
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
         
+        // Define um id aleatorio para o item:
         var new_id = randomInt(0, max_id)
         while (data.filter((element: { id: any }) => element.id == new_id).length > 0) {
             new_id = randomInt(0, max_id)
         }
         
+        // Verifica se dados do item estão corretos
+        const errors_found = verify_item_data(req.body)
+        if (errors_found.length> 0) {
+            if (req.files[0]){
+                remove_image(req.files[0].path)
+            }
+            console.error("Error in recived data: " + errors_found.join(", "))
+            res.status(500).json({
+                error: "Error: " + errors_found.join(", ")
+            })
+            return
+        }
+
+        // Renomear imagem com id do item:
+        const old_image_path = req.files[0].path
+        const image_extension = req.files[0].mimetype.split("/")[1]
+        const new_image_path = `${store_path}/${req.body.restaurant_id}_${new_id}.${image_extension}`
+        fs.rename(old_image_path, new_image_path, (err) => {
+            if (err) {
+                console.error(`Error during image file rename: ${old_image_path} to ${new_image_path}`, err)
+                res.status(500).json({
+                    error: "Internal Server Error"
+                })
+                return
+            }
+        })
+
+        // Adiciona as informações do item a lista de dados:
         data.push({
             id: JSON.stringify(new_id),
             restaurant_id: req.body.restaurant_id,
@@ -35,12 +72,14 @@ export const addItem = (req : any, res : any) => {
             price: req.body.price,
             description: req.body.description,
             categories: req.body.categories,
-            image: req.body.image
+            image_path: new_image_path
         })
-
+        
+        // Guarda dos dados no banco de dados de itens:
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
         res.status(201).json(data)
+
     } catch(error : any) {
         console.log("Erro in addItem:", error.message)
         res.status(500).json({
@@ -48,6 +87,8 @@ export const addItem = (req : any, res : any) => {
         })
     }
 }
+
+
 
 export const updateItem = (req : any, res : any) => {
     try {
@@ -74,6 +115,8 @@ export const updateItem = (req : any, res : any) => {
     }
 }
 
+
+
 export const removeItem = (req : any, res : any) => {
     try {
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
@@ -89,4 +132,58 @@ export const removeItem = (req : any, res : any) => {
             error: "Internal Server Error"
         })
     }
+}
+
+
+
+// Faz a verificação dos dados recebidos no corpo da requisição, retornando uma lista com os erros.
+function verify_item_data(request_body : any): any {
+    var error_list : String[] = []
+    // restaurant_id
+    if (request_body.restaurant_id == undefined) {
+        error_list.push("restaurant_id is undefined")
+    } else if (request_body.restaurant_id == "") {
+        error_list.push("item has no restaurant_id")
+    }
+    // name
+    if (request_body.name == undefined) {
+        error_list.push("name is undefined")
+    } else if (request_body.name.length < 1) {
+        error_list.push("item has no name")
+    }
+    // price
+    if (request_body.price == undefined) {
+        error_list.push("price is undefined")
+    } if (request_body.price == "") {
+        error_list.push("item has no price")
+    } else if ((request_body.price.split(".").length != 2) ||
+               (request_body.price.split(".")[0].length < 1) ||
+               (request_body.price.split(".")[1].length != 2)) {
+        error_list.push("price value is in the wrong format")
+    }
+    // description
+    if (request_body.description == undefined) {
+        error_list.push("description is undefined")
+    } else if (request_body.description == "") {
+        error_list.push("item has no description")
+    } else if (request_body.description.length > 50) {
+        error_list.push("description is to long")
+    }
+    // categories
+    if (request_body.categories == undefined) {
+        error_list.push("categories is undefined")
+    } else if (request_body.categories == "") {
+        error_list.push("item has no categories")
+    }
+
+    return error_list
+}
+
+
+function remove_image(image_path : string): any {
+    fs.unlink(image_path, (err) => {
+        if (err) {
+            console.error('Erro ao deletar o arquivo:', err);
+        }
+    })
 }
