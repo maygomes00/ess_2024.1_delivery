@@ -17,6 +17,22 @@ export const getItemById = (req : any, res : any) => {
         // Filtra dos dados pegando apenas aquele com o id igual ao especificado:
         const database_data = parser.filter((element: { id: any }) => element.id == req.params.itemId)
 
+        // Verifica se tem um item com o id especificado:
+        if (database_data.length == 0) {
+            console.log(`item with id ${req.params.itemId} not found`)
+            res.status(500).json({
+                Response: `There is no item with id ${req.params.itemId}`
+            })
+            return
+        // Verifica se tem mais de um item com o mesmo id (ERRO)
+        } else if (database_data.length > 1) {
+            console.error(`Error: there is more than one item with id ${req.params.itemId}`)
+            res.status(500).json({
+                error: "Internal Server Error"
+            })
+            return
+        }
+
         // Carrega a imagem codificada em base64:
         const image_path = database_data[0].image_path
         const image_data = fs.readFileSync(image_path, { encoding: 'base64' })
@@ -56,8 +72,8 @@ export const addItem = (req : any, res : any) => {
             new_id = randomInt(0, max_id)
         }
         
-        // Verifica se dados do item estão corretos
-        const errors_found = verify_item_data(req.body)
+        // Verifica se dados do item recebidos estão corretos:
+        const errors_found = verify_item_data(req)
         if (errors_found.length> 0) {
             if (req.files[0]){
                 remove_image(req.files[0].path)
@@ -98,11 +114,30 @@ export const addItem = (req : any, res : any) => {
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
         res.status(201).json({
-            Result: "Item data was saved successfully"
+            Response: "Item data was saved successfully"
         })
 
     } catch(error : any) {
         console.log("Erro in addItem:", error.message)
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+}
+
+
+
+export const removeItem = (req : any, res : any) => {
+    try {
+        var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
+        
+        data = data.filter((element: { id: any }) => element.id != req.params.itemId)
+
+        fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
+
+        res.status(200).json(data)
+    } catch(error : any) {
+        console.log("Erro in removeItem:", error.message)
         res.status(500).json({
             error: "Internal Server Error"
         })
@@ -138,28 +173,10 @@ export const updateItem = (req : any, res : any) => {
 
 
 
-export const removeItem = (req : any, res : any) => {
-    try {
-        var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
-        
-        data = data.filter((element: { id: any }) => element.id != req.params.itemId)
-
-        fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
-
-        res.status(200).json(data)
-    } catch(error : any) {
-        console.log("Erro in removeItem:", error.message)
-        res.status(500).json({
-            error: "Internal Server Error"
-        })
-    }
-}
-
-
-
 // Faz a verificação dos dados recebidos no corpo da requisição, retornando uma lista com os erros.
-function verify_item_data(request_body : any): any {
+function verify_item_data(request : any): any {
     var error_list : String[] = []
+    const request_body = request.body
     // restaurant_id
     if (request_body.restaurant_id == undefined) {
         error_list.push("restaurant_id is undefined")
@@ -195,6 +212,10 @@ function verify_item_data(request_body : any): any {
         error_list.push("categories is undefined")
     } else if (request_body.categories == "") {
         error_list.push("item has no categories")
+    }
+    // Image
+    if (!(request.files[0])) {
+        error_list.push("item has no image")
     }
 
     return error_list

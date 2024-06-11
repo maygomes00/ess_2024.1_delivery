@@ -7,4 +7,5 @@ app.listen(Env.PORT, () => {
   logger.info(`http://localhost:${Env.PORT}/restaurant`);
   logger.info(`http://localhost:${Env.PORT}/menu`);
   logger.info(`http://localhost:${Env.PORT}/category`);
+  logger.info(`http://localhost:${Env.PORT}/item`);
 });

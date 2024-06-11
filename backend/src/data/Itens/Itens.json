@@ -7,5 +7,14 @@
     "description": "Brigadeiro normal",
     "categories": "Doce,Mais pedidos",
     "image_path": "./src/data/itens/images/0_278316524622702.jpeg"
+  },
+  {
+    "id": "29230952551625",
+    "restaurant_id": "0",
+    "name": "Brigadeiro ",
+    "price": "1.00",
+    "description": "Brigadeiro normal",
+    "categories": "Doce,Mais pedidos",
+    "image_path": "./src/data/itens/images/0_29230952551625.jpeg"
   }
 ]
