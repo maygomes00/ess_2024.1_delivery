@@ -37,9 +37,20 @@ Scenario: Tentar criar categoria que já existe
     Given estou na tela “Adicionar nova categoria”
     And   categoria “Doce” existe no cardápio
     When  preencho o campo “nome da categoria” com “Doce”
-    And   seleciono a opção “Salvar nova categoria”
+    And   seleciono a opção “Salvar”
     Then  mensagem informando que a categoria “Doce” já existe
     And   estou na tela “Adicionar nova categoria”
+
+Scenario: Editar nome de  categoria
+    Given estou na tela “Adicionar nova categoria”
+    And   categoria “Doce” existe no cardápio
+    When  preencho o campo “nome da categoria” com “Doce”
+    And   preencho o campo “nome da categoria” com “Salgado”
+    And   seleciono a opção “Salvar”
+    Then  mensagem informando que a categoria foi salva é exibida
+    And   estou na aba “Cardápio” da tela “Editor de cardápio”
+    And   categoria “Salgado” existe no cardápio
+
 
 Scenario: Desistir de criar categoria
     Given estou na tela “Adicionar nova categoria”

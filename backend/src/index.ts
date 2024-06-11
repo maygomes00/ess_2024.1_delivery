@@ -4,11 +4,7 @@ import Env from './env';
 
 app.listen(Env.PORT, () => {
   logger.info(`Server started on http://localhost:${Env.PORT}/api`);
+  logger.info(`http://localhost:${Env.PORT}/restaurant`);
+  logger.info(`http://localhost:${Env.PORT}/menu`);
+  logger.info(`http://localhost:${Env.PORT}/category`);
 });
-
-// Import routes:
-import pingRoutes from "./routes/ping.routes";
-import itemRoutes from "./routes/item.routes";
-
-app.use("/ping", pingRoutes)
-app.use("/item", itemRoutes)
