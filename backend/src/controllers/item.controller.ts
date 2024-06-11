@@ -14,24 +14,29 @@ export const getItemById = (req : any, res : any) => {
     try {
         // Carrega o banco de dados:
         const parser = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
-        // Filtra dos dados pegando apenas aquele com o id igual ao especificado:
-        const database_data = parser.filter((element: { id: any }) => element.id == req.params.itemId)
+        
+        const requested_id = req.params.itemId
 
         // Verifica se tem um item com o id especificado:
-        if (database_data.length == 0) {
-            console.log(`item with id ${req.params.itemId} not found`)
+        if (!(id_exists(parser, requested_id))) {
+            console.log(`item with id ${requested_id} not found`)
             res.status(500).json({
-                Response: `There is no item with id ${req.params.itemId}`
+                Response: `There is no item with id ${requested_id}`
             })
             return
-        // Verifica se tem mais de um item com o mesmo id (ERRO)
-        } else if (database_data.length > 1) {
-            console.error(`Error: there is more than one item with id ${req.params.itemId}`)
+        }
+        // Verifica se tem mais de um item com o mesmo id (ERRO):
+        if (is_id_duplicated(parser, requested_id)) {
+            console.error(`Error: there is more than one item with id ${requested_id}`)
             res.status(500).json({
                 error: "Internal Server Error"
             })
             return
         }
+        
+        // Filtra dos dados pegando apenas aquele com o id igual ao especificado:
+        const database_data = parser.filter((element: { id: any }) => element.id == requested_id)
+
 
         // Carrega a imagem codificada em base64:
         const image_path = database_data[0].image_path
@@ -129,13 +134,42 @@ export const addItem = (req : any, res : any) => {
 
 export const removeItem = (req : any, res : any) => {
     try {
+        // Carrega o banco de dados:
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
         
-        data = data.filter((element: { id: any }) => element.id != req.params.itemId)
+        const requested_id = req.params.itemId
 
+        // Verifica se tem um item com o id especificado:
+        if (!(id_exists(data, requested_id))) {
+            console.log(`item with id ${requested_id} not found`)
+            res.status(500).json({
+                Response: `There is no item with id ${requested_id}`
+            })
+            return
+        }
+        // Verifica se tem mais de um item com o mesmo id (ERRO):
+        if (is_id_duplicated(data, requested_id)) {
+            console.error(`Error: there is more than one item with id ${requested_id}`)
+            res.status(500).json({
+                error: "Internal Server Error"
+            })
+            return
+        }
+
+        // Remove imagem do item:
+        const item = data.filter((element: { id: any }) => element.id == requested_id)[0]
+        remove_image(item.image_path)
+
+        // Elimina item com id especificado:
+        data = data.filter((element: { id: any }) => element.id != requested_id)
+
+        // Guarda dados apos remocao do item:
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
-        res.status(200).json(data)
+        res.status(200).json({
+            Response: "Item data was removed successfully"
+        })
+
     } catch(error : any) {
         console.log("Erro in removeItem:", error.message)
         res.status(500).json({
@@ -228,4 +262,14 @@ function remove_image(image_path : string): any {
             console.error('Erro ao deletar o arquivo:', err);
         }
     })
+}
+
+function id_exists(data: any, id: String): Boolean {
+    const id_data = data.filter((element: { id: any }) => element.id == id)
+    return id_data.length != 0
+}
+
+function is_id_duplicated(data: any, id: String): Boolean {
+    const id_data = data.filter((element: { id: any }) => element.id == id)
+    return id_data.length > 1
 }
