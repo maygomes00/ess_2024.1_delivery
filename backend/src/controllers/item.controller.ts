@@ -25,6 +25,7 @@ export const getItemById = (req : any, res : any) => {
             })
             return
         }
+
         // Verifica se tem mais de um item com o mesmo id (ERRO):
         if (is_id_duplicated(parser, requested_id)) {
             console.error(`Error: there is more than one item with id ${requested_id}`)
@@ -147,6 +148,7 @@ export const removeItem = (req : any, res : any) => {
             })
             return
         }
+
         // Verifica se tem mais de um item com o mesmo id (ERRO):
         if (is_id_duplicated(data, requested_id)) {
             console.error(`Error: there is more than one item with id ${requested_id}`)
@@ -182,21 +184,87 @@ export const removeItem = (req : any, res : any) => {
 
 export const updateItem = (req : any, res : any) => {
     try {
+        // Carrega banco de dados:
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
 
-        data[data.findIndex((element: { id: any }) => element.id == req.params.itemId)] = {
-            id: req.params.itemId,
+        const requested_id = req.params.itemId
+
+        // Verifica se tem um item com o id especificado:
+        if (!(id_exists(data, requested_id))) {
+            if (req.files[0]){
+                remove_image(req.files[0].path)
+            }
+            console.log(`item with id ${requested_id} not found`)
+            res.status(500).json({
+                Response: `There is no item with id ${requested_id}`
+            })
+            return
+        }
+
+        // Verifica se tem mais de um item com o mesmo id (ERRO):
+        if (is_id_duplicated(data, requested_id)) {
+            if (req.files[0]){
+                remove_image(req.files[0].path)
+            }
+            console.error(`Error: there is more than one item with id ${requested_id}`)
+            res.status(500).json({
+                error: "Internal Server Error"
+            })
+            return
+        }
+
+        // Verifica se dados do item recebidos estão corretos:
+        const errors_found = verify_item_data(req)
+        if (errors_found.length> 0) {
+            if (req.files[0]){
+                remove_image(req.files[0].path)
+            }
+            console.error("Error in recived data: " + errors_found.join(", "))
+            res.status(500).json({
+                error: "Error: " + errors_found.join(", ")
+            })
+            return
+        }
+
+        // guarda indice do item que vai ser atualizado:
+        const index = data.findIndex((element: { id: any }) => element.id == requested_id)
+
+        // Remove imagem atual do item:
+        const item_image_path = data[index].image_path
+        remove_image(item_image_path)
+
+        // Renomear nova imagem com id do item:
+        const old_image_path = req.files[0].path
+        const image_extension = req.files[0].mimetype.split("/")[1]
+        const new_image_path = `${store_path}/${req.body.restaurant_id}_${requested_id}.${image_extension}`
+        fs.rename(old_image_path, new_image_path, (err) => {
+            if (err) {
+                console.error(`Error during image file rename: ${old_image_path} to ${new_image_path}`, err)
+                res.status(500).json({
+                    error: "Internal Server Error"
+                })
+                return
+            }
+        })
+
+        // Atualiza dados do item:
+        data[index] = {
+            id: requested_id,
             restaurant_id: req.body.restaurant_id,
             name: req.body.name,
             price: req.body.price,
             description: req.body.description,
             categories: req.body.categories,
-            image: req.body.image
+            image_path: new_image_path
         }
 
+        // Guarda dados apos atualizacao do item:
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
-        res.status(200).json(data)
+        res.status(200).json({
+            Response: "Item data has been updated successfully"
+        })
+
     } catch(error : any) {
         console.log("Erro in updateItem:", error.message)
         res.status(500).json({

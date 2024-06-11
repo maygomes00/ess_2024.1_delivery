@@ -11,7 +11,7 @@ itemRouter.get("/:itemId", getItemById)
 itemRouter.post("/", storer.any(), addItem)
 
 // Put item:
-itemRouter.put("/:itemId", updateItem)
+itemRouter.put("/:itemId", storer.any(),updateItem)
 
 // Delete item:
 itemRouter.delete("/:itemId", removeItem)
