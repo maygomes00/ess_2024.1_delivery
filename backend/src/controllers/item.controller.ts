@@ -12,10 +12,29 @@ const max_id = 281474976710655
 
 export const getItemById = (req : any, res : any) => {
     try {
+        // Carrega o banco de dados:
         const parser = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
-        const data = parser.filter((element: { id: any }) => element.id == req.params.itemId)
+        // Filtra dos dados pegando apenas aquele com o id igual ao especificado:
+        const database_data = parser.filter((element: { id: any }) => element.id == req.params.itemId)
 
-        res.status(200).json(data)
+        // Carrega a imagem codificada em base64:
+        const image_path = database_data[0].image_path
+        const image_data = fs.readFileSync(image_path, { encoding: 'base64' })
+
+        // Cria o conjunto de dados que será enviado, com os dados do item e a imagem codificada:
+        const item_data = {
+            id: database_data[0].id,
+            restaurant_id: database_data[0].restaurant_id,
+            name: database_data[0].name,
+            price: database_data[0].price,
+            description: database_data[0].description,
+            categories: database_data[0].categories,
+            image_64: image_data
+        }
+
+        // Manda os dados como resposta:
+        res.status(200).json(item_data)
+        
     } catch(error : any) {
         console.log("Erro in getItemById:", error.message)
         res.status(500).json({
@@ -78,7 +97,9 @@ export const addItem = (req : any, res : any) => {
         // Guarda dos dados no banco de dados de itens:
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
-        res.status(201).json(data)
+        res.status(201).json({
+            Result: "Item data was saved successfully"
+        })
 
     } catch(error : any) {
         console.log("Erro in addItem:", error.message)
