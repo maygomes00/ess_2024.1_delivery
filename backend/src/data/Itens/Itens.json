@@ -1,0 +1,20 @@
+[
+  {
+    "id": "25617348515643",
+    "restaurant_id": "0",
+    "name": "Brigadeiro",
+    "price": "2.50",
+    "description": "Brigadeiro normal.",
+    "categories": "Doce",
+    "image": "brigadeiro.jpg"
+  },
+  {
+    "id": "203447240667145",
+    "restaurant_id": "0",
+    "name": "Brigadeiro premium",
+    "price": "6.00",
+    "description": "Brigadeiro 3x maior que o normal.",
+    "categories": "Doce",
+    "image": "brigadeiro_premium(2).jpg"
+  }
+]
