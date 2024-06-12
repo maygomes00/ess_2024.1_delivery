@@ -5,6 +5,7 @@ import { Stream } from 'stream'
 import { start } from 'repl'
 
 const itens_json_path = './src/data/itens/itens.json'
+//const restaurant_json_path = './src/data/restaurant/restaurant.json'
 const store_path = "./src/data/itens/images"
 const max_id = 281474976710655
 
@@ -12,7 +13,7 @@ const max_id = 281474976710655
 
 export const getItemById = (req : any, res : any) => {
     try {
-        // Carrega o banco de dados:
+        // Carrega o banco de dados de itens:
         const parser = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
         
         const requested_id = req.params.itemId
@@ -20,7 +21,7 @@ export const getItemById = (req : any, res : any) => {
         // Verifica se tem um item com o id especificado:
         if (!(id_exists(parser, requested_id))) {
             console.log(`item with id ${requested_id} not found`)
-            res.status(500).json({
+            res.status(200).json({
                 Response: `There is no item with id ${requested_id}`
             })
             return
@@ -69,7 +70,7 @@ export const getItemById = (req : any, res : any) => {
 
 export const addItem = (req : any, res : any) => {
     try {
-        // Carrega o banco de dados:
+        // Carrega o banco de dados de itens:
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
         
         // Define um id aleatorio para o item:
@@ -135,7 +136,7 @@ export const addItem = (req : any, res : any) => {
 
 export const removeItem = (req : any, res : any) => {
     try {
-        // Carrega o banco de dados:
+        // Carrega o banco de dados de itens:
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
         
         const requested_id = req.params.itemId
@@ -143,7 +144,7 @@ export const removeItem = (req : any, res : any) => {
         // Verifica se tem um item com o id especificado:
         if (!(id_exists(data, requested_id))) {
             console.log(`item with id ${requested_id} not found`)
-            res.status(500).json({
+            res.status(200).json({
                 Response: `There is no item with id ${requested_id}`
             })
             return
@@ -184,7 +185,7 @@ export const removeItem = (req : any, res : any) => {
 
 export const updateItem = (req : any, res : any) => {
     try {
-        // Carrega banco de dados:
+        // Carrega o banco de dados de itens:
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
 
         const requested_id = req.params.itemId
@@ -195,7 +196,7 @@ export const updateItem = (req : any, res : any) => {
                 remove_image(req.files[0].path)
             }
             console.log(`item with id ${requested_id} not found`)
-            res.status(500).json({
+            res.status(200).json({
                 Response: `There is no item with id ${requested_id}`
             })
             return
@@ -264,6 +265,82 @@ export const updateItem = (req : any, res : any) => {
         res.status(200).json({
             Response: "Item data has been updated successfully"
         })
+
+    } catch(error : any) {
+        console.log("Erro in updateItem:", error.message)
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+}
+
+
+
+export const getRestaurantItens = (req : any, res : any) => {
+    try {
+        // Carrega o banco de dados de itens:
+        const parser_item = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
+
+        const requested_id = req.params.restaurantId
+        
+        /*
+        // Carrega o banco de dados de restaurantes:
+        const parser_restaurant = JSON.parse(fs.readFileSync(path.resolve(restaurant_json_path), 'utf-8'))
+
+        // Verifica se tem um restaurante com o id especificado:
+        if (!(id_exists(parser_restaurant, requested_id))) {
+            console.log(`restaurant with id ${requested_id} not found`)
+            res.status(200).json({
+                Response: `There is no restaurant with id ${requested_id}`
+            })
+            return
+        }
+
+        // Verifica se tem mais de um restaurante com o mesmo id (ERRO):
+        if (is_id_duplicated(parser_restaurant, requested_id)) {
+            console.error(`Error: there is more than one restaurant with id ${requested_id}`)
+            res.status(500).json({
+                error: "Internal Server Error"
+            })
+            return
+        }
+        */
+
+        // Filtra dos dados pegando apenas aquele com o restaurant_id igual ao especificado:
+        var data = parser_item.filter((element: {restaurant_id: any}) => element.restaurant_id == requested_id)
+
+        // Verifica se o restaurante tem algum item:
+        if (data.length < 1) {
+            console.log(`restaurant with id ${requested_id} dont have any itens`)
+            res.status(200).json({
+                Response: `Restaurant with id ${requested_id} has no itens`
+            })
+            return
+        }
+
+        // Prepara lista de dados que serão enviados:
+        var data_list = []
+        for (let i = 0; i < data.length; i++) {
+            const item = data[i]
+
+            const image_path = item.image_path
+            const image_data = fs.readFileSync(image_path, { encoding: 'base64' })
+
+            const item_send = {
+                id: item.id,
+                restaurant_id: item.restaurant_id,
+                name: item.name,
+                price: item.price,
+                description: item.description,
+                categories: item.categories,
+                image_64: image_data
+            }
+
+            data_list.push(item_send)
+        }
+
+        // Manda os dados:
+        res.status(200).json(data_list)
 
     } catch(error : any) {
         console.log("Erro in updateItem:", error.message)
