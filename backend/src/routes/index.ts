@@ -1,14 +1,12 @@
-import { Express, Router } from 'express';
-import { di } from '../di';
-import TestController from '../controllers/test.controller';
-import TestService from '../services/test.service';
+import { Express } from 'express';
+import restaurantRouter from './restaurant.routes';
+import menuRouter from './menu.routes';
+import categoryRouter from './category.routes';
 
-const router = Router();
-const prefix = '/api';
-
-export default (app: Express) => {
-  app.use(
-    prefix,
-    new TestController(router, di.getService(TestService)).router
-  );
+const setupRoutes = (app: Express): void => {
+  app.use('/restaurant', restaurantRouter);
+  app.use('/restaurant/menu', menuRouter);
+  app.use('/restaurant/menu/category', categoryRouter);
 };
+
+export default setupRoutes;
