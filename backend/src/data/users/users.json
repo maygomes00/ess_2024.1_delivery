@@ -1,0 +1,64 @@
+[
+    {
+        "id": 1,
+        "name": "João Silva",
+        "email": "joao.silva@example.com",
+        "password": "senha123",
+        "orders": [
+            {
+            "order_id": 101,
+            "data": "2024-06-01",
+            "itens": [
+                {
+                "produto_id": 1001,
+                "name": "Produto A",
+                "quantity": 2,
+                "price": 19.99
+                },
+                {
+                "produto_id": 1002,
+                "name": "Produto B",
+                "quantity": 1,
+                "price": 9.99
+                }
+            ],
+            "total": 49.97
+            },
+            {
+            "order_id": 102,
+            "data": "2024-06-03",
+            "itens": [
+                {
+                "produto_id": 1003,
+                "name": "Produto C",
+                "quantity": 3,
+                "price": 29.99
+                }
+            ],
+            "total": 89.97
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Maria Oliveira",
+        "email": "maria.oliveira@example.com",
+        "password": "senha456",
+        "orders": [
+            {
+            "order_id": 103,
+            "data": "2024-06-05",
+            "itens": [
+                {
+                "produto_id": 1004,
+                "name": "Produto D",
+                "quantity": 1,
+                "price": 49.99
+                }
+            ],
+            "total": 49.99
+            }
+        ]
+    }
+]
+  
