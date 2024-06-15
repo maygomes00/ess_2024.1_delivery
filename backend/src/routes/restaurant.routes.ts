@@ -8,4 +8,4 @@ restaurantsRouter.post('/', registerRestaurant);
 restaurantsRouter.get('/:id', getRestaurant);
 restaurantsRouter.delete('/:id', deleteRestaurant);
 
-module.exports = restaurantsRouter;
+export default restaurantsRouter;

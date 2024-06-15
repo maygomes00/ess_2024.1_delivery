@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import { restaurantsRouter } from './restaurant.routes';
+import restaurantsRouter from './restaurant.routes';
 import menuRouter from './menu.routes';
 import clienteRouter from './login_cliente.routes';
 import restauranteloginRouter from './login_restaurante.routes';
