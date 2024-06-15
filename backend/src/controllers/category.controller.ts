@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid'; // Importa a função uuidv4 para gerar IDs únicos
+import TestRepository from '../repositories/test.repository';
 
 interface Category {
   id: string;
@@ -20,6 +20,8 @@ interface Item {
   image: string;
 }
 
+const testRepository = new TestRepository();
+
 // Caminhos dos arquivos JSON
 const categoryFilePath = path.resolve('./src/data/categories/categories.json');
 const itemFilePath = path.resolve('./src/data/itens/itens.json');
@@ -31,8 +33,16 @@ const readJsonFile = (filePath: string) => {
 };
 
 // Função para escrever JSON em um arquivo
-const writeJsonFile = (filePath: string, data: any) => {
+const writeJsonFile = (filePath: string, data: { categorias: Category[] }): void => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+};
+
+const getNextCategoryId = (categories: Category[]): string => {
+  const maxId = categories.reduce((max, category) => {
+    const idNum = parseInt(category.id, 10);
+    return idNum > max ? idNum : max;
+  }, 0);
+  return (maxId + 1).toString();
 };
 
 // Função utilitária para lidar com erros
@@ -57,8 +67,10 @@ export const categoryGetAllJson = async (req: Request, res: Response): Promise<v
 
     const data = readJsonFile(categoryFilePath);
 
-    if (!data) {
+    if (!data.categorias) {
       console.log('Categoria vazia!');
+      res.status(200).json([]);
+      return;
     }
 
     res.status(200).json(data);
@@ -87,7 +99,7 @@ export const categoryGetById = async (req: Request, res: Response): Promise<void
 
 export const categoryAddJson = async (req: Request, res: Response): Promise<void> => {
   try {
-    const nomeCategory = req.body.nome?.trim(); // Obtém o nome da category e remove espaços em branco
+    const nomeCategory = req.body.name?.trim(); // Obtém o nome da category e remove espaços em branco
 
     if (!nomeCategory || nomeCategory.length === 0) {
       res.status(400).json({ error: "É obrigatório um nome para a categoria!" });
@@ -108,10 +120,10 @@ export const categoryAddJson = async (req: Request, res: Response): Promise<void
 
     // Cria a nova category
     const newCategory: Category = {
-      id: uuidv4().substring(0, 10), // Gera um ID único de 10 caracteres
+      id: getNextCategoryId(data.categorias),
       nome: nomeCategory,
       restauranteId,
-      temItens: false // Inicia como false, pois é uma nova category
+      temItens: false
     };
 
     // Adiciona a nova category ao array de categorias
@@ -138,14 +150,14 @@ export const categoryUpdateJson = async (req: Request, res: Response): Promise<v
       return;
     }
 
-    const categoryIndex = data.categorias.findIndex((category) => category.id === categoryId);
+    const categoryIndex = data.categorias.findIndex(category => category.id === categoryId);
 
     if (categoryIndex === -1) {
       res.status(404).json({ error: "Categoria não encontrada!" });
       return;
     }
 
-    const nameExists = data.categorias.some((category) => category.nome.toLowerCase() === newName.toLowerCase() && category.id !== categoryId);
+    const nameExists = data.categorias.some(category => category.nome.toLowerCase() === newName.toLowerCase() && category.id !== categoryId);
 
     if (nameExists) {
       res.status(400).json({ error: "Já existe uma categoria com esse nome!" });
@@ -162,36 +174,29 @@ export const categoryUpdateJson = async (req: Request, res: Response): Promise<v
     handleError(error, res, "Erro em categoryUpdateJson:");
   }
 };
-
+/*
 export const categoryDeleteJson = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!fs.existsSync(categoryFilePath)) {
-      console.error("Category file not found:", categoryFilePath);
+      console.error("Arquivo de categoria não encontrado:", categoryFilePath);
       res.status(404).json({ error: "Categoria não encontrada!" });
       return;
     }
 
-    if (!fs.existsSync(itemFilePath)) {
-      console.error("Item file not found:", itemFilePath);
-      res.status(404).json({ error: "Item file not found" });
-      return;
-    }
-
     let categoryData: { categorias: Category[] };
-    let itemData: { itens: Item[] };
 
     try {
       categoryData = readJsonFile(categoryFilePath);
-      itemData = readJsonFile(itemFilePath);
     } catch (error) {
-      handleError(error, res, "Erro lendo arquivos:");
+      console.error("Erro lendo arquivo de categorias:", error.message);
+      res.status(500).json({ error: "Erro interno do servidor" });
       return;
     }
 
-    const categoryId = req.params.id;
+    const categoryId = Number(req.params.id);
 
     if (!categoryId) {
-      console.error("Invalid category ID:", req.params.id);
+      console.error("ID de categoria inválido:", req.params.id);
       res.status(400).json({ error: "Categoria não encontrada!" });
       return;
     }
@@ -199,18 +204,8 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
     const categoryIndex = categoryData.categorias.findIndex(category => category.id === categoryId);
 
     if (categoryIndex === -1) {
-      console.error("Category not found with ID:", categoryId);
+      console.error("Categoria não encontrada com ID:", categoryId);
       res.status(404).json({ error: "Categoria não encontrada!" });
-      return;
-    }
-
-    const categoryName = categoryData.categorias[categoryIndex].nome;
-
-    const hasItems = itemData.itens.some(item => item.categories === categoryName);
-
-    if (hasItems) {
-      console.error("Cannot delete category with associated items:", categoryName);
-      res.status(400).json({ error: "Categoria com itens! Não pode ser deletada!" });
       return;
     }
 
@@ -226,4 +221,4 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
   } catch (error) {
     handleError(error, res, "Erro em categoryDeleteJson:");
   }
-};
+};*/

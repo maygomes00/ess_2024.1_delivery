@@ -1,14 +1,14 @@
 {
   "categorias": [
     {
-      "id": "33b017a0-d",
-      "nome": "Doce",
+      "id": "1",
+      "nome": "Salgado",
       "restauranteId": "restaurante-1",
       "temItens": false
     },
     {
-      "id": "51b4788e-3",
-      "nome": "Salgado",
+      "id": "2",
+      "nome": "Doce",
       "restauranteId": "restaurante-1",
       "temItens": false
     }
