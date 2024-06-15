@@ -6,6 +6,8 @@ import setupRoutes from './routes/index';
 import { HttpError } from './utils/errors/http.error';
 import { FailureResult } from './utils/result';
 import Database from './database';
+import clienteRouter from './routes/login_cliente.routes';
+import bodyParser from 'body-parser';
 
 const app: express.Express = express();
 app.use(express.json());
