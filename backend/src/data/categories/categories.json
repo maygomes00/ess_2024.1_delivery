@@ -2,37 +2,13 @@
   "categorias": [
     {
       "id": "33b017a0-d",
-      "nome": "Salgado",
+      "nome": "Doce",
       "restauranteId": "restaurante-1",
       "temItens": false
     },
     {
       "id": "51b4788e-3",
-      "nome": "Entradas",
-      "restauranteId": "restaurante-1",
-      "temItens": false
-    },
-    {
-      "id": "6405c24f-a",
-      "nome": "Prato Principal",
-      "restauranteId": "restaurante-1",
-      "temItens": false
-    },
-    {
-      "id": "833fa262-e",
-      "nome": "Sobremesa",
-      "restauranteId": "restaurante-1",
-      "temItens": false
-    },
-    {
-      "id": "85672dbb-5",
-      "nome": "Lanches",
-      "restauranteId": "restaurante-1",
-      "temItens": false
-    },
-    {
-      "id": "c9d8c8a3-6",
-      "nome": "Bebidas",
+      "nome": "Salgado",
       "restauranteId": "restaurante-1",
       "temItens": false
     }
