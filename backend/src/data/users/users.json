@@ -3,6 +3,7 @@
         "id": 1,
         "name": "João Silva",
         "email": "joao.silva@example.com",
+        "password": "senha123",
         "orders": [
             {
             "order_id": 101,
@@ -42,6 +43,7 @@
         "id": 2,
         "name": "Maria Oliveira",
         "email": "maria.oliveira@example.com",
+        "password": "senha456",
         "orders": [
             {
             "order_id": 103,
