@@ -3,7 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
-const dbPath = path.join(__dirname, './src/data/users/users.json');
+//Chamando o database JSON
+const dbPath = './src/data/users/users.json';
 
 interface User {
   id: number;
@@ -24,6 +25,7 @@ export const login = async (req: Request, res: Response) => {
     const users: User[] = JSON.parse(data);
     const user = users.find(u => u.email === email && u.password === password);
 
+    //Verifica se as informações do usuário condizem com o database
     if (user) {
       currentUser = user;
       return res.status(200).json({ message: 'Login successful' });
