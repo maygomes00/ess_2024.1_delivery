@@ -1,11 +1,20 @@
 [
   {
-    "id": "278316524622702",
+    "id": "29230952551625",
     "restaurant_id": "0",
     "name": "Brigadeiro",
     "price": "1.00",
     "description": "Brigadeiro normal",
     "categories": "Doce,Mais pedidos",
-    "image_path": "./src/data/itens/images/0_278316524622702.jpeg"
+    "image_path": "./src/data/itens/images/0_29230952551625.jpeg"
+  },
+  {
+    "id": "44058597150412",
+    "restaurant_id": "0",
+    "name": "Brigadeiro Premium",
+    "price": "5.50",
+    "description": "Melhor que um brigadeiro normal",
+    "categories": "Doce",
+    "image_path": "./src/data/itens/images/0_44058597150412.jpeg"
   }
 ]
