@@ -1,5 +1,5 @@
 import { Express } from 'express';
-import restaurantRouter from './restaurant.routes';
+import restaurantsRouter from './restaurant.routes';
 import menuRouter from './menu.routes';
 import clienteRouter from './login_cliente.routes';
 import restauranteloginRouter from './login_restaurante.routes';
@@ -9,7 +9,7 @@ import itemRouter from './item.routes';
 import bodyParser from 'body-parser';
 
 const setupRoutes = (app: Express): void => {
-  app.use('/restaurant', restaurantRouter);
+  app.use('/restaurant', restaurantsRouter);
   app.use('/restaurant/menu', menuRouter);
   app.use('/restaurant/menu/category', categoryRouter);
   app.use('/users', userRoutes);
