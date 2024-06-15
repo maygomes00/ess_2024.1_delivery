@@ -44,8 +44,7 @@ Scenario: Tentar criar categoria que já existe
 Scenario: Editar nome de  categoria
     Given estou na tela “Adicionar nova categoria”
     And   categoria “Doce” existe no cardápio
-    When  preencho o campo “nome da categoria” com “Doce”
-    And   preencho o campo “nome da categoria” com “Salgado”
+    When  preencho o campo “nome da categoria” com “Salgado”
     And   seleciono a opção “Salvar”
     Then  mensagem informando que a categoria foi salva é exibida
     And   estou na aba “Cardápio” da tela “Editor de cardápio”
