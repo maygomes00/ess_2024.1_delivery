@@ -5,6 +5,7 @@ import { Stream } from 'stream'
 import { start } from 'repl'
 
 const itens_json_path = './src/data/itens/itens.json'
+
 //const restaurant_json_path = './src/data/restaurant/restaurant.json'
 const store_path = "./src/data/itens/images"
 const max_id = 281474976710655
@@ -392,6 +393,7 @@ function verify_item_data(request : any): any {
     } else if (request_body.categories == "") {
         error_list.push("item has no categories")
     }
+
     // Image
     if (!(request.files[0])) {
         error_list.push("item has no image")
