@@ -8,5 +8,6 @@ app.listen(Env.PORT, () => {
   logger.info(`http://localhost:${Env.PORT}/menu`);
   logger.info(`http://localhost:${Env.PORT}/category`);
   logger.info(`http://localhost:${Env.PORT}/item`);
-  logger.info(`http://localhost:${Env.PORT}/cliente`);
+  logger.info(`http://localhost:${Env.PORT}/login/client`);
+  logger.info(`http://localhost:${Env.PORT}/login/restaurant`);
 });
