@@ -3,11 +3,7 @@ import fs from 'fs'
 import { Router } from 'express'
 import { storer } from "../multer.config"
 
-const itens_json_path = './src/data/itens/itens.json'
-
-const restaurant_json_path = './src/data/restaurants/restaurants.json'
 const store_path = "./src/data/itens/images"
-const max_id = 281474976710655
 
 export default class ItemController {
     private prefix : string = "/restaurant/menu/item"
@@ -78,10 +74,6 @@ export default class ItemController {
         // Filtra dos dados pegando apenas aquele com o id igual ao especificado:
         const database_data = parser.filter((element: { id: any }) => element.id == requested_id)
 
-        // Carrega a imagem codificada em base64:
-        const image_path = database_data[0].image_path
-        const image_data = fs.readFileSync(image_path, { encoding: 'base64' })
-
         // Cria o conjunto de dados que será enviado, com os dados do item e a imagem codificada:
         const item_data = {
             id: database_data[0].id,
@@ -90,7 +82,7 @@ export default class ItemController {
             price: database_data[0].price,
             description: database_data[0].description,
             categories: database_data[0].categories,
-            image_64: image_data
+            image64: database_data[0].image64
         }
 
         // Manda os dados como resposta:
@@ -111,11 +103,14 @@ export default class ItemController {
                 return
             }
     
-            // Renomear imagem com id do item:
-            const image_path = this.giveItemImageName(req, res, new_id)
-            if (image_path == null) {
+            // Transforma imagem para base 64:
+            const image_64 = this.image_to_64(req, res)
+            if (image_64 == null) {
                 return
             }
+
+            // Remove imagem salva na pasta (fica salva só no item, como uma string):
+            this.remove_image(req.files[0].path)
     
             // Adiciona as informações do item a lista de dados:
             data.push({
@@ -125,7 +120,7 @@ export default class ItemController {
                 price: req.body.price,
                 description: req.body.description,
                 categories: req.body.categories,
-                image_path: image_path
+                image64: image_64
             })
             
             // Guarda dos dados no banco de dados de itens:
@@ -151,10 +146,6 @@ export default class ItemController {
             if (!this.id_exists(data, requested_id, res)) {
                 return
             }
-    
-            // Remove imagem do item:
-            const item = data.filter((element: { id: any }) => element.id == requested_id)[0]
-            this.remove_image(item.image_path)
     
             // Elimina item com id especificado:
             data = data.filter((element: { id: any }) => element.id != requested_id)
@@ -194,17 +185,14 @@ export default class ItemController {
             // guarda indice do item que vai ser atualizado:
             const index = data.findIndex((element: { id: any }) => element.id == requested_id)
     
-            // Remove imagem atual do item:
-            const item_image_path = data[index].image_path
-            this.remove_image(item_image_path)
-            
-    
-            // Renomear nova imagem com id do item:
-            // Renomear imagem com id do item:
-            const image_path = this.giveItemImageName(req, res, requested_id)
-            if (image_path == null) {
+            // Transforma imagem para base 64:
+            const image_64 = this.image_to_64(req, res)
+            if (image_64 == null) {
                 return
             }
+
+            // Remove imagem salva na pasta (fica salva só no item, como uma string):
+            this.remove_image(req.files[0].path)
     
             // Atualiza dados do item:
             data[index] = {
@@ -214,7 +202,7 @@ export default class ItemController {
                 price: req.body.price,
                 description: req.body.description,
                 categories: req.body.categories,
-                image_path: image_path
+                image64: image_64
             }
     
             // Guarda dos dados no banco de dados de itens:
@@ -238,7 +226,7 @@ export default class ItemController {
             // Carrega o banco de dados de restaurantes:
             const parser_restaurant = this.get_restaurant_database()
             
-            // Verifica se o item com o id especificado exista:
+            // Verifica se o restaurante com o id especificado exista:
             if (!this.id_exists_rest(parser_restaurant, requested_id, res)) {
                 return
             }
@@ -258,9 +246,6 @@ export default class ItemController {
             for (let i = 0; i < data.length; i++) {
                 const item = data[i]
     
-                const image_path = item.image_path
-                const image_data = fs.readFileSync(image_path, { encoding: 'base64' })
-    
                 const item_send = {
                     id: item.id,
                     restaurant_id: item.restaurant_id,
@@ -268,7 +253,7 @@ export default class ItemController {
                     price: item.price,
                     description: item.description,
                     categories: item.categories,
-                    image_64: image_data
+                    image64: item.image64
                 }
     
                 data_list.push(item_send)
@@ -383,13 +368,30 @@ export default class ItemController {
             error_list.push("item has no categories")
         }
         // Image
-        if (!(request.files[0])) {
+        if ((request_body.image64 == undefined || request_body.image64 == "") && !(request.files[0])) {
             error_list.push("item has no image")
         }
         return error_list
     }
 
-        // Função responsavel por renomear a imagem para que ela possa ser identificada, de acordo com id do item e do restaurante.
+    // Retorna a imagem que veiro na requisição em uma string base 64.
+    private image_to_64(req: any, res: any) {
+        if (req.files[0]) {
+            const image_path = req.files[0].path
+            const image_buffer = fs.readFileSync(image_path)
+            return image_buffer.toString('base64')
+        }
+        else if (req.body.image64) {
+            return req.body.image64
+        }
+        else {
+            console.log("Erro: Erro na convercao da imagem para base 64")
+            res.status(500).json("Internal Server Error")
+            return null
+        }
+    }
+
+    // Função responsavel por renomear a imagem para que ela possa ser identificada, de acordo com id do item e do restaurante.
     private giveItemImageName (req: any, res : any, item_id: any) {
         const old_image_path = req.files[0].path
         const image_extension = req.files[0].mimetype.split("/")[1]

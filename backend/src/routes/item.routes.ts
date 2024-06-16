@@ -1,19 +1,12 @@
 import express from "express";
-import {getItemById, addItem, removeItem, updateItem, getRestaurantItens} from "../controllers/item.controller";
+import ItemController from "../controllers/item.controller";
 
 const itemRouter = express.Router()
+const itens_json_path = './src/data/itens/itens.json'
+const restaurant_json_path = './src/data/restaurants/restaurants.json'
 
-// Get item:
-itemRouter.get("/:itemId", getItemById)
-itemRouter.get("/all/:restaurantId", getRestaurantItens)
+// Cria e inicia o controlador das rotas de item:
+var item_controller = new ItemController(true, itemRouter, itens_json_path, restaurant_json_path)
+item_controller.startRouter()
 
-// Post item:
-itemRouter.post("/", storer.any(), addItem)
-
-// Put item:
-itemRouter.put("/:itemId", storer.any(),updateItem)
-
-// Delete item:
-itemRouter.delete("/:itemId", removeItem)
-
-export default itemRouter
+export default item_controller
