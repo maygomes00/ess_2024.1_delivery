@@ -99,7 +99,9 @@ export const categoryGetById = async (req: Request, res: Response): Promise<void
 
 export const categoryAddJson = async (req: Request, res: Response): Promise<void> => {
   try {
-    const nomeCategory = req.body.name?.trim(); // Obtém o nome da category e remove espaços em branco
+    const nomeCategory = req.body.name?.trim(); // Obtém o nome da categoria e remove espaços em branco
+
+    console.log('Nome da categoria recebido:', nomeCategory); // Log para depuração
 
     if (!nomeCategory || nomeCategory.length === 0) {
       res.status(400).json({ error: "É obrigatório um nome para a categoria!" });
@@ -108,17 +110,17 @@ export const categoryAddJson = async (req: Request, res: Response): Promise<void
 
     const data: { categorias: Category[] } = readJsonFile(categoryFilePath);
 
-    // Verifica se já existe uma category com o mesmo nome
+    // Verifica se já existe uma categoria com o mesmo nome
     const existingCategory = data.categorias.find(category => category.nome === nomeCategory);
     if (existingCategory) {
-      res.status(400).json({ error: "Já existe uma category com esse nome!" });
+      res.status(400).json({ error: "Já existe uma categoria com esse nome!" });
       return;
     }
 
     // Obtém o ID do restaurante (exemplo: pode ser obtido do req.user ou de outra fonte de autenticação)
     const restauranteId = 'restaurante-1'; // Exemplo: ID fixo para ilustração
 
-    // Cria a nova category
+    // Cria a nova categoria
     const newCategory: Category = {
       id: getNextCategoryId(data.categorias),
       nome: nomeCategory,
@@ -126,7 +128,7 @@ export const categoryAddJson = async (req: Request, res: Response): Promise<void
       temItens: false
     };
 
-    // Adiciona a nova category ao array de categorias
+    // Adiciona a nova categoria ao array de categorias
     data.categorias.push(newCategory);
 
     // Escreve os dados atualizados de volta no arquivo JSON
@@ -174,33 +176,18 @@ export const categoryUpdateJson = async (req: Request, res: Response): Promise<v
     handleError(error, res, "Erro em categoryUpdateJson:");
   }
 };
-/*
+
 export const categoryDeleteJson = async (req: Request, res: Response): Promise<void> => {
   try {
+    const categoryId = req.params.id;
+
     if (!fs.existsSync(categoryFilePath)) {
       console.error("Arquivo de categoria não encontrado:", categoryFilePath);
       res.status(404).json({ error: "Categoria não encontrada!" });
       return;
     }
 
-    let categoryData: { categorias: Category[] };
-
-    try {
-      categoryData = readJsonFile(categoryFilePath);
-    } catch (error) {
-      console.error("Erro lendo arquivo de categorias:", error.message);
-      res.status(500).json({ error: "Erro interno do servidor" });
-      return;
-    }
-
-    const categoryId = Number(req.params.id);
-
-    if (!categoryId) {
-      console.error("ID de categoria inválido:", req.params.id);
-      res.status(400).json({ error: "Categoria não encontrada!" });
-      return;
-    }
-
+    const categoryData: { categorias: Category[] } = readJsonFile(categoryFilePath);
     const categoryIndex = categoryData.categorias.findIndex(category => category.id === categoryId);
 
     if (categoryIndex === -1) {
@@ -209,16 +196,32 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
       return;
     }
 
+    const categoryName = categoryData.categorias[categoryIndex].nome;
+
+    if (!fs.existsSync(itemFilePath)) {
+      console.error("Arquivo de itens não encontrado:", itemFilePath);
+      res.status(404).json({ error: "Arquivo de itens não encontrado!" });
+      return;
+    }
+
+    const itemData: Item[] = readJsonFile(itemFilePath);
+
+    const hasItemsInCategory = itemData.some(item => {
+      const itemCategories = item.categories.split(',').map(cat => cat.trim());
+      return itemCategories.includes(categoryName);
+    });
+
+    if (hasItemsInCategory) {
+      res.status(400).json({ error: "Categoria com itens! Não pode ser deletada!" });
+      return;
+    }
+
     categoryData.categorias = categoryData.categorias.filter(category => category.id !== categoryId);
 
-    try {
-      writeJsonFile(categoryFilePath, categoryData);
-      console.log("Categoria deletada com sucesso!");
-      res.status(200).json(categoryData.categorias);
-    } catch (error) {
-      handleError(error, res, "Erro escrevendo no arquivo:");
-    }
+    writeJsonFile(categoryFilePath, categoryData);
+    console.log("Categoria deletada com sucesso!");
+    res.status(200).json({ message: "Categoria deletada com sucesso!" });
   } catch (error) {
     handleError(error, res, "Erro em categoryDeleteJson:");
   }
-};*/
+};
