@@ -1,5 +1,4 @@
 import express from "express";
-import { storer } from "../multer.config"
 import {getItemById, addItem, removeItem, updateItem, getRestaurantItens} from "../controllers/item.controller";
 
 const itemRouter = express.Router()
