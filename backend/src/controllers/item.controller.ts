@@ -6,7 +6,7 @@ import { start } from 'repl'
 
 const itens_json_path = './src/data/itens/itens.json'
 
-//const restaurant_json_path = './src/data/restaurant/restaurant.json'
+const restaurant_json_path = './src/data/restaurants/restaurants.json'
 const store_path = "./src/data/itens/images"
 const max_id = 281474976710655
 
@@ -21,19 +21,8 @@ export const getItemById = (req : any, res : any) => {
 
         // Verifica se tem um item com o id especificado:
         if (!(id_exists(parser, requested_id))) {
-            console.log(`item with id ${requested_id} not found`)
-            res.status(200).json({
-                Response: `There is no item with id ${requested_id}`
-            })
-            return
-        }
-
-        // Verifica se tem mais de um item com o mesmo id (ERRO):
-        if (is_id_duplicated(parser, requested_id)) {
-            console.error(`Error: there is more than one item with id ${requested_id}`)
-            res.status(500).json({
-                error: "Internal Server Error"
-            })
+            console.log(`Erro: item with id ${requested_id} not found`)
+            res.status(404).json(`item with id ${requested_id} not found`)
             return
         }
         
@@ -61,9 +50,7 @@ export const getItemById = (req : any, res : any) => {
         
     } catch(error : any) {
         console.log("Erro in getItemById:", error.message)
-        res.status(500).json({
-            error: "Internal Server Error"
-        })
+        res.status(500).json("Internal Server Error")
     }
 }
 
@@ -74,11 +61,8 @@ export const addItem = (req : any, res : any) => {
         // Carrega o banco de dados de itens:
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
         
-        // Define um id aleatorio para o item:
-        var new_id = randomInt(0, max_id)
-        while (data.filter((element: { id: any }) => element.id == new_id).length > 0) {
-            new_id = randomInt(0, max_id)
-        }
+        // Define o id do item:
+        var new_id = define_new_item_id()
         
         // Verifica se dados do item recebidos estão corretos:
         const errors_found = verify_item_data(req)
@@ -87,9 +71,7 @@ export const addItem = (req : any, res : any) => {
                 remove_image(req.files[0].path)
             }
             console.error("Error in recived data: " + errors_found.join(", "))
-            res.status(500).json({
-                error: "Error: " + errors_found.join(", ")
-            })
+            res.status(400).json("Error: " + errors_found.join(", "))
             return
         }
 
@@ -100,9 +82,7 @@ export const addItem = (req : any, res : any) => {
         fs.rename(old_image_path, new_image_path, (err) => {
             if (err) {
                 console.error(`Error during image file rename: ${old_image_path} to ${new_image_path}`, err)
-                res.status(500).json({
-                    error: "Internal Server Error"
-                })
+                res.status(500).json("Internal Server Error")
                 return
             }
         })
@@ -121,15 +101,11 @@ export const addItem = (req : any, res : any) => {
         // Guarda dos dados no banco de dados de itens:
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
-        res.status(201).json({
-            Response: "Item data was saved successfully"
-        })
+        res.status(201).json("Item data was saved successfully")
 
     } catch(error : any) {
         console.log("Erro in addItem:", error.message)
-        res.status(500).json({
-            error: "Internal Server Error"
-        })
+        res.status(500).json("Internal Server Error")
     }
 }
 
@@ -144,19 +120,8 @@ export const removeItem = (req : any, res : any) => {
 
         // Verifica se tem um item com o id especificado:
         if (!(id_exists(data, requested_id))) {
-            console.log(`item with id ${requested_id} not found`)
-            res.status(200).json({
-                Response: `There is no item with id ${requested_id}`
-            })
-            return
-        }
-
-        // Verifica se tem mais de um item com o mesmo id (ERRO):
-        if (is_id_duplicated(data, requested_id)) {
-            console.error(`Error: there is more than one item with id ${requested_id}`)
-            res.status(500).json({
-                error: "Internal Server Error"
-            })
+            console.log(`Erro: item with id ${requested_id} not found`)
+            res.status(404).json(`item with id ${requested_id} not found`)
             return
         }
 
@@ -167,18 +132,17 @@ export const removeItem = (req : any, res : any) => {
         // Elimina item com id especificado:
         data = data.filter((element: { id: any }) => element.id != requested_id)
 
+        // Atualiza id dos itens:
+        data = update_itens_id(data)
+
         // Guarda dados apos remocao do item:
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
-        res.status(200).json({
-            Response: "Item data was removed successfully"
-        })
+        res.status(200).json("Item data was removed successfully")
 
     } catch(error : any) {
         console.log("Erro in removeItem:", error.message)
-        res.status(500).json({
-            error: "Internal Server Error"
-        })
+        res.status(500).json("Internal Server Error")
     }
 }
 
@@ -190,28 +154,14 @@ export const updateItem = (req : any, res : any) => {
         var data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
 
         const requested_id = req.params.itemId
-
+        
         // Verifica se tem um item com o id especificado:
         if (!(id_exists(data, requested_id))) {
             if (req.files[0]){
                 remove_image(req.files[0].path)
             }
-            console.log(`item with id ${requested_id} not found`)
-            res.status(200).json({
-                Response: `There is no item with id ${requested_id}`
-            })
-            return
-        }
-
-        // Verifica se tem mais de um item com o mesmo id (ERRO):
-        if (is_id_duplicated(data, requested_id)) {
-            if (req.files[0]){
-                remove_image(req.files[0].path)
-            }
-            console.error(`Error: there is more than one item with id ${requested_id}`)
-            res.status(500).json({
-                error: "Internal Server Error"
-            })
+            console.log(`Erro: item with id ${requested_id} not found`)
+            res.status(404).json(`item with id ${requested_id} not found`)
             return
         }
 
@@ -222,9 +172,7 @@ export const updateItem = (req : any, res : any) => {
                 remove_image(req.files[0].path)
             }
             console.error("Error in recived data: " + errors_found.join(", "))
-            res.status(500).json({
-                error: "Error: " + errors_found.join(", ")
-            })
+            res.status(400).json("Error: " + errors_found.join(", "))
             return
         }
 
@@ -242,9 +190,7 @@ export const updateItem = (req : any, res : any) => {
         fs.rename(old_image_path, new_image_path, (err) => {
             if (err) {
                 console.error(`Error during image file rename: ${old_image_path} to ${new_image_path}`, err)
-                res.status(500).json({
-                    error: "Internal Server Error"
-                })
+                res.status(500).json("Internal Server Error")
                 return
             }
         })
@@ -263,15 +209,11 @@ export const updateItem = (req : any, res : any) => {
         // Guarda dados apos atualizacao do item:
         fs.writeFileSync(path.resolve(itens_json_path), JSON.stringify(data, null, 2))
 
-        res.status(200).json({
-            Response: "Item data has been updated successfully"
-        })
+        res.status(200).json("Item data has been updated successfully")
 
     } catch(error : any) {
         console.log("Erro in updateItem:", error.message)
-        res.status(500).json({
-            error: "Internal Server Error"
-        })
+        res.status(500).json("Internal Server Error")
     }
 }
 
@@ -284,28 +226,16 @@ export const getRestaurantItens = (req : any, res : any) => {
 
         const requested_id = req.params.restaurantId
         
-        /*
+        
         // Carrega o banco de dados de restaurantes:
         const parser_restaurant = JSON.parse(fs.readFileSync(path.resolve(restaurant_json_path), 'utf-8'))
 
         // Verifica se tem um restaurante com o id especificado:
         if (!(id_exists(parser_restaurant, requested_id))) {
-            console.log(`restaurant with id ${requested_id} not found`)
-            res.status(200).json({
-                Response: `There is no restaurant with id ${requested_id}`
-            })
+            console.log(`Erro: restaurant with id ${requested_id} not found`)
+            res.status(404).json(`restaurant with id ${requested_id} not found`)
             return
         }
-
-        // Verifica se tem mais de um restaurante com o mesmo id (ERRO):
-        if (is_id_duplicated(parser_restaurant, requested_id)) {
-            console.error(`Error: there is more than one restaurant with id ${requested_id}`)
-            res.status(500).json({
-                error: "Internal Server Error"
-            })
-            return
-        }
-        */
 
         // Filtra dos dados pegando apenas aquele com o restaurant_id igual ao especificado:
         var data = parser_item.filter((element: {restaurant_id: any}) => element.restaurant_id == requested_id)
@@ -313,9 +243,7 @@ export const getRestaurantItens = (req : any, res : any) => {
         // Verifica se o restaurante tem algum item:
         if (data.length < 1) {
             console.log(`restaurant with id ${requested_id} dont have any itens`)
-            res.status(200).json({
-                Response: `Restaurant with id ${requested_id} has no itens`
-            })
+            res.status(200).json([])
             return
         }
 
@@ -345,9 +273,7 @@ export const getRestaurantItens = (req : any, res : any) => {
 
     } catch(error : any) {
         console.log("Erro in updateItem:", error.message)
-        res.status(500).json({
-            error: "Internal Server Error"
-        })
+        res.status(500).json("Internal Server Error")
     }
 }
 
@@ -416,7 +342,15 @@ function id_exists(data: any, id: String): Boolean {
     return id_data.length != 0
 }
 
-function is_id_duplicated(data: any, id: String): Boolean {
-    const id_data = data.filter((element: { id: any }) => element.id == id)
-    return id_data.length > 1
+function define_new_item_id(): any {
+    const data = JSON.parse(fs.readFileSync(path.resolve(itens_json_path), 'utf-8'))
+    const new_id = data.length
+    return new_id
+}
+
+function update_itens_id(item_data : any): any {
+    for (let i = 0; i < item_data.length; i++) {
+        item_data[i].id = JSON.stringify(i)
+        return item_data
+    }
 }
