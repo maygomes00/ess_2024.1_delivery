@@ -9,4 +9,4 @@ const restaurant_json_path = './src/data/restaurants/restaurants.json'
 var item_controller = new ItemController(true, itemRouter, itens_json_path, restaurant_json_path)
 item_controller.startRouter()
 
-export default item_controller
+export default item_controller.router

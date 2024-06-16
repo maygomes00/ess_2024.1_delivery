@@ -8,7 +8,7 @@ const store_path = "./src/data/itens/images"
 export default class ItemController {
     private prefix : string = "/restaurant/menu/item"
     private using_path : boolean
-    private router: Router
+    public router: Router
     private itens_path : string
     private restaurant_path : string
     private item_data : any
@@ -110,7 +110,9 @@ export default class ItemController {
             }
 
             // Remove imagem salva na pasta (fica salva só no item, como uma string):
-            this.remove_image(req.files[0].path)
+            if (req.files[0]) {
+                this.remove_image(req.files[0].path)
+            }
     
             // Adiciona as informações do item a lista de dados:
             data.push({
@@ -129,6 +131,9 @@ export default class ItemController {
             res.status(201).json("Item data was saved successfully")
     
         } catch(error : any) {
+            if (req.files[0]) {
+                this.remove_image(req.files[0].path) // Remove imagem salva na pasta em caso de erro
+            }
             console.log("Erro in addItem:", error.message)
             res.status(500).json("Internal Server Error")
         }
@@ -192,7 +197,9 @@ export default class ItemController {
             }
 
             // Remove imagem salva na pasta (fica salva só no item, como uma string):
-            this.remove_image(req.files[0].path)
+            if (req.files[0]) {
+                this.remove_image(req.files[0].path)
+            }
     
             // Atualiza dados do item:
             data[index] = {
@@ -211,6 +218,9 @@ export default class ItemController {
             res.status(200).json("Item data has been updated successfully")
     
         } catch(error : any) {
+            if (req.files[0]) {
+                this.remove_image(req.files[0].path) // Remove imagem salva na pasta em caso de erro
+            }
             console.log("Erro in updateItem:", error.message)
             res.status(500).json("Internal Server Error")
         }
@@ -300,7 +310,7 @@ export default class ItemController {
 
     // Função responsavel por dar o indice de um novo item.
     private define_new_item_id(): any {
-        const data = this.get_restaurant_database()
+        const data = this.get_itens_database()
         const new_id = data.length
         return new_id
     }
@@ -309,8 +319,8 @@ export default class ItemController {
     private update_itens_id(item_data : any,): any {
         for (let i = 0; i < item_data.length; i++) {
             item_data[i].id = JSON.stringify(i)
-            return item_data
         }
+        return item_data
     }
 
     // Verifica se dados do item recebidos estão corretos, retorna true se sim e false se não.
@@ -376,13 +386,13 @@ export default class ItemController {
 
     // Retorna a imagem que veiro na requisição em uma string base 64.
     private image_to_64(req: any, res: any) {
-        if (req.files[0]) {
+        if (req.body.image64) {
+            return req.body.image64
+        }
+        else if (req.files[0]) {
             const image_path = req.files[0].path
             const image_buffer = fs.readFileSync(image_path)
             return image_buffer.toString('base64')
-        }
-        else if (req.body.image64) {
-            return req.body.image64
         }
         else {
             console.log("Erro: Erro na convercao da imagem para base 64")
@@ -392,6 +402,7 @@ export default class ItemController {
     }
 
     // Função responsavel por renomear a imagem para que ela possa ser identificada, de acordo com id do item e do restaurante.
+    /*
     private giveItemImageName (req: any, res : any, item_id: any) {
         const old_image_path = req.files[0].path
         const image_extension = req.files[0].mimetype.split("/")[1]
@@ -405,6 +416,7 @@ export default class ItemController {
         })
         return new_image_path
     }
+    */
 
     private id_exists(data: any, id: String, res: any): Boolean {
         const id_data = data.filter((element: { id: any }) => element.id == id)
