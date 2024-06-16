@@ -6,17 +6,17 @@ Scenario: Tentar adicionar categoria sem dar nome
 	Then o status da resposta retornada é “400”
 	And o retorno é a mensagem “É obrigatório um nome para a categoria!”
 
-Scenario: Adicionar categoria nova
-	Given acesso a rota “/restaurant/menu/category”
-	When realizar uma requisição “POST” com  o valor “Doce” no body da requisição
-	Then o status da resposta retornada é “201”
-	And o Json retornado é a categoria criada com parâmetros nome “Doce”
+ Scenario: Adicionar categoria nova
+    Given acesso a rota “/restaurant/menu/category”
+    When realizar uma requisição “POST” com o valor “Doce” no body da requisição
+    Then o status da resposta retornada é “201 Created”
+    And o Json retornado é a categoria criada com parâmetro nome “Doce”
 
 Scenario: Tentar adicionar categoria que já existe
 	Given acesso a rota “/restaurant/menu/category”
 	When realizar uma requisição “POST” com o valor “Doce” no body da requisição   
 	Then o status da resposta retornada é “400 Bad Request”
-	And o retorno é a mensagem “já existe uma category com esse nome!"
+	And o retorno é a mensagem “já existe uma categoria com esse nome!"
 
 Scenario: Mudar nome de categoria
 	Given acesso a rota “/restaurant/menu/category/1”
@@ -61,3 +61,21 @@ Scenario: Tentar Obter categoria com Id inexistente
 	When realizar uma requisição “GET” 
 	Then o status da resposta retornada é “404 Not Found”
 	And o retorno é a mensagem “Categoria não encontrada!”
+
+Scenario: Deletar categoria que não existe
+	Given acesso a rota “/restaurant/menu/category/9”
+	When realizar uma requisição “DELETE”
+	Then o status da resposta retornada é “404”
+	And o retorno é a mensagem “Categoria não encontrada!”
+
+Scenario: Deletar categoria sem itens
+	Given acesso a rota “/restaurant/menu/category/1”
+	When realizar uma requisição “DELETE”
+	Then o status da resposta retornada é “200”
+	And o retorno é a mensagem “Categoria deletada com sucesso!”
+
+Scenario: Deletar categoria com itens
+	Given acesso a rota “/restaurant/menu/category/2”
+	When realizar uma requisição “DELETE”
+	Then o status da resposta retornada é “400”
+	And o retorno é a mensagem “Categoria com itens! Não pode ser deletada!”
