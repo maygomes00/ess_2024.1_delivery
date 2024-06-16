@@ -1,8 +1,11 @@
-import { Router } from 'express';
-import { restaurant } from '../controllers/restaurant.controller';
+import {Router} from 'express';
+import {restaurantsSanityTest, registerRestaurant, getRestaurant, deleteRestaurant} from '../controllers/restaurant-controller';
 
-const restaurantRouter = Router();
+export const restaurantsRouter = Router();
 
-restaurantRouter.get('/', restaurant);
+restaurantsRouter.get('/test', restaurantsSanityTest);
+restaurantsRouter.post('/', registerRestaurant);
+restaurantsRouter.get('/:id', getRestaurant);
+restaurantsRouter.delete('/:id', deleteRestaurant);
 
-export default restaurantRouter;
+export default restaurantsRouter;
