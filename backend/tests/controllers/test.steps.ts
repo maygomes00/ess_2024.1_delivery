@@ -7,9 +7,9 @@ import { beforeEach } from 'node:test';
 import path from 'path';
 import fs from 'fs';
 
-const feature = loadFeature('tests/features/login_restaurante.feature');
+const feature = loadFeature('tests/features/login_cliente.feature');
 const request = supertest(app);
-const dbPath = 'src/data/restaurants/restaurants.json';
+const dbPath = 'src/data/users/users.json';
 
 defineFeature(feature, (test) => {
   // Mock do repositório
