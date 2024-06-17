@@ -144,7 +144,7 @@ test('Realizar logout de um cliente logado', ({ given, when, then, and }) => {
   });
 
   then('o status da resposta retornada da API é "200"', () => {
-    expect(response!.status).toBe(200);
+    expect(response!.status).toEqual(200);
   });
 
   and('o retorno deve ser a mensagem "Logout successful"', () => {
