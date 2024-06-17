@@ -17,269 +17,307 @@ defineFeature(feature, (test) => {
   });
 
  /////////////////////////POST TESTES
+  let rota: string;
 
   test('Tentar adicionar categoria sem dar nome', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category”', () => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    when('realizar uma requisição “POST”', async () => {
-      response = await request.post('/restaurant/menu/category').send({
+  
+    when(/^realizar uma requisição POST$/, async () => {
+      response = await request.post(rota).send({
         name: "", 
       });
     });
-
-    then('o status da resposta retornada é “400”', () => {
-      expect(response!.status).toBe(400);
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o retorno é a mensagem “É obrigatório um nome para a categoria!”', () => {
-      expect(response!.body.error).toBe("É obrigatório um nome para a categoria!");
+  
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagem: string) => {
+      expect(response!.body.error).toBe(mensagem);
     });
   });
 
   test('Adicionar categoria nova', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category”', () => {});
-  
-    when('realizar uma requisição “POST” com o valor “Doce” no body da requisição', async () => {
-      response = await request.post('/restaurant/menu/category').send({
-        name: "Doce",
-      });
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso) => {
+      rota = rotaAcesso;
     });
   
-    then('o status da resposta retornada é “201 Created”', () => {
-      expect(response!.status).toBe(201);
+    when(
+      /^realizar uma requisição POST com o valor "(.*)" no body da requisição$/,
+      async (categoria) => {
+        response = await request.post(rota).send({
+          name: categoria,
+        });
+      }
+    );
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
   
-    and('o JSON retornado é a categoria criada com parâmetro nome “Doce”', () => {
-      expect(response!.body).toMatchObject({
-        id: expect.any(String),
-        nome: "Doce",
-        restauranteId: "restaurante-1", 
-        temItens: false,
-      });
+    and(
+      /^o JSON retornado é a categoria criada com parâmetro nome "(.*)"$/,
+      (categoria) => {
+        expect(response!.body).toMatchObject({
+          id: expect.any(String),
+          nome: categoria,
+          restauranteId: "restaurante-1", 
+          temItens: false,
+        });
+      }
+    );
+  });
+
+  test('Tentar adicionar categoria que já existe', ({ given, when, then, and }) => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-  })
-
- test('Tentar adicionar categoria que já existe', ({ given, when, then, and }) => {
-   given('acesso a rota “/restaurant/menu/category”', () => {});
-
-   when('realizar uma requisição “POST” com o valor “Bebidas” no body da requisição', async () => {
-     response = await request.post('/restaurant/menu/category').send({
-       name: "Bebidas",
-     });
-   });
-
-   then('o status da resposta retornada é “400 Bad Request”', () => {
-     expect(response!.status).toBe(400);
-   });
-
-   and('o retorno é a mensagem “já existe uma categoria com esse nome!"', () => {
-     expect(response!.body.error).toBe("Já existe uma categoria com esse nome!");
-   });
- });
+  
+    when(
+      /^realizar uma requisição POST com o valor "(.*)" no body da requisição$/,
+      async (categoria: string) => {
+        response = await request.post(rota).send({
+          name: categoria,
+        });
+      }
+    );
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
+    });
+  
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagem: string) => {
+      expect(response!.body.error).toBe(mensagem);
+    });
+  });
 
 //////////////////////////PUT TESTES
 
   test('Mudar nome de categoria', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/1”', () => {});
-
-    when('realizar uma requisição “PUT” com o valor “Salgado” no body da requisição', async () => {
-      response = await request.put('/restaurant/menu/category/1').send({
-        nome: "Salgado",
-      });
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    then('o status da resposta retornada é “200 Ok”', () => {
-      expect(response!.status).toBe(200);
+  
+    when(
+      /^realizar uma requisição PUT com o valor "(.*)" no body da requisição$/,
+      async (novoNome: string) => {
+        response = await request.put(rota).send({
+          nome: novoNome,
+        });
+      }
+    );
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o Json retornado é a categoria com nome “Salgado”', () => {
+  
+    and(/^o JSON retornado é a categoria com nome "(.*)"$/, (nomeCategoria: string) => {
       expect(response!.body).toEqual(
         expect.objectContaining({
-          nome: "Salgado",
+          nome: nomeCategoria,
         })
       );
     });
   });
 
   test('Tentar mudar nome da categoria deixando em branco', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/1”', () => {});
-
-    when('realizar uma requisição “PUT”', async () => {
-      response = await request.put('/restaurant/menu/category/1').send({
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
+    });
+  
+    when('realizar uma requisição PUT', async () => {
+      response = await request.put(rota).send({
         name: "",
       });
     });
-
-    then('o status da resposta retornada é “400 Bad Request”', () => {
-      expect(response!.status).toBe(400);
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o retorno é a mensagem “Nome da categoria não pode ser vazio!”', () => {
+  
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagemErro: string) => {
       expect(response!.body).toEqual(
         expect.objectContaining({
-          error: 'Nome da categoria não pode ser vazio!'
+          error: mensagemErro
         })
       );
     });
   });
 
   test('Tentar mudar nome da categoria não encontrada', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/9”', () => {});
-
-    when('realizar uma requisição “PUT” com o valor “Bebidas” no body da requisição', async () => {
-      response = await request.put('/restaurant/menu/category/9').send({
-        nome: "Bebidas",
-      });
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    then('o status da resposta retornada é “404”', () => {
-      expect(response!.status).toBe(404);
+  
+    when(
+      /^realizar uma requisição PUT com o valor "(.*)" no body da requisição$/,
+      async (nomeCategoria: string) => {
+        response = await request.put(rota).send({
+          nome: nomeCategoria,
+        });
+      }
+    );
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o retorno é a mensagem “Categoria não encontrada!”', () => {
-      expect(response!.body.error).toBe("Categoria não encontrada!");
+  
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagemErro: string) => {
+      expect(response!.body.error).toBe(mensagemErro);
     });
   });
 
   test('Mudar nome de categoria para nome que já existe', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/1”', () => {});
-  
-    when('realizar uma requisição “PUT” com o valor “Doce” no body da requisição', async () => {
-      response = await request.put('/restaurant/menu/category/1').send({
-        nome: "Doce",
-      });
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
   
-    then('o status da resposta retornada é “400”', () => {
-      expect(response!.status).toBe(400);
+    when(
+      /^realizar uma requisição PUT com o valor "(.*)" no body da requisição$/,
+      async (nomeCategoria: string) => {
+        response = await request.put(rota).send({
+          nome: nomeCategoria,
+        });
+      }
+    );
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
   
-    and('o retorno é a mensagem “Já existe uma categoria com esse nome!”', () => {
-      expect(response!.body.error).toBe("Já existe uma categoria com esse nome!");
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagemErro: string) => {
+      expect(response!.body.error).toBe(mensagemErro);
     });
   });
 
   //////////////////////////GET TESTES
 
   test('Obter todas as categorias', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category”', () => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    when('realizar uma requisição “GET”', async () => {
-      response = await request.get('/restaurant/menu/category');
+  
+    when(/^realizar uma requisição GET$/, async () => {
+      response = await request.get(rota);
     });
-
-    then('o status da resposta retornada é “200 Ok”', () => {
-      expect(response!.status).toBe(200);
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o Json retornado é uma lista de categorias', () => {
+  
+    and(/^o JSON retornado é uma lista de categorias$/, () => {
       expect(response!.body.categorias).toBeDefined();             // Verifica se existe a propriedade categorias
       expect(Array.isArray(response!.body.categorias)).toBe(true); // Verifica se categorias é um array
       expect(response!.body.categorias.length).toBeGreaterThan(0); // Verifica se o array não está vazio
     });
-
-    and('a categoria com nome “Doce” está na lista', () => {
-      const categoriaDoce = response!.body.categorias.find((category: { nome: string }) => category.nome === 'Doce');
-      expect(categoriaDoce).toBeDefined();
+  
+    and(/^a categoria com nome "(.*)" está na lista$/, (nomeCategoria: string) => {
+      const categoria = response!.body.categorias.find((category: { nome: string }) => category.nome === nomeCategoria);
+      expect(categoria).toBeDefined();
     });
-
-    and('a categoria com nome “Salgado” está na lista', () => {
-      const categoriaSalgado = response!.body.categorias.find((category: { nome: string }) => category.nome === 'Salgado');
-      expect(categoriaSalgado).toBeDefined();
+  
+    and(/^a categoria com nome "(.*)" está na lista$/, (nomeCategoria: string) => {
+      const categoria = response!.body.categorias.find((category: { nome: string }) => category.nome === nomeCategoria);
+      expect(categoria).toBeDefined();
     });
   });
 
   test('Obter categoria pelo Id', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/2”', () => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    when('realizar uma requisição “GET”', async () => {
-      response = await request.get('/restaurant/menu/category/2');
+  
+    when(/^realizar uma requisição GET$/, async () => {
+      response = await request.get(rota);
     });
-
-    then('o status da resposta retornada é “200 Ok”', () => {
-      expect(response!.status).toBe(200);
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o Json retornado é a categoria com parâmetros id “2”, nome “Doce”, restauranteId ”restaurante-1” e temItens “false”', () => {
+  
+    and(/^o JSON retornado é a categoria com parâmetros id "(.*)", nome "(.*)", restauranteId "(.*)" e temItens "(.*)"$/, (id: string, nome: string, restauranteId: string, temItens: string) => {
       expect(response!.body).toEqual({
-        id: "2",
-        nome: "Doce",
-        restauranteId: "restaurante-1",
-        temItens: false
+        id: id,
+        nome: nome,
+        restauranteId: restauranteId,
+        temItens: temItens === 'true'
       });
     });
   });
-
+  
   test('Tentar Obter categoria com Id inexistente', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/9”', () => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    when('realizar uma requisição “GET”', async () => {
-      response = await request.get('/restaurant/menu/category/9');
+  
+    when(/^realizar uma requisição GET$/, async () => {
+      response = await request.get(rota);
     });
-
-    then('o status da resposta retornada é “404 Not Found”', () => {
-      expect(response!.status).toBe(404);
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o retorno é a mensagem “Categoria não encontrada!”', () => {
-      expect(response!.body.error).toBe("Categoria não encontrada!");
+  
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagemErro: string) => {
+      expect(response!.body.error).toBe(mensagemErro);
     });
   });
 
 //////////////////////////DELET TESTES
 
   test('Deletar categoria que não existe', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/9”', () => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
 
-    when('realizar uma requisição “DELETE”', async () => {
-      response = await request.delete('/restaurant/menu/category/9');
+    when(/^realizar uma requisição DELETE$/, async () => {
+      response = await request.delete(rota);
     });
 
-    then('o status da resposta retornada é “404”', () => {
-      expect(response!.status).toBe(404);
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
 
-    and('o retorno é a mensagem “Categoria não encontrada!”', () => {
-      expect(response!.body.error).toBe("Categoria não encontrada!");
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagemErro: string) => {
+      expect(response!.body.error).toBe(mensagemErro);
     });
   });
 
   test('Deletar categoria sem itens', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/1”', () => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    when('realizar uma requisição “DELETE”', async () => {
-      response = await request.delete('/restaurant/menu/category/1');
+  
+    when(/^realizar uma requisição DELETE$/, async () => {
+      response = await request.delete(rota);
     });
-
-    then('o status da resposta retornada é “200”', () => {
-      expect(response!.status).toBe(200);
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o retorno é a mensagem “Categoria deletada com sucesso!”', () => {
-      expect(response!.body.message).toBe("Categoria deletada com sucesso!");
+  
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagemSucesso: string) => {
+      expect(response!.body.message).toBe(mensagemSucesso);
     });
   });
-
+ 
   test('Deletar categoria com itens', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category/2”', () => {
+    given(/^acesso a rota "(.*)"$/, (rotaAcesso: string) => {
+      rota = rotaAcesso;
     });
-
-    when('realizar uma requisição “DELETE”', async () => {
-      response = await request.delete('/restaurant/menu/category/2');
+  
+    when(/^realizar uma requisição DELETE$/, async () => {
+      response = await request.delete(rota);
     });
-
-    then('o status da resposta retornada é “400”', () => {
-      expect(response!.status).toBe(400);
+  
+    then(/^o status da resposta retornada é "(.*)"$/, (statusCode: string) => {
+      expect(response!.status).toBe(parseInt(statusCode, 10));
     });
-
-    and('o retorno é a mensagem “Categoria com itens! Não pode ser deletada!”', () => {
-      expect(response!.body.error).toBe("Categoria com itens! Não pode ser deletada!");
+  
+    and(/^o retorno é a mensagem "(.*)"$/, (mensagemErro: string) => {
+      expect(response!.body.error).toBe(mensagemErro);
     });
   });
 });
