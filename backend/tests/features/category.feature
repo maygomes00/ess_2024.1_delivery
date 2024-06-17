@@ -6,7 +6,7 @@ Scenario: Tentar adicionar categoria sem dar nome
 	Then o status da resposta retornada é “400”
 	And o retorno é a mensagem “É obrigatório um nome para a categoria!”
 
- Scenario: Adicionar categoria nova
+Scenario: Adicionar categoria nova
     Given acesso a rota “/restaurant/menu/category”
     When realizar uma requisição “POST” com o valor “Doce” no body da requisição
     Then o status da resposta retornada é “201 Created”
@@ -14,7 +14,7 @@ Scenario: Tentar adicionar categoria sem dar nome
 
 Scenario: Tentar adicionar categoria que já existe
 	Given acesso a rota “/restaurant/menu/category”
-	When realizar uma requisição “POST” com o valor “Doce” no body da requisição   
+	When realizar uma requisição “POST” com o valor “Bebidas” no body da requisição   
 	Then o status da resposta retornada é “400 Bad Request”
 	And o retorno é a mensagem “já existe uma categoria com esse nome!"
 
