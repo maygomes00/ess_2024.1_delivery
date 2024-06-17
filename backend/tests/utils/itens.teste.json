@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "restaurant_id": "123",
+    "name": "brigadeiro",
+    "price": "1.00",
+    "description": "Brigadeiro normal",
+    "categories": "987"
+  },
+  {
+    "id": "1",
+    "restaurant_id": "123",
+    "name": "brigadeiro",
+    "price": "1.00",
+    "description": "Brigadeiro normal",
+    "categories": "987"
+  },
+  {
+    "id": "1",
+    "restaurant_id": "123",
+    "name": "brigadeiro",
+    "price": "1.00",
+    "description": "Brigadeiro normal",
+    "categories": "987"
+  }
+]

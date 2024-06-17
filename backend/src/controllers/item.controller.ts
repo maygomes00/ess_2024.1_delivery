@@ -55,7 +55,7 @@ export default class ItemController {
             
         } catch(error : any) {
             console.log("Erro in getItemById:", error.message)
-            res.status(500).json("Internal Server Error")
+            res.status(500).json({Erro: "Internal Server Error"})
         }
     }
 
@@ -67,7 +67,7 @@ export default class ItemController {
         // Verifica se tem um item com o id especificado:
         if (!(this.id_exists(parser, requested_id, res))) {
             console.log(`Erro: item with id ${requested_id} not found`)
-            res.status(404).json(`item with id ${requested_id} not found`)
+            res.status(404).json({Erro: `item with id ${requested_id} not found`})
             return
         }
         
@@ -135,7 +135,7 @@ export default class ItemController {
                 this.remove_image(req.files[0].path) // Remove imagem salva na pasta em caso de erro
             }
             console.log("Erro in addItem:", error.message)
-            res.status(500).json("Internal Server Error")
+            res.status(500).json({Erro: "Internal Server Error"})
         }
     }
     
@@ -165,7 +165,7 @@ export default class ItemController {
     
         } catch(error : any) {
             console.log("Erro in removeItem:", error.message)
-            res.status(500).json("Internal Server Error")
+            res.status(500).json({Erro: "Internal Server Error"})
         }
     }
     
@@ -222,7 +222,7 @@ export default class ItemController {
                 this.remove_image(req.files[0].path) // Remove imagem salva na pasta em caso de erro
             }
             console.log("Erro in updateItem:", error.message)
-            res.status(500).json("Internal Server Error")
+            res.status(500).json({Erro: "Internal Server Error"})
         }
     }
     
@@ -240,10 +240,10 @@ export default class ItemController {
             if (!this.id_exists_rest(parser_restaurant, requested_id, res)) {
                 return
             }
-    
+            
             // Filtra dos dados pegando apenas aquele com o restaurant_id igual ao especificado:
             var data = parser_item.filter((element: {restaurant_id: any}) => element.restaurant_id == requested_id)
-    
+
             // Verifica se o restaurante tem algum item:
             if (data.length < 1) {
                 console.log(`restaurant with id ${requested_id} dont have any itens`)
@@ -274,14 +274,18 @@ export default class ItemController {
     
         } catch(error : any) {
             console.log("Erro in updateItem:", error.message)
-            res.status(500).json("Internal Server Error")
+            res.status(500).json({Erro: "Internal Server Error"})
         }
     }
 
+    public set_using_path(value: boolean) {
+        this.using_path = value
+    }
+    
     // Retorna o banco de dados dos itens que está sendo usado.
     public get_itens_database (): any {
         if (this.using_path) {
-            return JSON.parse(fs.readFileSync(this.itens_path, 'utf-8'))   
+            return JSON.parse(fs.readFileSync(this.itens_path, 'utf-8')) 
         }
         else {
             return this.item_data
@@ -298,6 +302,18 @@ export default class ItemController {
         }
     }
 
+    // Limpa a base de dados.
+    public reset_data () {
+        if (this.using_path) {
+            fs.writeFileSync(path.resolve(this.itens_path), JSON.stringify(JSON.parse("[]"), null, 2))
+            fs.writeFileSync(path.resolve(this.restaurant_path), JSON.stringify(JSON.parse("[]"), null, 2))
+        }
+        else{
+            this.item_data = JSON.parse("[]")
+            this.restaurant_data = JSON.parse("[]")
+        }
+    }
+
     // Atualiza a base de dados de item pela base de dados recebida.
     public set_itens_database (data: any): any {
         if (this.using_path) {
@@ -305,6 +321,40 @@ export default class ItemController {
         }
         else {
             this.item_data = data
+        }
+    }
+
+    // Atualiza a base de dados de restaurantes pela base de dados recebida.
+    public set_restaurant_database (data: any): any {
+        if (this.using_path) {
+            fs.writeFileSync(path.resolve(this.restaurant_path), JSON.stringify(data, null, 2))   
+        }
+        else {
+            this.restaurant_data = data
+        }
+    }
+
+    // Adiciona dados ao banco de dados dos itens.
+    public push_item_data(data: any) {
+        if (this.using_path) {
+            const current_data = JSON.parse(fs.readFileSync(this.itens_path, 'utf-8'))
+            current_data.push(data)
+            fs.writeFileSync(path.resolve(this.itens_path), JSON.stringify(current_data, null, 2))   
+        }
+        else {
+            this.item_data.push(data)
+        }
+    }
+
+    // Adiciona dados ao banco de dados dos restaurantes.
+    public push_restaurant_data(data: any) {
+        if (this.using_path) {
+            const current_data = JSON.parse(fs.readFileSync(this.restaurant_path, 'utf-8'))
+            current_data.push(data)
+            fs.writeFileSync(path.resolve(this.restaurant_path), JSON.stringify(current_data, null, 2))   
+        }
+        else {
+            this.restaurant_data = data
         }
     }
 
@@ -331,7 +381,7 @@ export default class ItemController {
                 this.remove_image(req.files[0].path)
             }
             console.error("Error in recived data: " + errors_found.join(", "))
-            res.status(400).json("Error: " + errors_found.join(", "))
+            res.status(400).json({Erro: errors_found.join(", ")})
             return false
         }
         return true
@@ -396,7 +446,7 @@ export default class ItemController {
         }
         else {
             console.log("Erro: Erro na convercao da imagem para base 64")
-            res.status(500).json("Internal Server Error")
+            res.status(500).json({Erro: "Internal Server Error"})
             return null
         }
     }
@@ -419,20 +469,15 @@ export default class ItemController {
     */
 
     private id_exists(data: any, id: String, res: any): Boolean {
-        const id_data = data.filter((element: { id: any }) => element.id == id)
-        if (id_data.length == 0) {
-            console.log(`Erro: item with id ${id} not found`)
-            res.status(404).json(`item with id ${id} not found`)
-            return false
-        }
-        return true
+        const id_data1 = data.filter((element: { id: any }) => element.id == id)
+        return (id_data1.length > 0)
     }
 
     private id_exists_rest(data: any, id: String, res: any): Boolean {
-        const id_data = data.filter((element: { id: any }) => element.id == id)
-        if (id_data.length == 0) {
+        const id_data2 = data.filter((element: { id: any }) => element.id == id)
+        if (id_data2.length == 0) {
             console.log(`Erro: restaurant with id ${id} not found`)
-                res.status(404).json(`restaurant with id ${id} not found`)
+            res.status(404).json({Erro: `restaurant with id ${id} not found`})
             return false
         }
         return true
