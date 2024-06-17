@@ -63,14 +63,14 @@ const writeUsersFile = (data: any) => {
     );
   });*/
   //////////// POST FOR SUCCESSFULL LOGIN
-  test('Realizar login de um restaurante com sucesso', ({ given, when, then, and }) => {
-    given('acesso a rota "/login/restaurant"', () => {
+  test('Realizar login de um cliente com sucesso', ({ given, when, then, and }) => {
+    given('acesso a rota "/login/client"', () => {
     });
 
     when('realizo uma requisição "POST"', async () => {
-      response = await request.post('/login/restaurant').send({
-        email: "undecillion@example.com",
-        password: "!secureP4$$W0RD1234", // Enviando as credenciais do Restaurante
+      response = await request.post('/login/client').send({
+        email: "joao.silva@example.com",
+        password: "senha123", // Enviando as credenciais do Cliente
       });
     });
 
@@ -86,14 +86,14 @@ const writeUsersFile = (data: any) => {
 
 
  //////////// POST FOR LOGIN WITH WRONG PASSWORD
- test('Realizar login de um restaurante com senha incorreta', ({ given, when, then, and }) => {
-  given('acesso a rota "/login/restaurant"', () => {
+ test('Realizar login de um cliente com senha incorreta', ({ given, when, then, and }) => {
+  given('acesso a rota "/login/client"', () => {
   });
 
-  when('realizo uma requisição "POST" com o email "undecillion@example.com" e o password "wrongpassword!"', async () => {
-    response = await request.post('/login/restaurant').send({
-      email: "undecillion@example.com",
-      password: "wrongpassword!", // Enviando as credenciais do Restaurante
+  when('realizo uma requisição "POST" com o email "joao.silva@example.com" e o password "senha456"', async () => {
+    response = await request.post('/login/client').send({
+      email: "joao.silva@example.com",
+      password: "senha456", // Enviando as credenciais do Restaurante
     });
   });
 
@@ -109,14 +109,14 @@ const writeUsersFile = (data: any) => {
 
 
 /////////////// POST FOR LOGIN WITH WRONG EMAIL
-test('Realizar login de um restaurante com e-mail incorreto', ({ given, when, then, and }) => {
-  given('acesso a rota "/login/restaurant"', () => {
+test('Realizar login de um cliente com e-mail incorreto', ({ given, when, then, and }) => {
+  given('acesso a rota "/login/client"', () => {
   });
 
-  when('realizo uma requisição "POST" com o email "undecillion@gmail.com" e o password "!secureP4$$W0RD1234"', async () => {
-    response = await request.post('/login/restaurant').send({
-      email: "undecillion@gmail.com",
-      password: "!secureP4$$W0RD1234", // Enviando as credenciais do Restaurante
+  when('realizo uma requisição "POST" com o email "joao.silva@gmail.com" e o password "senha123"', async () => {
+    response = await request.post('/login/client').send({
+      email: "joao.silva@gmail.com",
+      password: "senha123", // Enviando as credenciais do Cliente
     });
   });
 
@@ -130,24 +130,24 @@ test('Realizar login de um restaurante com e-mail incorreto', ({ given, when, th
 });
 
 
-/////////////// POST FOR LOGIN WITH ClIENT CREDENCIALS
-test('Realizar login de um restaurante com credenciais de Cliente', ({ given, when, then, and }) => {
-  given('acesso a rota "/login/restaurant"', () => {
+/////////////// POST FOR LOGOT
+test('Realizar logout de um cliente logado', ({ given, when, then, and }) => {
+  given('acesso a rota "/logout"', () => {
   });
 
   when('realizo uma requisição "POST" com o email "joao.silva@example.com" e o password "senha123"', async () => {
-    response = await request.post('/login/restaurant').send({
+    response = await request.post('/logout').send({
       email: "joao.silva@example.com",
-      password: "senha123", // Enviando as credenciais do Restaurante
+      password: "senha123", // Enviando as credenciais do Cliente
     });
   });
 
-  then('o status da resposta retornada da API é "401"', () => {
-    expect(response!.status).toBe(401);
+  then('o status da resposta retornada da API é "200"', () => {
+    expect(response!.status).toBe(200);
   });
 
-  and('o retorno deve ser a mensagem "Invalid credentials"', () => {
-    expect(response!.body).toEqual({ message: 'Invalid credentials' })
+  and('o retorno deve ser a mensagem "Logout successful"', () => {
+    expect(response!.body).toEqual({ message: 'Logout successful' })
   });
 });
 });
