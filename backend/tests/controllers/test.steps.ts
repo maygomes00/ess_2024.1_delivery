@@ -48,6 +48,7 @@ defineFeature(feature, (test) => {
       }
     );
   });*/
+//////////////////////////POST TESTES
 
   test('Tentar adicionar categoria sem dar nome', ({ given, when, then, and }) => {
     given('acesso a rota “/restaurant/menu/category”', () => {
@@ -69,31 +70,33 @@ defineFeature(feature, (test) => {
     });
   });
 ////////////////////////////////////
-  test('Adicionar categoria nova', ({ given, when, then, and }) => {
-    given('acesso a rota “/restaurant/menu/category”', () => {
-      // Não é necessário nenhuma ação específica para acessar a rota
-    });
+test('Adicionar categoria nova', ({ given, when, then, and }) => {
+  given('acesso a rota “/restaurant/menu/category”', () => {
+    // Não é necessário nenhuma ação específica para acessar a rota
+  });
 
-    when('realizar uma requisição “POST” com  o valor “Doce” no body da requisição', async () => {
-      response = await request.post('/restaurant/menu/category').send({
-        nome: "Doce", // Enviando o nome "Doce" no corpo da requisição
-      });
-    });
-
-    then('o status da resposta retornada é “201”', () => {
-      expect(response!.status).toBe(201);
-    });
-
-    and('o Json retornado é a categoria criada com parâmetros nome “Doce”', () => {
-      // Verifica se a resposta contém uma categoria com o nome "Doce"
-      const categoriaDoce = response!.body;
-      expect(categoriaDoce).toEqual(
-        expect.objectContaining({
-          nome: "Doce",
-        })
-      );
+  when('realizar uma requisição “POST” com o valor “Doce” no body da requisição', async () => {
+    response = await request.post('/restaurant/menu/category').send({
+      name: "Doce", // Enviando o nome "Doce" no corpo da requisição
     });
   });
+
+  then('o status da resposta retornada é “201 Created”', () => {
+    expect(response!.status).toBe(201);
+  });
+
+  and('o Json retornado é a categoria criada com parâmetro nome “Doce”', async () => {
+    // Verifica se a resposta contém uma categoria com o nome "Doce"
+    const categoriaCriada = response!.body as { id: string, name: string };
+
+    expect(categoriaCriada.name).toBe("Doce");
+
+    // Verifica se a categoria foi persistida corretamente no repositório mockado
+    const savedCategory = await mockCategoryRepository.getTest(categoriaCriada.id);
+    expect(savedCategory).toBeDefined();
+    expect(savedCategory!.name).toBe("Doce");
+  });
+});
 
   test('Tentar adicionar categoria que já existe', ({ given, when, then, and }) => {
     given('acesso a rota “/restaurant/menu/category”', () => {});
@@ -108,10 +111,12 @@ defineFeature(feature, (test) => {
       expect(response!.status).toBe(400);
     });
 
-    and('o retorno é a mensagem “já existe uma category com esse nome!"', () => {
-      expect(response!.body.error).toBe("Já existe uma category com esse nome!");
+    and('o retorno é a mensagem “já existe uma categoria com esse nome!"', () => {
+      expect(response!.body.error).toBe("Já existe uma categoria com esse nome!");
     });
   });
+
+//////////////////////////PUT TESTES
 
   test('Mudar nome de categoria', ({ given, when, then, and }) => {
     given('acesso a rota “/restaurant/menu/category/1”', () => {});
@@ -193,6 +198,8 @@ defineFeature(feature, (test) => {
     });
   });
 
+  //////////////////////////GET TESTES
+
   test('Obter todas as categorias', ({ given, when, then, and }) => {
     given('acesso a rota “/restaurant/menu/category”', () => {
       // Não é necessário implementar nada aqui, pois o mock do repositório é feito no beforeEach
@@ -263,5 +270,59 @@ defineFeature(feature, (test) => {
       expect(response!.body.error).toBe("Categoria não encontrada!");
     });
   });
+//////////////////////////DELET TESTES
 
+  test('Deletar categoria que não existe', ({ given, when, then, and }) => {
+    given('acesso a rota “/restaurant/menu/category/9”', () => {
+      // Não é necessário nenhuma ação específica para acessar a rota
+    });
+
+    when('realizar uma requisição “DELETE”', async () => {
+      response = await request.delete('/restaurant/menu/category/9');
+    });
+
+    then('o status da resposta retornada é “404”', () => {
+      expect(response!.status).toBe(404);
+    });
+
+    and('o retorno é a mensagem “Categoria não encontrada!”', () => {
+      expect(response!.body.error).toBe("Categoria não encontrada!");
+    });
+  });
+
+  test('Deletar categoria sem itens', ({ given, when, then, and }) => {
+    given('acesso a rota “/restaurant/menu/category/1”', () => {
+      // Não é necessário nenhuma ação específica para acessar a rota
+    });
+
+    when('realizar uma requisição “DELETE”', async () => {
+      response = await request.delete('/restaurant/menu/category/1');
+    });
+
+    then('o status da resposta retornada é “200”', () => {
+      expect(response!.status).toBe(200);
+    });
+
+    and('o retorno é a mensagem “Categoria deletada com sucesso!”', () => {
+      expect(response!.body.message).toBe("Categoria deletada com sucesso!");
+    });
+  });
+
+  test('Deletar categoria com itens', ({ given, when, then, and }) => {
+    given('acesso a rota “/restaurant/menu/category/2”', () => {
+      // Não é necessário nenhuma ação específica para acessar a rota
+    });
+
+    when('realizar uma requisição “DELETE”', async () => {
+      response = await request.delete('/restaurant/menu/category/2');
+    });
+
+    then('o status da resposta retornada é “400”', () => {
+      expect(response!.status).toBe(400);
+    });
+
+    and('o retorno é a mensagem “Categoria com itens! Não pode ser deletada!”', () => {
+      expect(response!.body.error).toBe("Categoria com itens! Não pode ser deletada!");
+    });
+  });
 });
