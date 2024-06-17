@@ -132,14 +132,15 @@ test('Realizar login de um cliente com e-mail incorreto', ({ given, when, then, 
 
 /////////////// POST FOR LOGOT
 test('Realizar logout de um cliente logado', ({ given, when, then, and }) => {
-  given('acesso a rota "/logout"', () => {
+  given('acesso a rota "/logout"', async () => {
+    response = await request.post('/login/client').send({ 
+      email: 'joao.silva@example.com', 
+      password: 'senha123' });
+    expect(response!.status).toEqual(200);
   });
 
   when('realizo uma requisição "POST" com o email "joao.silva@example.com" e o password "senha123"', async () => {
-    response = await request.post('/logout').send({
-      email: "joao.silva@example.com",
-      password: "senha123", // Enviando as credenciais do Cliente
-    });
+    response = await request.post('/logout')
   });
 
   then('o status da resposta retornada da API é "200"', () => {
