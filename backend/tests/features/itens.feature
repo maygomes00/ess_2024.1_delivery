@@ -17,14 +17,14 @@ Scenario: Tentar obter item que não existe por id
 
 Scenario: Adicionar item
     Given banco de dados tem item com id '0', id de restaurante '567', nome 'Suco', preco '3.25', descricao 'Suco tropical', categorias 'Bebida' e imagem 'foto_suco'
-    And banco de dados tem item com id '1', id de restaurante 'Doce', nome 'Pastel', preco '5.50', descricao 'Pastel de sabores a sua escolha', categorias 'Salgado,Mais vendidos' e imagem 'foto_pastel'
+    And banco de dados tem item com id '1', id de restaurante '654', nome 'Pastel', preco '5.50', descricao 'Pastel de sabores a sua escolha', categorias 'Salgado,Mais vendidos' e imagem 'foto_pastel'
     When uma requisição POST for enviada para "/restaurant/menu/item" com os parametros id de restaurante '123', nome 'brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce' e imagem 'foto_brigadeiro'
     Then o status da resposta retornada é '201'
     And item com id '2', id de restaurante '123', nome 'brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce' e imagem 'foto_brigadeiro' está no banco de dados
 
 Scenario: Tentar adicionar item sem preencher todas as informações
     Given banco de dados tem item com id '0', id de restaurante '567', nome 'Suco', preco '3.25', descricao 'Suco tropical', categorias 'Bebida' e imagem 'foto_suco'
-    And banco de dados tem item com id '1', id de restaurante 'Doce', nome 'Pastel', preco '5.50', descricao 'Pastel de sabores a sua escolha', categorias 'Salgado,Mais vendidos' e imagem 'foto_pastel'
+    And banco de dados tem item com id '1', id de restaurante '654', nome 'Pastel', preco '5.50', descricao 'Pastel de sabores a sua escolha', categorias 'Salgado,Mais vendidos' e imagem 'foto_pastel'
     When uma requisição POST for enviada para "/restaurant/menu/item" com os parametros id de restaurante, nome, preco, descricao, categorias e imagem todos vazios
     Then o status da resposta retornada é '400'
     And banco de dados tem '2' itens
@@ -32,7 +32,7 @@ Scenario: Tentar adicionar item sem preencher todas as informações
 
 Scenario: Remover item
 	Given banco de dados tem item com id '0', id de restaurante '567', nome 'Suco', preco '3.25', descricao 'Suco tropical', categorias 'Bebida' e imagem 'foto_suco'
-    And banco de dados tem item com id '1', id de restaurante 'Doce', nome 'Pastel', preco '5.50', descricao 'Pastel de sabores a sua escolha', categorias 'Salgado,Mais vendidos' e imagem 'foto_pastel'
+    And banco de dados tem item com id '1', id de restaurante '654', nome 'Pastel', preco '5.50', descricao 'Pastel de sabores a sua escolha', categorias 'Salgado,Mais vendidos' e imagem 'foto_pastel'
     And banco de dados tem item com id '2', id de restaurante '232', nome 'Torta', preco '10.00', descricao 'Torta media', categorias 'Doce, Para 2, popular' e imagem 'foto_torta_com_morango_em_cima'
     When uma requisição DELETE for enviada para "/restaurant/menu/item/1"
     Then o status da resposta retornada é '200'
