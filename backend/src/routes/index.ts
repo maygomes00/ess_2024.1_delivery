@@ -4,8 +4,8 @@ import menuRouter from './menu.routes';
 import clienteRouter from './login_cliente.routes';
 import restauranteloginRouter from './login_restaurante.routes';
 import categoryRouter from './category.routes';
-import userRoutes from './user.routes'
-import itemRouter from './item.routes';
+import userRoutes from './usuario.routes'
+import itemController from './item.routes';
 import bodyParser from 'body-parser';
 
 const setupRoutes = (app: Express): void => {
@@ -16,7 +16,7 @@ const setupRoutes = (app: Express): void => {
   app.use('/login/client', clienteRouter);
   app.use('/login/restaurant', restauranteloginRouter);
   app.use(bodyParser.json());
-  app.use("/restaurant/menu/item", itemRouter)
+  app.use("/restaurant/menu/item", itemController.router)
 };
 
 
