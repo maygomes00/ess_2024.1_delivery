@@ -58,6 +58,7 @@ defineFeature(feature, (test) => {
         .send({
           nome: "cascão",
           email: "cascadebala@example.com",
+          password: "senha987",
           telefone: "(11) 9876-5432",
           endereco: "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
           pedidos: [],
@@ -84,8 +85,11 @@ defineFeature(feature, (test) => {
         .send({
           nome: "pedro",
           email: "pedrinhogameplays@example.com",
+          password: "senha789",
           telefone: "(81) 998425642",
-          endereco: "rua dos pedreiros"
+          endereco: "rua dos pedreiros",
+          pedidos: [],
+          total: 0
         });
     });
 
