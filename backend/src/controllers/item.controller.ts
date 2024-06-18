@@ -110,12 +110,12 @@ export default class ItemController {
                 res.status(500).json({Erro: "Internal Server Error"})
                 return
             }
-
+            
             // Remove imagem salva na pasta (fica salva só no item, como uma string):
-            if (req.files) {
+            if (req.files && req.files[0]) {
                 this.remove_image(req.files[0].path)
             }
-    
+
             // Adiciona as informações do item a lista de dados:
             data.push({
                 id: JSON.stringify(new_id),
@@ -133,7 +133,7 @@ export default class ItemController {
             res.status(201).json("Item data was saved successfully")
     
         } catch(error : any) {
-            if (req.files) {
+            if (req.files && req.files[0]) {
                 this.remove_image(req.files[0].path) // Remove imagem salva na pasta em caso de erro
             }
             console.log("Erro in addItem:", error.message)
@@ -205,7 +205,7 @@ export default class ItemController {
             }
 
             // Remove imagem salva na pasta (fica salva só no item, como uma string):
-            if (req.files) {
+            if (req.files && req.files[0]) {
                 this.remove_image(req.files[0].path)
             }
     
@@ -226,7 +226,7 @@ export default class ItemController {
             res.status(200).json("Item data has been updated successfully")
     
         } catch(error : any) {
-            if (req.files) {
+            if (req.files && req.files[0]) {
                 this.remove_image(req.files[0].path) // Remove imagem salva na pasta em caso de erro
             }
             console.log("Erro in updateItem:", error.message)
@@ -401,7 +401,7 @@ export default class ItemController {
     private verify_info (req: any, res: any): boolean {
         const errors_found = this.verify_item_data(req)
         if (errors_found.length> 0) {
-            if (req.files){
+            if (req.files && req.files[0]){
                 this.remove_image(req.files[0].path)
             }
             console.log("Error in recived data: " + errors_found.join(", "))
@@ -464,7 +464,7 @@ export default class ItemController {
         if (req.body.image64) {
             return req.body.image64
         }
-        else if (req.files) {
+        else if (req.files && req.files[0]) {
             const image_path = req.files[0].path
             const image_buffer = fs.readFileSync(image_path)
             return image_buffer.toString('base64')
