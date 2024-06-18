@@ -4,7 +4,7 @@ import menuRouter from './menu.routes';
 import clienteRouter from './login_cliente.routes';
 import restauranteloginRouter from './login_restaurante.routes';
 import categoryRouter from './category.routes';
-import userRoutes from './user.routes'
+import userRoutes from './usuario.routes'
 import itemRouter from './item.routes';
 import bodyParser from 'body-parser';
 
