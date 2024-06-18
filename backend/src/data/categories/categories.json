@@ -1,13 +1,7 @@
 {
   "categorias": [
     {
-      "id": "2",
-      "nome": "Doce",
-      "restauranteId": "restaurante-1",
-      "temItens": false
-    },
-    {
-      "id": "3",
+      "id": "1",
       "nome": "Bebidas",
       "restauranteId": "restaurante-1",
       "temItens": false
