@@ -7,6 +7,7 @@ interface Cliente {
   id: string;
   nome: string;
   email: string;
+  password: string;
   telefone: string;
   endereco: string;
 }
@@ -90,10 +91,11 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
   try {
     const nomeCliente = req.body.nome?.trim();
     const emailCliente = req.body.email?.trim();
+    const passwordCliente = req.body.password?.trim();
     const telefoneCliente = req.body.telefone?.trim();
     const enderecoCliente = req.body.endereco?.trim();
 
-    if (!nomeCliente || nomeCliente.length === 0 || !emailCliente || emailCliente.length === 0 || !telefoneCliente || telefoneCliente.length === 0 || !enderecoCliente || enderecoCliente.length === 0) {
+    if (!nomeCliente || nomeCliente.length === 0 || !emailCliente || emailCliente.length === 0 || !passwordCliente || passwordCliente.trim().length === 0 || !telefoneCliente || telefoneCliente.length === 0 || !enderecoCliente || enderecoCliente.length === 0) {
       res.status(400).json({ error: "Todos os campos são obrigatórios!" });
       return;
     }
@@ -110,6 +112,7 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
       id: getNextClienteId(data.clientes),
       nome: nomeCliente,
       email: emailCliente,
+      password: passwordCliente,
       telefone: telefoneCliente,
       endereco: enderecoCliente
     };
@@ -133,12 +136,13 @@ export const clienteUpdateJson = async (req: Request, res: Response): Promise<vo
     const clienteId = req.params.id;
     const newName = req.body.nome;
     const newEmail = req.body.email;
+    const newPassword = req.body.password;
     const newTelefone = req.body.telefone;
     const newEndereco = req.body.endereco;
 
     console.log(`Atualizando cliente ID: ${clienteId}`);
 
-    if (!newName || newName.trim().length === 0 || !newEmail || newEmail.trim().length === 0 || !newTelefone || newTelefone.trim().length === 0 || !newEndereco || newEndereco.trim().length === 0) {
+    if (!newName || newName.trim().length === 0 || !newEmail || newEmail.trim().length === 0 || !newPassword || newPassword.trim().length === 0 || !newTelefone || newTelefone.trim().length === 0 || !newEndereco || newEndereco.trim().length === 0) {
       res.status(400).json({ error: "Todos os campos são obrigatórios!" });
       return;
     }
@@ -159,6 +163,7 @@ export const clienteUpdateJson = async (req: Request, res: Response): Promise<vo
 
     data.clientes[clienteIndex].nome = newName;
     data.clientes[clienteIndex].email = newEmail;
+    data.clientes[clienteIndex].password = newPassword;
     data.clientes[clienteIndex].telefone = newTelefone;
     data.clientes[clienteIndex].endereco = newEndereco;
 
