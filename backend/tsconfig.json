@@ -6,6 +6,9 @@
     "strict": true,
     "esModuleInterop": true,
     "strictPropertyInitialization": false,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "*": ["./src/types/*"]
+    }
   }
 }
