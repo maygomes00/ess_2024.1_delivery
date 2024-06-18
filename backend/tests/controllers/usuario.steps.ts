@@ -59,7 +59,9 @@ defineFeature(feature, (test) => {
           nome: "cascão",
           email: "cascadebala@example.com",
           telefone: "(11) 9876-5432",
-          endereco: "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678"
+          endereco: "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
+          pedidos: [],
+          total: 0
         });
     });
 
