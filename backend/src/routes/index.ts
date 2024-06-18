@@ -16,7 +16,7 @@ const setupRoutes = (app: Express): void => {
   app.use('/login/client', clienteRouter);
   app.use('/login/restaurant', restauranteloginRouter);
   app.use(bodyParser.json());
-  app.use("/restaurant/menu/item", itemRouter)
+  app.use("/restaurant/menu/item", itemController.router)
 };
 
 
