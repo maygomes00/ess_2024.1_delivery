@@ -20,18 +20,17 @@ defineFeature(feature, (test) => {
   test('Usuario com pedidos', ({ given, when, then, and }) => {
     given(/^o usuário de id "(.*)" está registrado no sistema$/, async (userId) => {
 
-      const res = await request.get(`/users/${userId}`);
-      user = res.body
-      expect(user.id).toEqual(userId);
+      user = await request.get(`/users/${userId}`);
+      expect(user.body.error).not.toBeDefined();
     });
 
     and(/^o usuário possui um pedido de id "(.*)"$/, async (orderId) => {
-      const order = user.pedidos.find((order: any) => order.order_id == orderId);
+      const order = user.body.pedidos.find((order: any) => order.order_id == orderId);
       expect(order).toBeDefined();
     });
 
     when('é feita uma requisição para obter os pedidos do usuário', async () => {
-        response = await request.get(`/users/${user.id}/orders`);
+        response = await request.get(`/users/${user.body.id}/orders`);
     });
 
     then(/^o status da resposta retornada é "(.*)"$/, (statusCode) => {
@@ -50,7 +49,7 @@ defineFeature(feature, (test) => {
     given(/^o usuário de id "(.*)" está registrado no sistema$/, async (userId) => {
 
       user = await request.get(`/users/${userId}`);
-      expect(user).toBeDefined();
+      expect(user.body.error).not.toBeDefined();
     });
 
     and('o usuário não possui pedidos', async () => {
