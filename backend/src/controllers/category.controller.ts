@@ -48,9 +48,9 @@ const getNextCategoryId = (categories: Category[]): string => {
 // Função utilitária para lidar com erros
 const handleError = (error: unknown, res: Response, message: string) => {
   if (error instanceof Error) {
-    console.error(message, error.message);
+    console.log(message, error.message);
   } else {
-    console.error("Erro desconhecido:", message);
+    console.log("Erro desconhecido:", message);
   }
   res.status(500).json({
     error: "Erro interno do servidor"
@@ -60,7 +60,7 @@ const handleError = (error: unknown, res: Response, message: string) => {
 export const categoryGetAllJson = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!fs.existsSync(categoryFilePath)) {
-      console.error("File not found:", categoryFilePath);
+      console.log("File not found:", categoryFilePath);
       res.status(404).json({ error: "File not found" });
       return;
     }
@@ -182,7 +182,7 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
     const categoryId = req.params.id;
 
     if (!fs.existsSync(categoryFilePath)) {
-      console.error("Arquivo de categoria não encontrado:", categoryFilePath);
+      console.log("Arquivo de categoria não encontrado:", categoryFilePath);
       res.status(404).json({ error: "Categoria não encontrada!" });
       return;
     }
@@ -191,7 +191,7 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
     const categoryIndex = categoryData.categorias.findIndex(category => category.id === categoryId);
 
     if (categoryIndex === -1) {
-      console.error("Categoria não encontrada com ID:", categoryId);
+      console.log("Categoria não encontrada com ID:", categoryId);
       res.status(404).json({ error: "Categoria não encontrada!" });
       return;
     }
@@ -199,7 +199,7 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
     const categoryName = categoryData.categorias[categoryIndex].nome;
 
     if (!fs.existsSync(itemFilePath)) {
-      console.error("Arquivo de itens não encontrado:", itemFilePath);
+      console.log("Arquivo de itens não encontrado:", itemFilePath);
       res.status(404).json({ error: "Arquivo de itens não encontrado!" });
       return;
     }
