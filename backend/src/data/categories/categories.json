@@ -2,13 +2,7 @@
   "categorias": [
     {
       "id": "1",
-      "nome": "Salgado",
-      "restauranteId": "restaurante-1",
-      "temItens": false
-    },
-    {
-      "id": "2",
-      "nome": "Doce",
+      "nome": "Bebidas",
       "restauranteId": "restaurante-1",
       "temItens": false
     }
