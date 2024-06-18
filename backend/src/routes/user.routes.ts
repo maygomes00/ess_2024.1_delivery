@@ -1,15 +1,12 @@
 import express from 'express';
-import { getAllUsers, getUserById, getUserOrders, registerUser, updateUserDetails, deleteUserAccount } from '../controllers/user.controller';
+import { clienteGetAllJson, clienteGetById, clienteAddJson, clienteUpdateJson, clienteDeleteJson } from '../controllers/user.controller';
 
 const router = express.Router();
 
-router.get('/', getAllUsers);
-router.get('/:userId', getUserById);
-router.get('/:userId/orders', getUserOrders);
-
-// Novas rotas para cadastro e manutenção de usuários
-router.post('/register', registerUser);
-router.put('/:userId/details', updateUserDetails);
-router.delete('/:userId/account', deleteUserAccount);
+router.get('/', clienteGetAllJson);
+router.get('/:id', clienteGetById);
+router.post('/register', clienteAddJson);
+router.put('/:id', clienteUpdateJson); // Certifique-se de que esta rota está definida corretamente
+router.delete('/:id', clienteDeleteJson);
 
 export default router;
