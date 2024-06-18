@@ -1,5 +1,5 @@
 import express from 'express';
-import { clienteGetAllJson, clienteGetById, clienteAddJson, clienteUpdateJson, clienteDeleteJson } from '../controllers/user.controller';
+import { clienteGetAllJson, clienteGetById, clienteAddJson, clienteUpdateJson, clienteDeleteJson } from '../controllers/usuario.controller';
 
 const router = express.Router();
 
