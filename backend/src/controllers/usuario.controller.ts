@@ -3,13 +3,27 @@ import fs from 'fs';
 import path from 'path';
 import TestRepository from '../repositories/test.repository';
 
+interface Pedido {
+  order_id: number;
+  data: string;
+  itens: {
+    produto_id: number;
+    name: string;
+    quantity: number;
+    price: number;
+  }[];
+  total: number;
+}
+
 interface Cliente {
   id: string;
   nome: string;
   email: string;
   telefone: string;
   endereco: string;
+  pedidos?: Pedido[];
 }
+
 const testRepository = new TestRepository();
 
 // Caminhos dos arquivos JSON
@@ -92,6 +106,7 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
     const emailCliente = req.body.email?.trim();
     const telefoneCliente = req.body.telefone?.trim();
     const enderecoCliente = req.body.endereco?.trim();
+    const pedidosCliente: Pedido[] = req.body.pedidos ?? [];
 
     if (!nomeCliente || nomeCliente.length === 0 || !emailCliente || emailCliente.length === 0 || !telefoneCliente || telefoneCliente.length === 0 || !enderecoCliente || enderecoCliente.length === 0) {
       res.status(400).json({ error: "Todos os campos são obrigatórios!" });
@@ -111,7 +126,8 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
       nome: nomeCliente,
       email: emailCliente,
       telefone: telefoneCliente,
-      endereco: enderecoCliente
+      endereco: enderecoCliente,
+      pedidos: pedidosCliente
     };
 
     data.clientes.push(newCliente);
@@ -123,6 +139,7 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
     handleError(error, res, "Erro em clienteAddJson:");
   }
 };
+
 export const clienteUpdateJson = async (req: Request, res: Response): Promise<void> => {
   try {
     console.log("Iniciando atualização de cliente...");
@@ -135,6 +152,7 @@ export const clienteUpdateJson = async (req: Request, res: Response): Promise<vo
     const newEmail = req.body.email;
     const newTelefone = req.body.telefone;
     const newEndereco = req.body.endereco;
+    const newPedidos: Pedido[] = req.body.pedidos;
 
     console.log(`Atualizando cliente ID: ${clienteId}`);
 
@@ -161,6 +179,7 @@ export const clienteUpdateJson = async (req: Request, res: Response): Promise<vo
     data.clientes[clienteIndex].email = newEmail;
     data.clientes[clienteIndex].telefone = newTelefone;
     data.clientes[clienteIndex].endereco = newEndereco;
+    data.clientes[clienteIndex].pedidos = newPedidos;
 
     writeJsonFile(clienteFilePath, data);
     console.log("Cliente atualizado com sucesso:", data.clientes[clienteIndex]);
@@ -170,6 +189,7 @@ export const clienteUpdateJson = async (req: Request, res: Response): Promise<vo
     handleError(error, res, "Erro em clienteUpdateJson:");
   }
 };
+
 export const clienteDeleteJson = async (req: Request, res: Response): Promise<void> => {
   try {
     const clienteId = req.params.id;
@@ -196,5 +216,33 @@ export const clienteDeleteJson = async (req: Request, res: Response): Promise<vo
     res.status(200).json({ message: "Cliente deletado com sucesso!" });
   } catch (error) {
     handleError(error, res, "Erro em clienteDeleteJson:");
+  }
+};
+
+// Função para obter os pedidos de um cliente
+export const getUserOrders = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const clienteId = req.params.id;
+    const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
+
+    const cliente = data.clientes.find(cliente => cliente.id === clienteId);
+
+    if (!cliente) {
+      res.status(404).json({ error: "Cliente não encontrado!" });
+      return;
+    }
+
+    const orders = cliente.pedidos || [];
+    if (orders.length === 0) {
+      res.status(200).json({ message: "Não há pedidos registrados para o perfil" });
+      return;
+    }
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.log("Error in getUserOrders:", error instanceof Error ? error.message : 'Erro desconhecido');
+    res.status(500).json({
+      error: "Erro interno do servidor"
+    });
   }
 };
