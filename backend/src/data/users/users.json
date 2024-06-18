@@ -5,14 +5,37 @@
       "nome": "João Silva",
       "email": "john.doe@example.com",
       "telefone": "(11) 9876-5432",
-      "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678"
+      "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
+      "pedidos": [
+        {
+          "order_id": 101,
+          "data": "2024-06-01",
+          "itens": [
+            {
+              "produto_id": 1001,
+              "name": "Produto A",
+              "quantity": 2,
+              "price": 19.99
+            },
+            {
+              "produto_id": 1002,
+              "name": "Produto B",
+              "quantity": 1,
+              "price": 9.99
+            }
+          ],
+          "total": 49.97
+        }
+      ]
     },
     {
       "id": "2",
       "nome": "cascão",
       "email": "cascadebala@example.com",
       "telefone": "(11) 9876-5432",
-      "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678"
+      "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
+      "pedidos": [],
+      "total": 0
     }
   ]
 }
