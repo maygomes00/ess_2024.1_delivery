@@ -7,6 +7,7 @@ import categoryRouter from './category.routes';
 import userRoutes from './user.routes'
 import itemRouter from './item.routes';
 import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 
 const setupRoutes = (app: Express): void => {
   app.use('/restaurant', restaurantRouter);
