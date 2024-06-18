@@ -1,142 +1,200 @@
-import path from 'path';
-import fs from 'fs';
 import { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
+import TestRepository from '../repositories/test.repository';
 
-const users_path = './src/data/users/users.json';
-
-// utils
-const parser = () => {
-  return JSON.parse(fs.readFileSync(path.resolve(users_path), 'utf-8'));
+interface Cliente {
+  id: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  endereco: string;
 }
+const testRepository = new TestRepository();
 
-const getUser = (id: any) => {
-  return parser().find((element: { id: any }) => element.id === parseInt(id));
-}
+// Caminhos dos arquivos JSON
+const clienteFilePath = path.resolve('./src/data/users/users.json');
 
-// export functions
-
-export const getAllUsers = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const users = parser();
-    res.status(200).json(users);
-  } catch (error: any) {
-    console.log("Error in getAllUsers:", error.message);
-    res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
+// Função para ler e analisar JSON de um arquivo
+const readJsonFile = (filePath: string) => {
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  return JSON.parse(fileContent);
 };
 
-export const getUserById = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const user = getUser(req.params.userId);
-    res.status(200).json(user);
-  } catch (error: any) {
-    console.log("Error in getUserById:", error.message);
-    res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
+// Função para escrever JSON em um arquivo
+const writeJsonFile = (filePath: string, data: { clientes: Cliente[] }): void => {
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 };
 
-export const getUserOrders = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const user = getUser(req.params.userId);
-    const orders = user.orders || [];
-    res.status(200).json(orders);
-  } catch (error: any) {
-    console.log("Error in getUserOrders:", error.message);
-    res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
+const getNextClienteId = (clientes: Cliente[]): string => {
+  const maxId = clientes.reduce((max, cliente) => {
+    const idNum = parseInt(cliente.id, 10);
+    return idNum > max ? idNum : max;
+  }, 0);
+  return (maxId + 1).toString();
 };
 
-// Adicionando as funções de cadastro e manutenção de usuário
+// Função utilitária para lidar com erros
+const handleError = (error: unknown, res: Response, message: string) => {
+  if (error instanceof Error) {
+    console.error(message, error.message);
+  } else {
+    console.error("Erro desconhecido:", message);
+  }
+  res.status(500).json({
+    error: "Erro interno do servidor"
+  });
+};
 
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
+export const clienteGetAllJson = async (req: Request, res: Response): Promise<void> => {
   try {
-    const users = parser();
-    const { name, email, password } = req.body;
-
-    const existingUser = users.find((user: any) => user.email === email);
-    if (existingUser) {
-      res.status(400).json({ error: 'Email já está em uso.' });
+    if (!fs.existsSync(clienteFilePath)) {
+      console.error("File not found:", clienteFilePath);
+      res.status(404).json({ error: "File not found" });
       return;
     }
 
-    const newUser = {
-      id: users.length + 1,
-      name,
-      email,
-      password,
-      orders: []
+    const data = readJsonFile(clienteFilePath);
+
+    if (!data.clientes) {
+      console.log('Clientes vazia!');
+      res.status(200).json([]);
+      return;
+    }
+
+    res.status(200).json(data);
+  } catch (error) {
+    handleError(error, res, "Erro em clienteGetAllJson:");
+  }
+};
+
+export const clienteGetById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const clienteId = req.params.id;
+    const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
+
+    const cliente = data.clientes.find(cliente => cliente.id === clienteId);
+
+    if (!cliente) {
+      res.status(404).json({ error: "Cliente não encontrado!" });
+      return;
+    }
+
+    res.status(200).json(cliente);
+  } catch (error) {
+    handleError(error, res, "Erro em clienteGetById:");
+  }
+};
+
+export const clienteAddJson = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const nomeCliente = req.body.nome?.trim();
+    const emailCliente = req.body.email?.trim();
+    const telefoneCliente = req.body.telefone?.trim();
+    const enderecoCliente = req.body.endereco?.trim();
+
+    if (!nomeCliente || nomeCliente.length === 0 || !emailCliente || emailCliente.length === 0 || !telefoneCliente || telefoneCliente.length === 0 || !enderecoCliente || enderecoCliente.length === 0) {
+      res.status(400).json({ error: "Todos os campos são obrigatórios!" });
+      return;
+    }
+
+    const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
+
+    const existingCliente = data.clientes.find(cliente => cliente.email === emailCliente);
+    if (existingCliente) {
+      res.status(400).json({ error: "Já existe um cliente com esse email!" });
+      return;
+    }
+
+    const newCliente: Cliente = {
+      id: getNextClienteId(data.clientes),
+      nome: nomeCliente,
+      email: emailCliente,
+      telefone: telefoneCliente,
+      endereco: enderecoCliente
     };
 
-    users.push(newUser);
-    fs.writeFileSync(users_path, JSON.stringify(users, null, 2));
+    data.clientes.push(newCliente);
 
-    res.status(201).json({ message: 'Usuário cadastrado com sucesso!' });
-  } catch (error: any) {
-    console.log("Error in registerUser:", error.message);
-    res.status(500).json({
-      error: "Internal Server Error"
-    });
+    writeJsonFile(clienteFilePath, data);
+
+    res.status(201).json(newCliente);
+  } catch (error) {
+    handleError(error, res, "Erro em clienteAddJson:");
   }
 };
-
-export const updateUserDetails = async (req: Request, res: Response): Promise<void> => {
+export const clienteUpdateJson = async (req: Request, res: Response): Promise<void> => {
   try {
-    const users = parser();
-    const userId = parseInt(req.params.userId);
-    const { name, email, password } = req.body;
+    console.log("Iniciando atualização de cliente...");
 
-    const userIndex = users.findIndex((user: any) => user.id === userId);
+    const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
+    console.log("Dados lidos do arquivo JSON:", data);
 
-    if (userIndex === -1) {
-      res.status(404).json({ error: 'Usuário não encontrado' });
+    const clienteId = req.params.id;
+    const newName = req.body.nome;
+    const newEmail = req.body.email;
+    const newTelefone = req.body.telefone;
+    const newEndereco = req.body.endereco;
+
+    console.log(`Atualizando cliente ID: ${clienteId}`);
+
+    if (!newName || newName.trim().length === 0 || !newEmail || newEmail.trim().length === 0 || !newTelefone || newTelefone.trim().length === 0 || !newEndereco || newEndereco.trim().length === 0) {
+      res.status(400).json({ error: "Todos os campos são obrigatórios!" });
       return;
     }
 
-    const updatedUser = {
-      ...users[userIndex],
-      name: name || users[userIndex].name,
-      email: email || users[userIndex].email,
-      password: password || users[userIndex].password,
-    };
+    const clienteIndex = data.clientes.findIndex(cliente => cliente.id === clienteId);
 
-    users[userIndex] = updatedUser;
-    fs.writeFileSync(users_path, JSON.stringify(users, null, 2));
-
-    res.status(200).json({ message: 'Detalhes do usuário atualizados com sucesso!' });
-  } catch (error: any) {
-    console.log("Error in updateUserDetails:", error.message);
-    res.status(500).json({
-      error: "Internal Server Error"
-    });
-  }
-};
-
-export const deleteUserAccount = async (req: Request, res: Response): Promise<void> => {
-  try {
-    const users = parser();
-    const userId = parseInt(req.params.userId);
-
-    const userIndex = users.findIndex((user: any) => user.id === userId);
-
-    if (userIndex === -1) {
-      res.status(404).json({ error: 'Usuário não encontrado' });
+    if (clienteIndex === -1) {
+      res.status(404).json({ error: "Cliente não encontrado!" });
       return;
     }
 
-    users.splice(userIndex, 1);
-    fs.writeFileSync(users_path, JSON.stringify(users, null, 2));
+    const emailExists = data.clientes.some(cliente => cliente.email.toLowerCase() === newEmail.toLowerCase() && cliente.id !== clienteId);
 
-    res.status(200).json({ message: 'Conta do usuário deletada com sucesso!' });
-  } catch (error: any) {
-    console.log("Error in deleteUserAccount:", error.message);
-    res.status(500).json({
-      error: "Internal Server Error"
-    });
+    if (emailExists) {
+      res.status(400).json({ error: "Já existe um cliente com esse email!" });
+      return;
+    }
+
+    data.clientes[clienteIndex].nome = newName;
+    data.clientes[clienteIndex].email = newEmail;
+    data.clientes[clienteIndex].telefone = newTelefone;
+    data.clientes[clienteIndex].endereco = newEndereco;
+
+    writeJsonFile(clienteFilePath, data);
+    console.log("Cliente atualizado com sucesso:", data.clientes[clienteIndex]);
+
+    res.status(200).json(data.clientes[clienteIndex]);
+  } catch (error) {
+    handleError(error, res, "Erro em clienteUpdateJson:");
+  }
+};
+export const clienteDeleteJson = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const clienteId = req.params.id;
+
+    if (!fs.existsSync(clienteFilePath)) {
+      console.error("Arquivo de cliente não encontrado:", clienteFilePath);
+      res.status(404).json({ error: "Cliente não encontrado!" });
+      return;
+    }
+
+    const clienteData: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
+    const clienteIndex = clienteData.clientes.findIndex(cliente => cliente.id === clienteId);
+
+    if (clienteIndex === -1) {
+      console.error("Cliente não encontrado com ID:", clienteId);
+      res.status(404).json({ error: "Cliente não encontrado!" });
+      return;
+    }
+
+    clienteData.clientes = clienteData.clientes.filter(cliente => cliente.id !== clienteId);
+
+    writeJsonFile(clienteFilePath, clienteData);
+    console.log("Cliente deletado com sucesso!");
+    res.status(200).json({ message: "Cliente deletado com sucesso!" });
+  } catch (error) {
+    handleError(error, res, "Erro em clienteDeleteJson:");
   }
 };
