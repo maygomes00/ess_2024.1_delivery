@@ -79,3 +79,23 @@ export const forgotPassword = (req: Request, res: Response) => {
 
   res.send('Código enviado para o seu e-mail');
 };
+
+export const resetPassword = (req: Request, res: Response) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+
+  const users = loadUsers().users;
+  const user = users.find((u: User) => u.resetPasswordToken === token);
+
+  if (!user || new Date() > new Date(user.resetPasswordExpires)) {
+    return res.status(400).send('O link é inválido ou expirou!');
+  }
+
+  user.password = newPassword;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpires = undefined;
+
+  saveUsers(users);
+
+  res.send('Password has been reset');
+};
