@@ -8,6 +8,4 @@
     "strictPropertyInitialization": false,
     "experimentalDecorators": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
 }
