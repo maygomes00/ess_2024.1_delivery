@@ -16,8 +16,6 @@ interface User {
   password: string;
   telefone: string;
   endereco: string;
-  resetPasswordToken?: string;
-  resetPasswordExpires?: Date;
 }
 
 let currentUser: User | null = null;
@@ -60,64 +58,5 @@ export const logout = (req: Request, res: Response) => {
     return res.status(200).json({ message: 'Logout successful' });
   } else {
     return res.status(400).json({ message: 'No user is logged in' });
-  }
-};
-
-const loadUsers = (): { users: User[] } => {
-  const data = fs.readFileSync(dbPath, 'utf-8');
-  return JSON.parse(data);
-};
-
-const saveUsers = (users: User[]) => {
-  fs.writeFileSync(dbPath, JSON.stringify({ users }, null, 2));
-};
-
-export const forgotPassword = (req: Request, res: Response) => {
-  try {
-    const { email } = req.body;
-    const { users } = loadUsers();
-    const user = users.find((u: User) => u.email === email);
-
-    if (!user) {
-      return res.status(404).json({ msg: 'User not found', msgCode: 'failure', code: 404 });
-    }
-
-    const token = jwt.sign({ email }, process.env.JWT_SECRET!, { expiresIn: '1h' });
-    user.resetPasswordToken = token;
-    user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
-
-    saveUsers(users);
-
-    const resetUrl = `http://localhost:3000/reset-password/${token}`;
-
-    sendEmail(user.email, 'Password Reset', `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`);
-
-    res.json({ msg: 'Password reset link sent to your email', msgCode: 'success', code: 200 });
-  } catch (error) {
-    res.status(500).json({ msg: 'Internal server error', msgCode: 'failure', code: 500 });
-  }
-};
-
-export const resetPassword = (req: Request, res: Response) => {
-  try {
-    const { token } = req.params;
-    const { newPassword } = req.body;
-
-    const { users } = loadUsers();
-    const user = users.find((u: User) => u.resetPasswordToken === token);
-
-    if (!user || !user.resetPasswordExpires || new Date() > new Date(user.resetPasswordExpires)) {
-      return res.status(400).json({ msg: 'Token is invalid or has expired', msgCode: 'failure', code: 400 });
-    }
-
-    user.password = newPassword;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-
-    saveUsers(users);
-
-    res.json({ msg: 'Password has been reset', msgCode: 'success', code: 200 });
-  } catch (error) {
-    res.status(500).json({ msg: 'Internal server error', msgCode: 'failure', code: 500 });
   }
 };

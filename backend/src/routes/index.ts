@@ -8,6 +8,7 @@ import userRoutes from './user.routes'
 import itemRouter from './item.routes';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import senhaRouter from './esqueci_senha.routes';
 
 const setupRoutes = (app: Express): void => {
   app.use('/restaurant', restaurantRouter);
@@ -16,8 +17,7 @@ const setupRoutes = (app: Express): void => {
   app.use('/users', userRoutes);
   app.use('/login/client', clienteRouter);
   app.use('/login/restaurant', restauranteloginRouter);
-  app.use('/forgot-password', clienteRouter);
-  app.use('/reset-password', clienteRouter);
+  app.use('/forgot-password', senhaRouter);
   app.use(bodyParser.json());
   app.use("/restaurant/menu/item", itemRouter)
 };
