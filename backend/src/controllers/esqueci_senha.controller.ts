@@ -15,18 +15,6 @@ interface User {
     resetPasswordToken?: string;
     resetPasswordExpires?: Date;
   }
-
-  interface User {
-    id: string;
-    nome: string;
-    email: string;
-    password: string;
-    telefone: string;
-    endereco: string;
-    pedidos: any[];
-    resetPasswordToken?: string;
-    resetPasswordExpires?: Date;
-  }
   
   const loadUsers = (): { clientes: User[] } => {
     try {
