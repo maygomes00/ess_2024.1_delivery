@@ -1,20 +1,15 @@
 import express from "express";
-import { storer } from "../multer.config"
-import {getItemById, addItem, removeItem, updateItem, getRestaurantItens} from "../controllers/item.controller";
+import ItemController from "../controllers/item.controller";
 
 const itemRouter = express.Router()
+const itens_json_path = './src/data/itens/itens.json'
+const restaurant_json_path = './src/data/restaurants/restaurants.json'
 
-// Get item:
-itemRouter.get("/:itemId", getItemById)
-itemRouter.get("/all/:restaurantId", getRestaurantItens)
+const itens_test = JSON.parse("[]")
+const restaurant_test = JSON.parse("[]")
 
-// Post item:
-itemRouter.post("/", storer.any(), addItem)
+// Cria e inicia o controlador das rotas de item:
+var item_controller = new ItemController(true, itemRouter, itens_json_path, restaurant_json_path, itens_test, restaurant_test)
+item_controller.startRouter()
 
-// Put item:
-itemRouter.put("/:itemId", storer.any(),updateItem)
-
-// Delete item:
-itemRouter.delete("/:itemId", removeItem)
-
-export default itemRouter
+export default item_controller
