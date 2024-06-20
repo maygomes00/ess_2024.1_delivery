@@ -5,7 +5,7 @@ export const restaurantsRouter = Router();
 
 restaurantsRouter.get('/test', restaurantsSanityTest);
 restaurantsRouter.post('/', registerRestaurant);
-restaurantsRouter.get('/:id', getRestaurant);
+restaurantsRouter.get('/', getRestaurant);
 restaurantsRouter.delete('/:id', deleteRestaurant);
 
 export default restaurantsRouter;

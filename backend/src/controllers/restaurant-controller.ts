@@ -2,11 +2,16 @@ import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import e, { Request, Response } from 'express';
+import { User, Restaurant } from './login_common_interfaces';
+import FuzzySearch from 'fuzzy-search';
 
-const restaurants_json_path = './src/data/restaurants/restaurants.json';
+const restaurants_path = './src/data/restaurants/restaurants_database.json';
+export function eraseRestaurants() {
+  fs.writeFileSync(path.resolve(restaurants_path), JSON.stringify([]));
+}
 
 export const restaurantsSanityTest = (req: Request, res: Response): void => {
-  res.status(200).send('Restaurants route works!');
+  res.status(200).send('Rota funcional');
 };
 
 const measurePasswordStrength = (password: string): string => {
@@ -39,21 +44,6 @@ const measurePasswordStrength = (password: string): string => {
   }
 };
 
-interface Restaurant {
-  id: string;
-  email: string;
-  password: string;
-  owner_name: string;
-  owner_cpf: string;
-  owner_address: string;
-  owner_telephone: string;
-  restaurant_name: string;
-  restaurant_cnpj: string;
-  restaurant_address: string;
-  restaurant_telephone: string;
-  items: any[];
-}
-
 export const registerRestaurant = (req: Request, res: Response): void => {
   const {
     email,
@@ -80,41 +70,40 @@ export const registerRestaurant = (req: Request, res: Response): void => {
     !restaurant_address ||
     !restaurant_telephone
   ) {
-    res.status(400).send('Missing required information');
+    res.status(400).send('Faltando informações obrigatórias');
     return;
   }
 
-  let restaurant_db: Restaurant[] = [];
-  try {
-    if (!fs.existsSync(path.resolve(restaurants_json_path))) {
-      fs.writeFileSync(path.resolve(restaurants_json_path), JSON.stringify([]));
-    } else {
-      const fileContent = fs.readFileSync(
-        path.resolve(restaurants_json_path),
-        'utf-8'
-      );
-      restaurant_db = fileContent ? JSON.parse(fileContent) : [];
+  let checkList: Restaurant[] = [];
+  if (fs.existsSync(path.resolve(restaurants_path))) {
+    const restaurantTextDatabase = fs.readFileSync(
+      path.resolve(restaurants_path),
+      'utf8'
+    );
+    if (restaurantTextDatabase) {
+      checkList = JSON.parse(restaurantTextDatabase);
     }
-  } catch (error) {
-    console.error('Error handling the restaurant database file:', error);
-    res.status(500).send('Internal server error');
-    return;
   }
 
-  const cnpj_match = restaurant_db.find(
+  const checkCNPJ = checkList.find(
     (restaurant: Restaurant) => restaurant.restaurant_cnpj === restaurant_cnpj
   );
-  const email_match = restaurant_db.find(
-    (restaurant: Restaurant) => restaurant.email === email
-  );
-
-  if (cnpj_match) {
+  if (checkCNPJ) {
     res.status(409).send('Empresa com mesmo CNPJ já cadastrada');
     return;
   }
-
-  if (email_match) {
+  const checkEmail = checkList.find(
+    (restaurant: Restaurant) => restaurant.email === email
+  );
+  if (checkEmail) {
     res.status(409).send('Restaurante de mesmo email já cadastrado');
+    return;
+  }
+
+  const passwordStrength = measurePasswordStrength(password);
+
+  if (passwordStrength === 'Weak') {
+    res.status(400).send('Senha fraca');
     return;
   }
 
@@ -133,57 +122,66 @@ export const registerRestaurant = (req: Request, res: Response): void => {
     items: [],
   };
 
-  restaurant_db.push(newRestaurant);
+  checkList.push(newRestaurant);
   fs.writeFileSync(
-    path.resolve(restaurants_json_path),
-    JSON.stringify(restaurant_db)
+    path.resolve(restaurants_path),
+    JSON.stringify(checkList, null, 2),
+    'utf8'
   );
 
-  res.status(200).send('Restaurante resgistrado com sucesso!');
+  res.status(201).send('Restaurante cadastrado com sucesso!');
   return;
 };
 
 export const getRestaurant = (req: Request, res: Response): void => {
-  const { id } = req.params;
+  const restaurantDatabase = path.resolve(restaurants_path);
+  const openRestaurantDatabase = fs.readFileSync(restaurantDatabase, 'utf8');
+  const restaurantList: Restaurant[] = JSON.parse(openRestaurantDatabase);
 
-  const restaurant_db = JSON.parse(
-    fs.readFileSync(path.resolve(restaurants_json_path), 'utf-8')
-  );
+  const the_name = req.body.restaurant_name;
+  const searcher = new FuzzySearch(restaurantList, ['restaurant_name'], {
+    caseSensitive: false,
+    sort: true,
+  });
 
-  const restaurant = restaurant_db.find(
-    (restaurant: Restaurant) => restaurant.id === id
-  );
+  const result = searcher.search(the_name);
 
-  if (!restaurant) {
-    res.status(404).send('Restaurante não existe no sistema');
+  if (result.length === 0) {
+    res.status(404).send('Restaurante não encontrado');
     return;
   }
-
-  res.status(200).send(restaurant);
+  res.status(200).send(result);
+  return;
 };
 
 export const deleteRestaurant = (req: Request, res: Response): void => {
-  const { id } = req.params;
+  const restaurantDatabase = path.resolve(restaurants_path);
+  const openRestaurantDatabase = fs.readFileSync(restaurantDatabase, 'utf8');
+  const restaurantList: Restaurant[] = JSON.parse(openRestaurantDatabase);
 
-  const restaurant_db = JSON.parse(
-    fs.readFileSync(path.resolve(restaurants_json_path), 'utf-8')
+  const del_id = req.params.id;
+
+  // Checagem de existência do restaurante
+  const restaurantExists = restaurantList.some(
+    (restaurant) => restaurant.id === del_id
   );
 
-  const restaurantIndex = restaurant_db.findIndex(
-    (restaurant: Restaurant) => restaurant.id === id
-  );
-
-  if (restaurantIndex === -1) {
-    res.status(404).send('Restaurant not found');
+  if (!restaurantExists) {
+    res.status(404).send('Restaurante não encontrado');
     return;
   }
 
-  restaurant_db.splice(restaurantIndex, 1);
-
-  fs.writeFileSync(
-    path.resolve(restaurants_json_path),
-    JSON.stringify(restaurant_db, null, 2)
+  // Filtrar restaurante a ser deletado
+  const newRestaurantList = restaurantList.filter(
+    (restaurant) => restaurant.id !== del_id
   );
 
-  res.status(200).send('Conta de restaurante deletada.');
+  // Reescrever o arquivo com a lista de restaurantes atualizada
+  fs.writeFileSync(
+    restaurantDatabase,
+    JSON.stringify(newRestaurantList, null, 2),
+    'utf8'
+  );
+
+  res.status(200).send('Restaurante deletado com sucesso!');
 };
