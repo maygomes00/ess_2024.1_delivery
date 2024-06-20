@@ -30,6 +30,11 @@ const writeUsersFile = (data: any) => {
     mockCategoryRepository = di.getRepository<TestRepository>(TestRepository);
     response = null;
   });
+
+  afterEach(() => {
+    // Clean up any open resources here if necessary
+    jest.clearAllMocks();
+  });
 /*
   test('Create a test', ({ given, when, then, and }) => {
     given(/^o TestRepository não tem um test com nome "(.*)"$/, async (testId, testName) => {
