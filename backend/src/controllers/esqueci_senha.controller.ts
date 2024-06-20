@@ -59,7 +59,7 @@ interface User {
   
       if (!user) {
         console.log('User not found for email:', email);
-        return res.status(404).json({ msg: 'User not found', msgCode: 'failure', code: 404 });
+        return res.status(404).json({ msg: 'User not found!', msgCode: 'failure', code: 404 });
       }
   
       const token = jwt.sign({ email }, process.env.JWT_SECRET!, { expiresIn: '1h' });
@@ -70,7 +70,7 @@ interface User {
   
       const resetUrl = `http://localhost:5001/reset-password/${token}`;
   
-      sendEmail(user.email, 'Password Reset', `You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste this into your browser to complete the process:\n\n${resetUrl}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`);
+      sendEmail(user.email, 'ESS_Delivery | Alteração de Senha', `Você está recebendo este e-mail, porque você solcitou recuperação de sua senhao para acessar sua conta.\n\nPor favor, clique no link a seguir ou cole-o em seu navegado favorito para completar o processo:\n${resetUrl}\n\nSe você não realizou esta solicitação, por favor ignore este e-mail e sua senha será mantida.\n`);
   
       res.json({ msg: 'Password reset link sent to your email', msgCode: 'success', code: 200 });
     } catch (error) {
@@ -103,7 +103,7 @@ interface User {
   
       saveUsers(clientes);
   
-      res.json({ msg: 'Password has been reset', msgCode: 'success', code: 200 });
+      res.json({ msg: 'Password has been reset!', msgCode: 'success', code: 200 });
     } catch (error) {
       console.error('Error in resetPassword:', error);
       res.status(500).json({ msg: 'Internal server error', msgCode: 'failure', code: 500 });
