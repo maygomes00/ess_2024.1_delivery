@@ -244,13 +244,6 @@ export default class ItemController {
             // Carrega o banco de dados de restaurantes:
             const restaurant_database = this.get_restaurant_database()
             
-            // Verifica se o restaurante com o id especificado exista:
-            if (!this.id_exists_rest(restaurant_database, requested_id, res)) {
-                console.log(`Erro: restaurant with id ${requested_id} not found`)
-                res.status(404).json({Erro: `restaurant with id ${requested_id} not found`})
-                return
-            }
-            
             // Filtra dos dados pegando apenas aquele com o restaurant_id igual ao especificado:
             var restaurant_itens = itens_database.filter((element: {restaurant_id: any}) => element.restaurant_id == requested_id)
             
