@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/fuzzy-search": "^2.1.5",
+    "jest-cucumber": "^4.4.0"
+  },
+  "dependencies": {
+    "fuzzy-search": "^3.2.1"
+  }
+}

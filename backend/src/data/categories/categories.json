@@ -1,0 +1,10 @@
+{
+  "categorias": [
+    {
+      "id": "1",
+      "nome": "Bebidas",
+      "restauranteId": "restaurante-1",
+      "temItens": false
+    }
+  ]
+}
