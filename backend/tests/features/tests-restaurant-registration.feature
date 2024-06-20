@@ -38,16 +38,14 @@ Scenario: Cadastro de restaurante bem sucedido
     Then o status code retornado deve ser 201
     And a mensagem de sucesso deve ser "Restaurante cadastrado com sucesso!"
 
-# Scenario: Consultar informações do restaurante cadastrado
-#     Given acesso a rota "/restaurant/"
-#     And um restaurante está logado
-#     When requisção GET é efetuada
-#     Then o status code retornado deve ser 200
-#     And o restaurante deve ser retornado com todos os campos
+Scenario: Consulta de restaurantes
+    Given acesso a rota "/restaurant/"
+    When requisção GET é efetuada com o nome do restaurante que se deseja consultar
+    Then o status code retornado deve ser 200
+    And lista de restaurante com nomes compatíveis deve ser retornada
 
-# Scenario: Deletar cadastro de restaurante
-#     Given acesso a rota "/restaurant/"
-#     And um restaurante está logado
-#     When requisção DELETE é efetuada
-#     Then o status code retornado deve ser 200
-#     And a mensagem retornada deve ser "Restaurante deletado com sucesso!"
+Scenario: Deletar cadastro de restaurante
+    Given acesso a rota "/restaurant/:id"
+    When requisção DELETE é efetuada
+    Then o status code retornado deve ser 200
+    And a mensagem retornada deve ser "Restaurante deletado com sucesso!"

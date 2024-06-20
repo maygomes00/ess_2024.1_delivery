@@ -1,10 +1,7 @@
 import { loadFeature, defineFeature } from 'jest-cucumber';
 import supertest from 'supertest';
 import app from '../../src/app';
-import {
-  eraseTest_restaurants,
-  eraseTest_userHandling,
-} from '../../src/controllers/restaurant-controller';
+import { eraseRestaurants } from '../../src/controllers/restaurant-controller';
 import fs from 'fs';
 import path from 'path';
 
@@ -12,14 +9,12 @@ const feature = loadFeature(
   'tests/features/tests-restaurant-registration.feature'
 );
 const request = supertest(app);
-const test_restaurants_json_path = './tests/controllers/tests_restaurant.json';
-const test_userHandlingPath = './tests/controllers/tests_r_user_handling.json';
-
+const restaurants_path = './src/data/restaurants/restaurants_database.json';
 defineFeature(feature, (test) => {
   let response: supertest.Response | null;
 
   beforeEach(() => {
-    eraseTest_restaurants();
+    eraseRestaurants();
     response = null;
   });
 
@@ -95,23 +90,10 @@ defineFeature(feature, (test) => {
     when(
       'requisção POST é efetuada com um campo de CNPJ igual a um CNPJ já cadastrado',
       async () => {
-        // request.post('/restaurant/').send({
-        //   email: 'a@a.com',
-        //   password: '!@#$AAZZaazz1234',
-        //   owner_name: 'abcde',
-        //   owner_cpf: '123.456.789-00',
-        //   owner_address: 'edcba',
-        //   owner_telephone: '55 (81) 12345-6789',
-        //   restaurant_name: 'zyxwv',
-        //   restaurant_cnpj: '12.345.678/0001-99',
-        //   restaurant_address: '5678 aaaa',
-        //   restaurant_telephone: '99 99 1111-1111',
-        // });
-
-        fs.readFileSync(path.resolve(test_restaurants_json_path), 'utf8');
-        if (fs.existsSync(path.resolve(test_restaurants_json_path))) {
+        fs.readFileSync(path.resolve(restaurants_path), 'utf8');
+        if (fs.existsSync(path.resolve(restaurants_path))) {
           const cnpjTestDatabase = fs.readFileSync(
-            path.resolve(test_restaurants_json_path),
+            path.resolve(restaurants_path),
             'utf8'
           );
           if (cnpjTestDatabase) {
@@ -129,25 +111,26 @@ defineFeature(feature, (test) => {
               restaurant_telephone: '99 99 1111-1111',
             });
             fs.writeFileSync(
-              path.resolve(test_restaurants_json_path),
+              path.resolve(restaurants_path),
               JSON.stringify(checkList)
             );
           }
 
-        response = await request.post('/restaurant/').send({
-          email: 'b@b.com',
-          password: '$#@!ZZAAzzaa4321',
-          owner_name: 'edcba',
-          owner_cpf: '987.654.321-00',
-          owner_address: 'abcde',
-          owner_telephone: '55 (81) 98765-4321',
-          restaurant_name: 'zyxwv',
-          restaurant_cnpj: '12.345.678/0001-99',
-          restaurant_address: 'aaaa 5678',
-          restaurant_telephone: '99 99 2222-2222',
-        });
+          response = await request.post('/restaurant/').send({
+            email: 'b@b.com',
+            password: '$#@!ZZAAzzaa4321',
+            owner_name: 'edcba',
+            owner_cpf: '987.654.321-00',
+            owner_address: 'abcde',
+            owner_telephone: '55 (81) 98765-4321',
+            restaurant_name: 'zyxwv',
+            restaurant_cnpj: '12.345.678/0001-99',
+            restaurant_address: 'aaaa 5678',
+            restaurant_telephone: '99 99 2222-2222',
+          });
+        }
       }
-  });
+    );
 
     then('o status code retornado deve ser 409', () => {
       expect(response!.status).toBe(409);
@@ -174,11 +157,10 @@ defineFeature(feature, (test) => {
     when(
       'requisção POST para cadastro contém um email igual a um email de um restaurante já cadastrado',
       async () => {
-
-        fs.readFileSync(path.resolve(test_restaurants_json_path), 'utf8');
-        if (fs.existsSync(path.resolve(test_restaurants_json_path))) {
+        fs.readFileSync(path.resolve(restaurants_path), 'utf8');
+        if (fs.existsSync(path.resolve(restaurants_path))) {
           const emailTestDatabase = fs.readFileSync(
-            path.resolve(test_restaurants_json_path),
+            path.resolve(restaurants_path),
             'utf8'
           );
           if (emailTestDatabase) {
@@ -196,25 +178,26 @@ defineFeature(feature, (test) => {
               restaurant_telephone: '99 99 1111-1111',
             });
             fs.writeFileSync(
-              path.resolve(test_restaurants_json_path),
+              path.resolve(restaurants_path),
               JSON.stringify(checkList)
             );
           }
 
-        response = await request.post('/restaurant/').send({
-          email: 'a@a.com',
-          password: '!@#$AAZZaazz1234',
-          owner_name: 'abcde',
-          owner_cpf: '123.456.789-00',
-          owner_address: 'edcba',
-          owner_telephone: '55 (81) 12345-6789',
-          restaurant_name: 'zyxwv',
-          restaurant_cnpj: '12.345.678/0001-99',
-          restaurant_address: '5678 aaaa',
-          restaurant_telephone: '99 99 1111-1111',
-        });
+          response = await request.post('/restaurant/').send({
+            email: 'a@a.com',
+            password: '!@#$AAZZaazz1234',
+            owner_name: 'abcde',
+            owner_cpf: '123.456.789-00',
+            owner_address: 'edcba',
+            owner_telephone: '55 (81) 12345-6789',
+            restaurant_name: 'zyxwv',
+            restaurant_cnpj: '12.345.678/0001-99',
+            restaurant_address: '5678 aaaa',
+            restaurant_telephone: '99 99 1111-1111',
+          });
+        }
       }
-  });
+    );
 
     then('o status code retornado deve ser 409', () => {
       expect(response!.status).toBe(409);
@@ -307,105 +290,112 @@ defineFeature(feature, (test) => {
     );
   });
 
-  // test('Consultar informações do restaurante cadastrado', ({
-  //   given,
-  //   when,
-  //   then,
-  //   and,
-  // }) => {
-  //   given('acesso a rota "/restaurant/"', () => {
-  //     // não é necessário nenhum teste específico
-  //   });
-  //   and('um restaurante está logado', async () => {
-  //     let newRestaurant = {
-  //       id: 'testIDloginlogout',
-  //       uuid: 'a257adef-dda8-53b7-aac1-3222c90d818a',
-  //       email: 'undecillion@example3.com',
-  //       password: '!securePassW999',
-  //       owner_name: 'Abcd Efgh',
-  //       owner_cpf: '123.126.789-40',
-  //       owner_address: '1234 Abcd Ab, Abcdefg, AB',
-  //       owner_telephone: '55 (81) 12345-6789',
-  //       restaurant_name: 'Abcde Fghij',
-  //       restaurant_cnpj: '12.345.678/9991-99',
-  //       restaurant_address: '5678 Ijklmn Ij, Ijkmlno, IJ',
-  //       restaurant_telephone: '55 81 1111-1111',
-  //     };
-  //     request.post('/restaurant/').send({ newRestaurant });
-  //     request.post('/restaurant/login/logout').send();
-  //     request
-  //       .post('/restaurant/login')
-  //       .send({ email: newRestaurant.email, password: newRestaurant.password });
-  //   });
+  test('Consulta de restaurantes', ({ given, when, then, and }) => {
+    given('acesso a rota "/restaurant/"', () => {
+      // não é necessário nenhum teste específico
+    });
 
-  //   when('requisção GET é efetuada', async () => {
-  //     response = await request.get('/restaurant/');
-  //   });
+    when(
+      'requisção GET é efetuada com o nome do restaurante que se deseja consultar',
+      async () => {
+        fs.readFileSync(path.resolve(restaurants_path), 'utf8');
+        if (fs.existsSync(path.resolve(restaurants_path))) {
+          const insertDummyRestaurants = fs.readFileSync(
+            path.resolve(restaurants_path),
+            'utf8'
+          );
+          if (insertDummyRestaurants) {
+            let checkList = JSON.parse(insertDummyRestaurants);
+            checkList.push({
+              email: 'blob@example.com',
+              password: '!@#$AAZZaazz1234',
+              owner_name: 'abcde',
+              owner_cpf: '123.456.789-00',
+              owner_address: 'edcba',
+              owner_telephone: '55 (81) 12345-6789',
+              restaurant_name: 'Pasteis Doces e Cia',
+              restaurant_cnpj: '12.345.678/0001-99',
+              restaurant_address: '5678 aaaa',
+              restaurant_telephone: '99 99 1111-1111',
+            });
+            checkList.push({
+              email: 'blob2@example.com',
+              password: '!@#$AAZZaazz1234',
+              owner_name: 'abcde',
+              owner_cpf: '123.456.789-00',
+              owner_address: 'edcba',
+              owner_telephone: '55 (81) 12345-6789',
+              restaurant_name: 'Pasteis Salgados e Associados',
+              restaurant_cnpj: '12.345.678/0001-99',
+              restaurant_address: '5678 aaaa',
+              restaurant_telephone: '99 99 1111-1111',
+            });
+            fs.writeFileSync(
+              path.resolve(restaurants_path),
+              JSON.stringify(checkList)
+            );
+          }
 
-  //   then('o status code retornado deve ser 200', () => {
-  //     expect(response!.status).toBe(200);
-  //   });
+          response = await request.get('/restaurant/').send({
+            restaurant_name: 'Pasteis Doces',
+          });
+        }
+      }
+    );
+    then('o status code retornado deve ser 200', () => {
+      expect(response!.status).toBe(200);
+    });
 
-  //   and('o restaurante deve ser retornado com todos os campos', () => {
-  //     expect(response!.body).toEqual(
-  //       expect.objectContaining({
-  //         email: 'undecillion@example3.com',
-  //         password: '!securePassW999',
-  //         owner_name: 'Abcd Efgh',
-  //         owner_cpf: '123.126.789-40',
-  //         owner_address: '1234 Abcd Ab, Abcdefg, AB',
-  //         owner_telephone: '55 (81) 12345-6789',
-  //         restaurant_name: 'Abcde Fghij',
-  //         restaurant_cnpj: '12.345.678/9991-99',
-  //         restaurant_address: '5678 Ijklmn Ij, Ijkmlno, IJ',
-  //         restaurant_telephone: '55 81 1111-1111',
-  //       })
-  //     );
-  //   });
+    and('lista de restaurante com nomes compatíveis deve ser retornada', () => {
+      let restaurant_list = response!.body;
+      expect(restaurant_list[0].restaurant_name).toBe('Pasteis Doces e Cia');
+    });
+  });
+  test('Deletar cadastro de restaurante', ({ given, when, then, and }) => {
+    given(/^acesso a rota "(.*)"$/, () => {
+      // não é necessário nenhum teste específico
+    });
 
-  //   test('Deletar cadastro de restaurante', ({ given, when, then, and }) => {
-  //     given('acesso a rota "/restaurant/"', () => {
-  //       // não é necessário nenhum teste específico
-  //     });
-  //     and('um restaurante está logado', async () => {
-  //       let newRestaurant = {
-  //         id: 'testIDloginlogout',
-  //         uuid: 'a257adef-dda8-53b7-aac1-3222c90d818a',
-  //         email: 'undecillion@example3.com',
-  //         password: '!securePassW999',
-  //         owner_name: 'Abcd Efgh',
-  //         owner_cpf: '123.126.789-40',
-  //         owner_address: '1234 Abcd Ab, Abcdefg, AB',
-  //         owner_telephone: '55 (81) 12345-6789',
-  //         restaurant_name: 'Abcde Fghij',
-  //         restaurant_cnpj: '12.345.678/9991-99',
-  //         restaurant_address: '5678 Ijklmn Ij, Ijkmlno, IJ',
-  //         restaurant_telephone: '55 81 1111-1111',
-  //       };
-  //       request.post('/restaurant/').send({ newRestaurant });
-  //       request.post('/restaurant/login/logout').send();
-  //       request.post('/restaurant/login').send({
-  //         email: newRestaurant.email,
-  //         password: newRestaurant.password,
-  //       });
-  //     });
+    when('requisção DELETE é efetuada', async () => {
+      fs.readFileSync(path.resolve(restaurants_path), 'utf8');
+      if (fs.existsSync(path.resolve(restaurants_path))) {
+        const emailTestDatabase = fs.readFileSync(
+          path.resolve(restaurants_path),
+          'utf8'
+        );
+        if (emailTestDatabase) {
+          let checkList = JSON.parse(emailTestDatabase);
+          checkList.push({
+            id: '123',
+            email: 'a@a.com',
+            password: '!@#$AAZZaazz1234',
+            owner_name: 'abcde',
+            owner_cpf: '123.456.789-00',
+            owner_address: 'edcba',
+            owner_telephone: '55 (81) 12345-6789',
+            restaurant_name: 'zyxwv',
+            restaurant_cnpj: '12.345.678/9123-99',
+            restaurant_address: '5678 aaaa',
+            restaurant_telephone: '99 99 1111-1111',
+          });
+          fs.writeFileSync(
+            path.resolve(restaurants_path),
+            JSON.stringify(checkList)
+          );
+        }
+      }
+      response = await request.delete('/restaurant/123');
+    });
 
-  //     when('requisção DELETE é efetuada', async () => {
-  //       response = await request.delete('/restaurant/');
-  //     });
+    then('o status code retornado deve ser 200', () => {
+      expect(response!.status).toBe(200);
+    });
 
-  //     then('o status code retornado deve ser 200', () => {
-  //       expect(response!.status).toBe(200);
-  //     });
-
-  //     and(
-  //       'a mensagem retornada deve ser "Restaurante deletado com sucesso!"',
-  //       () => {
-  //         expect(response!.body.message).toBe(
-  //           '"Restaurante deletado com sucesso!"'
-  //         );
-  //       }
-  //     );
-  //   });
-  // });
+    and(
+      'a mensagem retornada deve ser "Restaurante deletado com sucesso!"',
+      () => {
+        expect(response!.text).toBe('Restaurante deletado com sucesso!');
+      }
+    );
+  });
 });
