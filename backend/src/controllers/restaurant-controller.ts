@@ -4,11 +4,21 @@ import { v4 as uuidv4 } from 'uuid';
 import e, { Request, Response } from 'express';
 import { User, Restaurant } from './login_common_interfaces';
 
-const restaurants_json_path = './src/data/restaurants/restaurants.json';
-const userHandlingPath = './src/data/users/r_user_handling.json';
+const test_restaurants_json_path = './tests/controllers/tests_restaurant.json';
+const test_userHandlingPath = './tests/controllers/tests_r_user_handling.json';
+
+export function eraseTest_restaurants() {
+  fs.writeFileSync(
+    path.resolve(test_restaurants_json_path),
+    JSON.stringify([])
+  );
+}
+export function eraseTest_userHandling() {
+  fs.writeFileSync(path.resolve(test_userHandlingPath), JSON.stringify([]));
+}
 
 export const restaurantsSanityTest = (req: Request, res: Response): void => {
-  res.status(200).send('Restaurants route works!');
+  res.status(200).send('Rota funcional');
 };
 
 const measurePasswordStrength = (password: string): string => {
@@ -67,41 +77,40 @@ export const registerRestaurant = (req: Request, res: Response): void => {
     !restaurant_address ||
     !restaurant_telephone
   ) {
-    res.status(400).send('Missing required information');
+    res.status(400).send('Faltando informações obrigatórias');
     return;
   }
 
-  let restaurant_db: Restaurant[] = [];
-  try {
-    if (!fs.existsSync(path.resolve(restaurants_json_path))) {
-      fs.writeFileSync(path.resolve(restaurants_json_path), JSON.stringify([]));
-    } else {
-      const fileContent = fs.readFileSync(
-        path.resolve(restaurants_json_path),
-        'utf-8'
-      );
-      restaurant_db = fileContent ? JSON.parse(fileContent) : [];
+  let checkList: Restaurant[] = [];
+  if (fs.existsSync(path.resolve(test_restaurants_json_path))) {
+    const restaurantTextDatabase = fs.readFileSync(
+      path.resolve(test_restaurants_json_path),
+      'utf8'
+    );
+    if (restaurantTextDatabase) {
+      checkList = JSON.parse(restaurantTextDatabase);
     }
-  } catch (error) {
-    console.error('Error handling the restaurant database file:', error);
-    res.status(500).send('Internal server error');
-    return;
   }
 
-  const cnpj_match = restaurant_db.find(
+  const checkCNPJ = checkList.find(
     (restaurant: Restaurant) => restaurant.restaurant_cnpj === restaurant_cnpj
   );
-  const email_match = restaurant_db.find(
-    (restaurant: Restaurant) => restaurant.email === email
-  );
-
-  if (cnpj_match) {
+  if (checkCNPJ) {
     res.status(409).send('Empresa com mesmo CNPJ já cadastrada');
     return;
   }
-
-  if (email_match) {
+  const checkEmail = checkList.find(
+    (restaurant: Restaurant) => restaurant.email === email
+  );
+  if (checkEmail) {
     res.status(409).send('Restaurante de mesmo email já cadastrado');
+    return;
+  }
+
+  const passwordStrength = measurePasswordStrength(password);
+
+  if (passwordStrength === 'Weak') {
+    res.status(400).send('Senha fraca');
     return;
   }
 
@@ -120,80 +129,85 @@ export const registerRestaurant = (req: Request, res: Response): void => {
     items: [],
   };
 
-  restaurant_db.push(newRestaurant);
+  checkList.push(newRestaurant);
   fs.writeFileSync(
-    path.resolve(restaurants_json_path),
-    JSON.stringify(restaurant_db)
+    path.resolve(test_restaurants_json_path),
+    JSON.stringify(checkList, null, 2),
+    'utf8'
   );
 
-  res.status(200).send('Restaurante resgistrado com sucesso!');
+  res.status(201).send('Restaurante cadastrado com sucesso!');
   return;
 };
 
-export const getRestaurant = (req: Request, res: Response): void => {
-  fs.readFile(path.resolve(userHandlingPath), 'utf8', (err, data) => {
-    if (err) {
-      return res.status(500).json({ message: 'Server error' });
-    }
+// export const getRestaurant = (req: Request, res: Response): void => {
+//   fs.readFile(path.resolve(test_userHandlingPath), 'utf8', (err, data) => {
+//     if (err) {
+//       return res.status(500).json({ message: 'Server error' });
+//     }
 
-    const current_user_db: User[] = JSON.parse(data);
-    if (current_user_db.length === 0) {
-      return res.status(401).json({ message: 'No user logged in' });
-    }
+//     const current_user_db: User[] = JSON.parse(data);
+//     if (current_user_db.length === 0) {
+//       return res.status(401).json({ message: 'No user logged in' });
+//     }
 
-    fs.readFile(path.resolve(restaurants_json_path), 'utf8', (err, data) => {
-      if (err) {
-        return res.status(500).json({ message: 'Server error' });
-      }
+//     fs.readFile(
+//       path.resolve(test_restaurants_json_path),
+//       'utf8',
+//       (err, data) => {
+//         if (err) {
+//           return res.status(500).json({ message: 'Server error' });
+//         }
 
-      const registered_restaurants: Restaurant[] = JSON.parse(data);
-      const logged_restaurant = registered_restaurants.find(
-        (restaurant) => restaurant.email === current_user_db[0].email
-      );
+//         const registered_restaurants: Restaurant[] = JSON.parse(data);
+//         const logged_restaurant = registered_restaurants.find(
+//           (restaurant) => restaurant.email === current_user_db[0].email
+//         );
 
-      if (logged_restaurant) {
-        return res.status(200).json(logged_restaurant);
-      } else {
-        return res.status(404).json({ message: 'Restaurant not found' });
-      }
-    });
-  });
-};
+//         if (logged_restaurant) {
+//           return res.status(200).json(logged_restaurant);
+//         } else {
+//           return res.status(404).json({ message: 'Restaurant not found' });
+//         }
+//       }
+//     );
+//   });
+// };
 
-export const deleteRestaurant = (req: Request, res: Response): void => {
-  fs.readFile(path.resolve(userHandlingPath), 'utf8', (err, data) => {
-    if (err) {
-      return res.status(500).json({ message: 'Server error' });
-    }
+// export const deleteRestaurant = (req: Request, res: Response): void => {
+//   fs.readFile(path.resolve(test_userHandlingPath), 'utf8', (err, data) => {
+//     if (err) {
+//       return res.status(500).json({ message: 'Server error' });
+//     }
 
-    const current_user_db: User[] = JSON.parse(data);
-    if (current_user_db.length === 0) {
-      return res.status(401).json({ message: 'No user logged in' });
-    }
+//     const current_user_db: User[] = JSON.parse(data);
+//     if (current_user_db.length === 0) {
+//       return res.status(401).json({ message: 'No user logged in' });
+//     }
 
-    fs.readFile(path.resolve(restaurants_json_path), 'utf8', (err, data) => {
-      if (err) {
-        return res.status(500).json({ message: 'Server error' });
-      }
+//     fs.readFile(path.resolve(test_restaurants_json_path), 'utf8', (err, data) => {
+//       if (err) {
+//         return res.status(500).json({ message: 'Server error' });
+//       }
 
-      const registered_restaurants: Restaurant[] = JSON.parse(data);
-      const logged_restaurant = registered_restaurants.find(
-        (restaurant) => restaurant.email === current_user_db[0].email
-      );
+//       const registered_restaurants: Restaurant[] = JSON.parse(data);
+//       const logged_restaurant = registered_restaurants.find(
+//         (restaurant) => restaurant.email === current_user_db[0].email
+//       );
 
-      if (logged_restaurant) {
-        const new_restaurants = registered_restaurants.filter(
-          (restaurant) => restaurant.email !== current_user_db[0].email
-        );
-        fs.writeFileSync(
-          path.resolve(restaurants_json_path),
-          JSON.stringify(new_restaurants)
-        );
-        fs.writeFileSync(path.resolve(userHandlingPath), JSON.stringify([]));
-        return res.status(200).json({ message: 'Restaurant deleted' });
-      } else {
-        return res.status(404).json({ message: 'Restaurant not found' });
-      }
-    });
-  });
-};
+//       if (logged_restaurant) {
+//         const new_restaurants = registered_restaurants.filter(
+//           (restaurant) => restaurant.email !== current_user_db[0].email
+//         );
+//         fs.writeFileSync(
+//           path.resolve(test_restaurants_json_path),
+//           JSON.stringify(new_restaurants)
+//         );
+//         fs.writeFileSync(path.resolve(test_userHandlingPath), JSON.stringify([]));
+//         return res.status(200).json({ message: 'Restaurant deleted' });
+//       } else {
+//         return res.status(404).json({ message: 'Restaurant not found' });
+//       }
+//     });
+//   });
+// };
