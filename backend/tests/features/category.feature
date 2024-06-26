@@ -72,15 +72,15 @@ Scenario: Deletar categoria que não existe
 	And o retorno é a mensagem "Categoria não encontrada!"
 
 Scenario: Deletar categoria sem itens
-	Given banco de dados de categoria tem categoria com id '1' e nome 'Bebidas'
-    And banco de dados de itens tem item com id '1', id de restaurante '123', nome 'Brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce,Salgados' e imagem 'foto_brigadeiro'
+	Given banco de dados de categoria tem categoria com id '1' e nome 'Doce'
+    And banco de dados de itens tem item com id '1', active '0', id de restaurante '123', nome 'Brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce,Salgado' e imagem 'foto_brigadeiro'
 	When uma requisição DELETE for enviada para "/restaurant/menu/category/1"
 	Then o status da resposta retornada é "200"
 	And o retorno é a mensagem "Categoria deletada com sucesso!"
 
 Scenario: Deletar categoria com itens
-	Given banco de dados de categoria tem categoria com id '1' e nome 'Salgados'
-    And banco de dados de itens tem item com id '1', id de restaurante '123', nome 'Brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce,Salgados' e imagem 'foto_brigadeiro'
+	Given banco de dados de categoria tem categoria com id '1' e nome 'Salgado'
+    And banco de dados de itens tem item com id '1', active '1', id de restaurante '123', nome 'Brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce,Salgado' e imagem 'foto_brigadeiro'
 	When uma requisição DELETE for enviada para "/restaurant/menu/category/1"
 	Then o status da resposta retornada é "400"
 	And o retorno é a mensagem "Categoria com itens! Não pode ser deletada!"

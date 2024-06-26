@@ -1,19 +1,19 @@
 import { Router } from 'express';
-import { categoryGetAllJson, categoryGetById, categoryAddJson, categoryUpdateJson, categoryDeleteJson } from '../controllers/category.controller';
+import { categoryGetAll, categoryGetById, categoryAdd, categoryUpdate, categoryDelete } from '../controllers/category.controller';
 
 const categoryRouter = Router();
 
 //GET
-categoryRouter.get('/', categoryGetAllJson);
+categoryRouter.get('/', categoryGetAll);
 categoryRouter.get('/:id', categoryGetById);
 
 //POST
-categoryRouter.post('/', categoryAddJson);
+categoryRouter.post('/', categoryAdd);
 
 //PUT
-categoryRouter.put('/:id', categoryUpdateJson);
+categoryRouter.put('/:id', categoryUpdate);
 
 //DELET
-categoryRouter.delete('/:id', categoryDeleteJson);
+categoryRouter.delete('/:id', categoryDelete);
 
 export default categoryRouter;
