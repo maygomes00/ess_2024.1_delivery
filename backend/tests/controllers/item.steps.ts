@@ -21,9 +21,9 @@ defineFeature(feature, (test) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   test('Obter item por id', ({ given, when, then, and }) => {
-    given(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
     when(/^uma requisição GET for enviada para "(.*)"$/, async (url) => {
@@ -63,15 +63,38 @@ defineFeature(feature, (test) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  test('Adicionar item', ({ given, when, then, and }) => {
-    given(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+  test('Obter item que não é mais ativo por id', ({ given, when, then, and }) => {
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
-    and(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    when(/^uma requisição GET for enviada para "(.*)"$/, async (url) => {
+      response = await requisicao_get(url)
+    })
+
+    then(/^o status da resposta retornada é '(.*)'$/, (statusCode) => {
+      verifica_estado_esperado(response, statusCode)
+    })
+
+    and(/^retorna mensagem de erro '(.*)'$/,
+      (mensagem) => {
+        retorna_mensagem_erro(response, mensagem)
+    })
+  })
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  test('Adicionar item', ({ given, when, then, and }) => {
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
+    })
+
+    and(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem (.*)$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
     when(/^uma requisição POST for enviada para "(.*)" com os parametros id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/, 
@@ -83,23 +106,27 @@ defineFeature(feature, (test) => {
       verifica_estado_esperado(response, statusCode)
     })
 
-    and(/^item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
-      (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        item_esta_no_banco_de_dados(itemId, restId, nome, preco, descricao, categorias, imagem)
+    and(/^banco de dados tem '(.*)' itens$/, (n) => {
+      numero_itens_banco_de_dados(n)
+    })
+
+    and(/^item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
+      (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        item_esta_no_banco_de_dados(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
   })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   test('Tentar adicionar item sem preencher todas as informações', ({ given, when, then, and }) => {
-    given(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
-    and(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    and(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem (.*)$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
     when(/^uma requisição POST for enviada para "(.*)" com os parametros id de restaurante, nome, preco, descricao, categorias e imagem todos vazios$/, 
@@ -124,19 +151,9 @@ defineFeature(feature, (test) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   test('Remover item', ({ given, when, then, and }) => {
-    given(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
-    })
-
-    and(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
-    })
-
-    and(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
     when(/^uma requisição DELETE for enviada para "(.*)"$/, async (url) => {
@@ -147,14 +164,9 @@ defineFeature(feature, (test) => {
       verifica_estado_esperado(response, statusCode)
     })
 
-    and(/^item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
-      (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        item_esta_no_banco_de_dados(itemId, restId, nome, preco, descricao, categorias, imagem)
-    })
-
-    and(/^item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
-      (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        item_esta_no_banco_de_dados(itemId, restId, nome, preco, descricao, categorias, imagem)
+    and(/^item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
+      (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        item_esta_no_banco_de_dados(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
   })
 
@@ -182,10 +194,33 @@ defineFeature(feature, (test) => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  test('Remover item que não é mais ativo', ({ given, when, then, and }) => {
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
+    })
+
+    when(/^uma requisição DELETE for enviada para "(.*)"$/, 
+      async (url) => {
+        response = await requisicao_delete(url)
+    })
+
+    then(/^o status da resposta retornada é '(.*)'$/, (statusCode) => {
+      verifica_estado_esperado(response, statusCode)
+    })
+
+    and(/^retorna mensagem de erro '(.*)'$/,
+      (mensagem) => {
+        retorna_mensagem_erro(response, mensagem)
+    })
+  })
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   test('Editar informações de um item', ({ given, when, then, and }) => {
-    given(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
     when(/^uma requisição PUT for enviada para "(.*)" com os parametros id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/, 
@@ -197,9 +232,9 @@ defineFeature(feature, (test) => {
       verifica_estado_esperado(response, statusCode)
     })
 
-    and(/^item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
-      (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        item_esta_no_banco_de_dados(itemId, restId, nome, preco, descricao, categorias, imagem)
+    and(/^item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
+      (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        item_esta_no_banco_de_dados(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
   })
 
@@ -228,9 +263,9 @@ defineFeature(feature, (test) => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   test('Tentar editar informações de um item sem preencher todas as informações', ({ given, when, then, and }) => {
-    given(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
     when(/^uma requisição PUT for enviada para "(.*)" com os parametros id de restaurante, nome, preco, descricao, categorias e imagem todos vazios$/, 
@@ -242,9 +277,37 @@ defineFeature(feature, (test) => {
       verifica_estado_esperado(response, statusCode)
     })
 
-    and(/^item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
-      (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        item_esta_no_banco_de_dados(itemId, restId, nome, preco, descricao, categorias, imagem)
+    and(/^retorna mensagem de erro '(.*)'$/,
+      (mensagem) => {
+        retorna_mensagem_erro(response, mensagem)
+    })
+
+    and(/^item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)' está no banco de dados$/, 
+      (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        item_esta_no_banco_de_dados(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
+    })
+  })
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  test('Editar informações de um item que não é mais ativo', ({ given, when, then, and }) => {
+    given(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
+    })
+
+    when(/^uma requisição PUT for enviada para "(.*)" com os parametros id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/, 
+      async (url, restId, nome, preco, descricao, categorias, imagem) => {
+        response = await requisicao_put(url, restId, nome, preco, descricao, categorias, imagem)
+    })
+
+    then(/^o status da resposta retornada é '(.*)'$/, (statusCode) => {
+      verifica_estado_esperado(response, statusCode)
+    })
+
+    and(/^retorna mensagem de erro '(.*)'$/,
+      (mensagem) => {
+        retorna_mensagem_erro(response, mensagem)
     })
   })
 
@@ -256,14 +319,19 @@ defineFeature(feature, (test) => {
         garante_banco_de_dados_tem_retaurante(restId)
     })
 
-    and(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    and(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem (.*)$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
-    and(/^banco de dados tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restId, nome, preco, descricao, categorias, imagem) => {
-        garante_banco_de_dados_tem_item(itemId, restId, nome, preco, descricao, categorias, imagem)
+    and(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem (.*)$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
+    })
+
+    and(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem (.*)$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
     })
 
     when(/^uma requisição GET for enviada para "(.*)"$/, async (url) => {
@@ -280,6 +348,10 @@ defineFeature(feature, (test) => {
 
     and(/^retorna lista que contem item com id '(\d+)' e id de restaurante '(\d+)'$/, (itemId, restId) => {
       retorna_lista_que_contem_item(response, itemId, restId)
+    })
+
+    and(/^retorna lista que não contem item com id '(\d+)' e id de restaurante '(\d+)'$/, (itemId, restId) => {
+      item_nao_ta_na_lista(response, itemId, restId)
     })
   });
 
@@ -302,7 +374,34 @@ defineFeature(feature, (test) => {
     and(/^retorna lista vazia$/,
       () => {
       retorna_lista_vazia(response)
-    });
+    })
+  })
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  test('Tentar obter os itens de um restaurante que só tem item que não é mais ativo', ({ given, when, then, and }) => {
+    given(/^restaurante de id '(.*)' existe no banco de dados$/,
+      async (restId) => {
+        garante_banco_de_dados_tem_retaurante(restId)
+    })
+
+    and(/^banco de dados tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem (.*)$/,
+      async (itemId, ativo, restId, nome, preco, descricao, categorias, imagem) => {
+        garante_banco_de_dados_tem_item(itemId, ativo, restId, nome, preco, descricao, categorias, imagem)
+    })
+
+    when(/^uma requisição GET for enviada para "(.*)"$/, async (url) => {
+      response = await requisicao_get(url)
+    })
+
+    then(/^o status da resposta retornada é '(.*)'$/, (statusCode) => {
+      verifica_estado_esperado(response, statusCode)
+    })
+
+    and(/^retorna lista vazia$/,
+      () => {
+      retorna_lista_vazia(response)
+    })
   })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -312,8 +411,8 @@ defineFeature(feature, (test) => {
 
 // Funções das ações dos testes:
 // - Givens:
-function garante_banco_de_dados_tem_item(itemId: any, restId: any, nome: any, preco: any, descricao: any, categorias: any, imagem: any) {
-  const item = {id: itemId, restaurant_id: restId, name: nome, price: preco, description: descricao, categories: categorias, image64: imagem} 
+function garante_banco_de_dados_tem_item(itemId: any, ativo: any, restId: any, nome: any, preco: any, descricao: any, categorias: any, imagem: any) {
+  const item = {id: itemId, active: ativo, restaurant_id: restId, name: nome, price: preco, description: descricao, categories: categorias, image64: imagem}
   item_controller.push_item_data(item)
 }
 
@@ -376,11 +475,11 @@ function retorna_mensagem_erro(response: any, mensagem: any){
   }
 }
 
-function item_esta_no_banco_de_dados(itemId: any, restId: any, nome: any, preco: any, descricao: any, categorias: any, imagem: any) {
-  const item = {id: itemId, restaurant_id: restId, name: nome, price: preco, description: descricao, categories: categorias, image64: imagem} 
+function item_esta_no_banco_de_dados(itemId: any, ativo: any, restId: any, nome: any, preco: any, descricao: any, categorias: any, imagem: any) {
+  const item = {id: itemId, active: ativo, restaurant_id: restId, name: nome, price: preco, description: descricao, categories: categorias, image64: imagem}
   const data = item_controller.get_itens_database()
-  const resultado = data.filter((element: {id: any, restaurant_id: any, name: any, price: any, description: any, categories:any, image64: any}) =>
-    element.id == itemId && element.restaurant_id == restId && element.name == nome && element.price == preco &&
+  const resultado = data.filter((element: {id: any, active: any, restaurant_id: any, name: any, price: any, description: any, categories:any, image64: any}) =>
+    element.id == itemId && element.active == ativo && element.restaurant_id == restId && element.name == nome && element.price == preco &&
     element.description == descricao && element.categories == categorias && element.image64 == imagem)
   expect(resultado.length).toBe(1)
   expect(resultado[0]).toEqual(item);
@@ -396,6 +495,18 @@ function retorna_lista_que_contem_item(response: any, itemId: any, restId: any) 
     const list_with_item = response_list.filter((element: {id: any, restaurant_id: any}) =>
       element.id == itemId && element.restaurant_id == restId)
     expect(list_with_item.length).toBe(1)
+  }
+  else {
+    fail('response is null')
+  }
+}
+
+function item_nao_ta_na_lista(response: any, itemId: any, restId: any) {
+  if (response != null){
+    const response_list = response.body
+    const list_with_item = response_list.filter((element: {id: any, restaurant_id: any}) =>
+      element.id == itemId && element.restaurant_id == restId)
+    expect(list_with_item.length).toBe(0)
   }
   else {
     fail('response is null')
