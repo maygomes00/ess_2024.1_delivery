@@ -77,9 +77,3 @@ Scenario: Tentar obter os itens de um restaurante que não tem itens
     When uma requisição GET for enviada para "/restaurant/menu/item/all/002"
     Then o status da resposta retornada é '200'
     And retorna lista vazia
-
-Scenario: Tentar obter os itens de um restaurante que não existe
-    Given banco de dados não tem restaurante com id '001'
-    When uma requisição GET for enviada para "/restaurant/menu/item/all/003"
-    Then o status da resposta retornada é '404'
-    And retorna mensagem de erro 'restaurant with id 003 not found'

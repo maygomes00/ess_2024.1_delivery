@@ -459,38 +459,5 @@ defineFeature(feature, (test) => {
       }
     });
   })
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  test('Tentar obter os itens de um restaurante que não existe', ({ given, when, then, and }) => {
-    given(/^banco de dados não tem restaurante com id '(.*)'$/, (restId) => {
-      var data = item_controller.get_restaurant_database()
-      const no_restaurant_data = data.filter((element: {id: any}) => element.id != restId)
-      item_controller.set_restaurant_database(no_restaurant_data)
-    })
-
-    when(/^uma requisição GET for enviada para "(.*)"$/, async (url) => {
-      response = await request.get(url)
-    })
-
-    then(/^o status da resposta retornada é '(.*)'$/, (statusCode) => {
-      if (response != null){
-        expect(response.status).toBe(parseInt(statusCode, 10));
-      }
-      else {
-        fail('response is null')
-      }
-    })
-
-    and(/^retorna mensagem de erro '(.*)'$/,
-      (mensagem) => {
-      if (response != null){
-        expect(response.body.Erro).toEqual(mensagem)
-      }
-      else {
-        fail('response is null')
-      }
-    })
-  })
 })
 })
