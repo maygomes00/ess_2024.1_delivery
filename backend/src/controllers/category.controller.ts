@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 import TestRepository from '../repositories/test.repository';
+import {ItemData} from '../../src/types/types';
 
 interface Category {
   id: string;
@@ -14,9 +15,9 @@ interface Item {
   id: string;
   restaurant_id: string;
   name: string;
-  price: string;
-  description: string;
-  categories: string;
+  preco: string;
+  descricao: string;
+  categorias: string;
   image: string;
 }
 
@@ -27,15 +28,20 @@ const categoryFilePath = path.resolve('./src/data/categories/categories.json');
 const itemFilePath = path.resolve('./src/data/itens/itens.json');
 
 // Função para ler e analisar JSON de um arquivo
-const readJsonFile = (filePath: string) => {
+export const readJsonFile = <T>(filePath: string): T => {
   const fileContent = fs.readFileSync(filePath, 'utf-8');
-  return JSON.parse(fileContent);
+  return JSON.parse(fileContent) as T;
 };
 
-// Função para escrever JSON em um arquivo
-const writeJsonFile = (filePath: string, data: { categorias: Category[] }): void => {
+export const writeJsonFile = (filePath: string, data: { categorias: Category[] }): void => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 };
+
+// Função para escrever arquivos JSON para itens
+export const writeItemJsonFile = (filePath: string, data: ItemData): void => {
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+};
+
 
 const getNextCategoryId = (categories: Category[]): string => {
   const maxId = categories.reduce((max, category) => {
@@ -57,15 +63,15 @@ const handleError = (error: unknown, res: Response, message: string) => {
   });
 };
 
-export const categoryGetAllJson = async (req: Request, res: Response): Promise<void> => {
+export const categoryGetAll = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!fs.existsSync(categoryFilePath)) {
-      console.log("File not found:", categoryFilePath);
-      res.status(404).json({ error: "File not found" });
+      console.log("Arquivo não encontrado:", categoryFilePath);
+      res.status(404).json({ error: "Arquivo não encontrado" });
       return;
     }
 
-    const data = readJsonFile(categoryFilePath);
+    const data: { categorias: Category[] } = readJsonFile(categoryFilePath);
 
     if (!data.categorias) {
       console.log('Categoria vazia!');
@@ -73,7 +79,7 @@ export const categoryGetAllJson = async (req: Request, res: Response): Promise<v
       return;
     }
 
-    res.status(200).json(data);
+    res.status(200).json(data.categorias);
   } catch (error) {
     handleError(error, res, "Erro em categoryGetAllJson:");
   }
@@ -97,7 +103,7 @@ export const categoryGetById = async (req: Request, res: Response): Promise<void
   }
 };
 
-export const categoryAddJson = async (req: Request, res: Response): Promise<void> => {
+export const categoryAdd = async (req: Request, res: Response): Promise<void> => {
   try {
     const nomeCategory = req.body.name?.trim(); // Obtém o nome da categoria e remove espaços em branco
 
@@ -140,12 +146,12 @@ export const categoryAddJson = async (req: Request, res: Response): Promise<void
   }
 };
 
-export const categoryUpdateJson = async (req: Request, res: Response): Promise<void> => {
+export const categoryUpdate = async (req: Request, res: Response): Promise<void> => {
   try {
     const data: { categorias: Category[] } = readJsonFile(categoryFilePath);
 
     const categoryId = req.params.id;
-    const newName = req.body.nome;
+    const newName = req.body.name;
 
     if (!newName || newName.trim().length === 0) {
       res.status(400).json({ error: "Nome da categoria não pode ser vazio!" });
@@ -177,21 +183,20 @@ export const categoryUpdateJson = async (req: Request, res: Response): Promise<v
   }
 };
 
-export const categoryDeleteJson = async (req: Request, res: Response): Promise<void> => {
+export const categoryDelete = async (req: Request, res: Response): Promise<void> => {
   try {
     const categoryId = req.params.id;
 
     if (!fs.existsSync(categoryFilePath)) {
-      console.log("Arquivo de categoria não encontrado:", categoryFilePath);
       res.status(404).json({ error: "Categoria não encontrada!" });
       return;
     }
 
-    const categoryData: { categorias: Category[] } = readJsonFile(categoryFilePath);
+    // Lê o arquivo de categorias
+    const categoryData = readJsonFile<{ categorias: Category[] }>(categoryFilePath);
     const categoryIndex = categoryData.categorias.findIndex(category => category.id === categoryId);
 
     if (categoryIndex === -1) {
-      console.log("Categoria não encontrada com ID:", categoryId);
       res.status(404).json({ error: "Categoria não encontrada!" });
       return;
     }
@@ -199,16 +204,30 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
     const categoryName = categoryData.categorias[categoryIndex].nome;
 
     if (!fs.existsSync(itemFilePath)) {
-      console.log("Arquivo de itens não encontrado:", itemFilePath);
       res.status(404).json({ error: "Arquivo de itens não encontrado!" });
       return;
     }
 
-    const itemData: Item[] = readJsonFile(itemFilePath);
+    // Lê o arquivo de itens
+    let itemData: { itens: Item[] } = { itens: [] };
+    if (fs.existsSync(itemFilePath)) {
+      itemData = readJsonFile<{ itens: Item[] }>(itemFilePath);
+    }
 
-    const hasItemsInCategory = itemData.some(item => {
-      const itemCategories = item.categories.split(',').map(cat => cat.trim());
-      return itemCategories.includes(categoryName);
+    // Garantir que itemData.itens é uma matriz
+    if (!Array.isArray(itemData.itens)) {
+      res.status(500).json({ error: "Erro interno do servidor" });
+      return;
+    }
+
+    // Verifica se há itens na categoria a ser deletada
+    const hasItemsInCategory = itemData.itens.some(item => {
+      // Verifica se item.categorias é um array
+      if (Array.isArray(item.categorias)) {
+        return item.categorias.includes(categoryName);
+      } else {
+        return false; // Ou ajuste para lidar com o formato esperado
+      }
     });
 
     if (hasItemsInCategory) {
@@ -216,10 +235,12 @@ export const categoryDeleteJson = async (req: Request, res: Response): Promise<v
       return;
     }
 
+    // Remove a categoria do array de categorias
     categoryData.categorias = categoryData.categorias.filter(category => category.id !== categoryId);
 
+    // Escreve os dados atualizados de volta no arquivo JSON
     writeJsonFile(categoryFilePath, categoryData);
-    console.log("Categoria deletada com sucesso!");
+
     res.status(200).json({ message: "Categoria deletada com sucesso!" });
   } catch (error) {
     handleError(error, res, "Erro em categoryDeleteJson:");
