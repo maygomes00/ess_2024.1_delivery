@@ -19,7 +19,7 @@ Scenario: Obter item que não é mais ativo por id
     Given banco de dados tem item com id '1', active '0', id de restaurante '123', nome 'Brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce' e imagem 'foto_brigadeiro'
     When uma requisição GET for enviada para "/restaurant/menu/item/1"
     Then o status da resposta retornada é '400'
-    And retorna mensagem de erro 'item is deactivated'
+    And retorna mensagem de erro 'item with id 1 is deactivated'
 
 Scenario: Adicionar item
     Given banco de dados tem item com id '0', active '1', id de restaurante '567', nome 'Suco', preco '3.25', descricao 'Suco tropical', categorias 'Bebida' e imagem 'foto_suco'
@@ -53,7 +53,7 @@ Scenario: Remover item que não é mais ativo
 	Given banco de dados tem item com id '0', active '0', id de restaurante '567', nome 'Suco', preco '3.25', descricao 'Suco tropical', categorias 'Bebida' e imagem 'foto_suco'
     When uma requisição DELETE for enviada para "/restaurant/menu/item/0"
     Then o status da resposta retornada é '400'
-    And retorna mensagem de erro 'item is already deactivated'
+    And retorna mensagem de erro 'item with id 0 is already deactivated'
 
 Scenario: Editar informações de um item
     Given banco de dados tem item com id '1', active '1', id de restaurante '123', nome 'Brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce' e imagem 'foto_brigadeiro'
@@ -78,7 +78,7 @@ Scenario: Editar informações de um item que não é mais ativo
     Given banco de dados tem item com id '1', active '0', id de restaurante '123', nome 'Brigadeiro', preco '1.00', descricao 'Brigadeiro normal', categorias 'Doce' e imagem 'foto_brigadeiro'
     When uma requisição PUT for enviada para "/restaurant/menu/item/1" com os parametros id de restaurante '123', nome 'brigadeiro premium', preco '3.00', descricao 'Melhor que um brigadeiro normal', categorias 'Doce,Mais vendidos' e imagem 'foto_brigadeiro_premium'
     Then o status da resposta retornada é '400'
-    And retorna mensagem de erro 'item is deactivated'
+    And retorna mensagem de erro 'item with id 1 is deactivated'
 
 Scenario: Obter todos os itens de um restaurante
     Given restaurante de id '001' existe no banco de dados
