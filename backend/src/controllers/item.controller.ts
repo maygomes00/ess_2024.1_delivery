@@ -65,9 +65,16 @@ export default class ItemController {
         const requested_id = req.params.itemId
     
         // Verifica se tem um item com o id especificado:
-        if (!(this.id_exists(parser, requested_id, res))) {
+        if (!(this.id_exists(parser, requested_id))) {
             console.log(`Erro: item with id ${requested_id} not found`)
             res.status(404).json({Erro: `item with id ${requested_id} not found`})
+            return
+        }
+
+        // Verifica se o item é ativo ou não:
+        if (!(this.is_active(parser, requested_id))) {
+            console.log(`Erro: item with id ${requested_id} is deactivated`)
+            res.status(400).json({Erro: `item with id ${requested_id} is deactivated`})
             return
         }
         
@@ -119,6 +126,7 @@ export default class ItemController {
             // Adiciona as informações do item a lista de dados:
             data.push({
                 id: JSON.stringify(new_id),
+                active: '1',
                 restaurant_id: req.body.restaurant_id,
                 name: req.body.name,
                 price: req.body.price,
@@ -150,17 +158,24 @@ export default class ItemController {
             const requested_id = req.params.itemId
     
             // Verifica se o item com o id especificado exista:
-            if (!this.id_exists(data, requested_id, res)) {
+            if (!this.id_exists(data, requested_id)) {
                 console.log(`Erro: item with id ${requested_id} not found`)
                 res.status(404).json({Erro: `item with id ${requested_id} not found`})
                 return
             }
+
+            // Verifica se o item é ativo ou não:
+            if (!(this.is_active(data, requested_id))) {
+                console.log(`Erro: item with id ${requested_id} is already deactivated`)
+                res.status(400).json({Erro: `item with id ${requested_id} is already deactivated`})
+                return
+            }
     
-            // Elimina item com id especificado:
-            data = data.filter((element: { id: any }) => element.id != requested_id)
-    
-            // Atualiza id dos itens:
-            data = this.update_itens_id(data)
+            // guarda indice do item que vai ser desativado:
+            const index = data.findIndex((element: { id: any }) => element.id == requested_id)
+
+            // Muda status de ativo para desativado:
+            data[index].active = '0'
     
             // Guarda dos dados no banco de dados de itens:
             this.set_itens_database(data)
@@ -182,12 +197,19 @@ export default class ItemController {
             const requested_id = req.params.itemId
     
             // Verifica se o item com o id especificado exista:
-            if (!this.id_exists(data, requested_id, res)) {
+            if (!this.id_exists(data, requested_id)) {
                 console.log(`Erro: item with id ${requested_id} not found`)
                 res.status(404).json({Erro: `item with id ${requested_id} not found`})
                 return
             }
-    
+            
+            // Verifica se o item é ativo ou não:
+            if (!(this.is_active(data, requested_id))) {
+                console.log(`Erro: item with id ${requested_id} is deactivated`)
+                res.status(400).json({Erro: `item with id ${requested_id} is deactivated`})
+                return
+            }
+
             // Verifica se as informações recebidas estão no formato correto e completas.
             if (!this.verify_info(req, res)){
                 return
@@ -212,6 +234,7 @@ export default class ItemController {
             // Atualiza dados do item:
             data[index] = {
                 id: requested_id,
+                active: '1',
                 restaurant_id: req.body.restaurant_id,
                 name: req.body.name,
                 price: req.body.price,
@@ -245,7 +268,7 @@ export default class ItemController {
             const restaurant_database = this.get_restaurant_database()
             
             // Filtra dos dados pegando apenas aquele com o restaurant_id igual ao especificado:
-            var restaurant_itens = itens_database.filter((element: {restaurant_id: any}) => element.restaurant_id == requested_id)
+            var restaurant_itens = itens_database.filter((element: {active: any, restaurant_id: any}) => element.active == '1' && element.restaurant_id == requested_id)
             
             // Verifica se o restaurante tem algum item:
             if (restaurant_itens.length < 1) {
@@ -379,14 +402,19 @@ export default class ItemController {
         return item_data
     }
 
-    private id_exists(data_item: any, id: String, res: any): Boolean {
+    private id_exists(data_item: any, id: String): Boolean {
         const id_data1 = data_item.filter((element: { id: any }) => element.id == id)
         return (id_data1.length > 0)
     }
 
-    private id_exists_rest(data_rest: any, id: String, res: any): Boolean {
+    private id_exists_rest(data_rest: any, id: String): Boolean {
         const id_data2 = data_rest.filter((element: { id: any }) => element.id == id)
         return (id_data2.length > 0)
+    }
+
+    private is_active(data_item: any, id: String) {
+        const item_list = data_item.filter((element: { id: any }) => element.id == id)
+        return item_list[0].active == '1'
     }
 
 // Funções de verificações de dados:
