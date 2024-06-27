@@ -5,13 +5,13 @@ import path from 'path';
 import { di } from '../../src/di';
 import CategoryRepository from '../../src/repositories/category.repository';
 import { resetDatabase } from '../../src/helpers/resetDatabase'; 
-import { readJsonFile, writeJsonFile, writeItemJsonFile } from '../../src/controllers/category.controller'; // Importe readJsonFile e writeJsonFile aqui
-import { Item, ItemData} from '../../src/types/types'; // Importe os tipos aqui
+import { readJsonFile, writeJsonFile, writeItemJsonFile } from '../../src/controllers/category.controller';
+import { Item} from '../../src/types/types'; 
 
 const feature = loadFeature('tests/features/category.feature');
 const request = supertest(app);
 const categoryFilePath = path.resolve(__dirname, '../../src/data/categories/categories.json');
-const itemFilePath = path.resolve(__dirname, '../../src/data/itens/itens.json'); // Variável para o caminho dos itens
+const itemFilePath = path.resolve(__dirname, '../../src/data/itens/itens.json'); 
 
 defineFeature(feature, (test) => {
   let mockCategoryRepository: CategoryRepository;
@@ -143,7 +143,6 @@ defineFeature(feature, (test) => {
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         categoriaId = id;
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
@@ -155,7 +154,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição PUT for enviada para '(.*)' com o parâmetro nome '(.*)'$/,
       async (url, novoNome) => {
-        // Enviar a requisição PUT para atualizar o nome da categoria
         response = await request.put(url).send({ name: novoNome });
       }
     );
@@ -170,7 +168,6 @@ defineFeature(feature, (test) => {
     and(
       /^categoria com id '(.*)' e nome '(.*)' está no banco de dados$/,
       (id, novoNome) => {
-        // Verificar se a categoria foi atualizada no banco de dados
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
         const categoriaEncontrada = data.categorias.find(cat => cat.id === id && cat.nome === novoNome);
         expect(categoriaEncontrada).toBeTruthy();
@@ -184,7 +181,6 @@ defineFeature(feature, (test) => {
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         categoriaId = id;
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
@@ -196,7 +192,6 @@ defineFeature(feature, (test) => {
     when(
       /^realizar uma requisição PUT for enviada para "(.*)"$/,
       async (url, novoNome) => {
-        // Enviar a requisição PUT para a URL fornecida
         response = await request.put(url).send({ name: novoNome });
       }
     );
@@ -220,7 +215,6 @@ defineFeature(feature, (test) => {
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
         data.categorias.push(categoria);
@@ -231,7 +225,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição PUT for enviada para "(.*)" com o parâmetro nome '(.*)'$/,
       async (url, novoNome) => {
-        // Enviar a requisição PUT para atualizar o nome da categoria
         response = await request.put(url).send({ name: novoNome });
       }
     );
@@ -255,7 +248,6 @@ defineFeature(feature, (test) => {
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a primeira categoria no banco de dados
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
         data.categorias.push(categoria);
@@ -266,7 +258,6 @@ defineFeature(feature, (test) => {
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a segunda categoria no banco de dados
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
         data.categorias.push(categoria);
@@ -277,7 +268,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição PUT for enviada para "(.*)" com o parâmetro nome '(.*)'$/,
       async (url, novoNome) => {
-        // Enviar a requisição PUT para atualizar o nome da categoria
         response = await request.put(url).send({ name: novoNome });
       }
     );
@@ -303,7 +293,6 @@ defineFeature(feature, (test) => {
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
         data.categorias.push(categoria);
@@ -314,7 +303,6 @@ defineFeature(feature, (test) => {
     and(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a segunda categoria no banco de dados
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
         data.categorias.push(categoria);
@@ -325,7 +313,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição GET for enviada para "(.*)"$/,
       async (url) => {
-        // Enviar a requisição GET para obter todas as categorias
         response = await request.get(url);
       }
     );
@@ -360,14 +347,13 @@ defineFeature(feature, (test) => {
       }
     );
   });
-  /////////////////////////////////
+
   test('Obter categoria pelo Id', ({ given, when, then, and }) => {
     let categoriaId: string;
   
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         categoriaId = id;
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
@@ -379,7 +365,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição GET for enviada para "(.*)"$/,
       async (url) => {
-        // Enviar a requisição GET para obter a categoria pelo Id
         response = await request.get(`${url}/${categoriaId}`);
       }
     );
@@ -398,14 +383,13 @@ defineFeature(feature, (test) => {
       }
     );
   });
- //////////////////////////////////
+
   test('Tentar Obter categoria com Id inexistente', ({ given, when, then, and }) => {
     let categoriaId: string;
   
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         categoriaId = id;
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
@@ -417,7 +401,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição GET for enviada para "(.*)"$/,
       async (url) => {
-        // Enviar a requisição GET para obter a categoria pelo Id inexistente
         response = await request.get(`${url}/10`);
       }
     );
@@ -438,7 +421,6 @@ defineFeature(feature, (test) => {
   });
 
 /////////////////////////////// DELETE TESTS
-
  
   test('Deletar categoria que não existe', ({ given, when, then, and }) => {
     let categoriaId: string;
@@ -446,7 +428,6 @@ defineFeature(feature, (test) => {
     given(
       /^banco de dados tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         categoriaId = id;
         const categoria = { id: id, nome: nome, restauranteId: 'restaurante-1', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
@@ -458,7 +439,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição DELETE for enviada para "(.*)"$/,
       async (url) => {
-        // Enviar a requisição DELETE para deletar a categoria com Id inexistente
         response = await request.delete(`${url}/10`);
       }
     );
@@ -479,12 +459,11 @@ defineFeature(feature, (test) => {
   });
   
   test('Deletar categoria sem itens', ({ given, when, then, and }) => {
-    let categoriaId: string;
+    let response: supertest.Response;
 
     given(
       /^banco de dados de categoria tem categoria com id '(.*)' e nome '(.*)'$/,
       async (id, nome) => {
-        // Simular adicionar a categoria no banco de dados
         const categoria = { id: id, nome: nome, restauranteId: '123', temItens: false };
         const data: { categorias: { id: string; nome: string; restauranteId: string; temItens: boolean; }[] } = readJsonFile(categoryFilePath);
         data.categorias.push(categoria);
@@ -493,19 +472,19 @@ defineFeature(feature, (test) => {
     );
 
     and(
-      /^banco de dados de itens tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restauranteId, nomeItem, precoItem, descricaoItem, categoriasItem, imagemItem) => {
+      /^banco de dados de itens tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, active, restauranteId, nomeItem, precoItem, descricaoItem, categoriasItem, imagemItem) => {
         const item: Item = {
           id: itemId,
+          active: active,
           restauranteId: restauranteId,
           nome: nomeItem,
           preco: precoItem,
           descricao: descricaoItem,
           categorias: categoriasItem.split(','),
-          imagem: imagemItem
+          imagem: imagemItem,
         };
-        const data: ItemData = readJsonFile<ItemData>(itemFilePath);
-        data.itens = data.itens || [];
+        const data: { itens: Item[] } = readJsonFile(itemFilePath);
         data.itens.push(item);
         writeItemJsonFile(itemFilePath, data);
       }
@@ -514,7 +493,6 @@ defineFeature(feature, (test) => {
     when(
       /^uma requisição DELETE for enviada para "(.*)"$/,
       async (url) => {
-        // Enviar a requisição DELETE para deletar a categoria com Id especificado
         response = await request.delete(url);
       }
     );
@@ -522,14 +500,14 @@ defineFeature(feature, (test) => {
     then(
       /^o status da resposta retornada é "(.*)"$/,
       (statusCode: string) => {
-        expect(response!.status).toBe(parseInt(statusCode, 10));
+        expect(response.status).toBe(parseInt(statusCode, 10));
       }
     );
 
     and(
       /^o retorno é a mensagem "(.*)"$/,
       (mensagem: string) => {
-        expect(response!.body.message).toBe(mensagem);
+        expect(response.body.message).toBe(mensagem);
       }
     );
   });
@@ -548,16 +526,17 @@ defineFeature(feature, (test) => {
     );
 
     and(
-      /^banco de dados de itens tem item com id '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
-      async (itemId, restauranteId, nomeItem, precoItem, descricaoItem, categoriasItem, imagemItem) => {
+      /^banco de dados de itens tem item com id '(.*)', active '(.*)', id de restaurante '(.*)', nome '(.*)', preco '(.*)', descricao '(.*)', categorias '(.*)' e imagem '(.*)'$/,
+      async (itemId, active, restauranteId, nomeItem, precoItem, descricaoItem, categoriasItem, imagemItem) => {
         const item: Item = {
           id: itemId,
+          active: active,
           restauranteId: restauranteId,
           nome: nomeItem,
           preco: precoItem,
           descricao: descricaoItem,
           categorias: categoriasItem.split(','),
-          imagem: imagemItem
+          imagem: imagemItem,
         };
         const data: { itens: Item[] } = readJsonFile(itemFilePath);
         data.itens.push(item);

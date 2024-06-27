@@ -12,6 +12,7 @@ interface Category {
 }
 
 interface Item {
+  active: string;
   id: string;
   restaurant_id: string;
   name: string;
@@ -220,13 +221,13 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
       return;
     }
 
-    // Verifica se há itens na categoria a ser deletada
+    // Verifica se há itens ativos na categoria a ser deletada
     const hasItemsInCategory = itemData.itens.some(item => {
-      // Verifica se item.categorias é um array
-      if (Array.isArray(item.categorias)) {
+      // Verifica se o item está ativo e se a categoria está no item
+      if (item.active === '1' && Array.isArray(item.categorias)) {
         return item.categorias.includes(categoryName);
       } else {
-        return false; // Ou ajuste para lidar com o formato esperado
+        return false;
       }
     });
 

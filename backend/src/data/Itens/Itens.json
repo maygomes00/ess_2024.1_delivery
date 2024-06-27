@@ -1,3 +1,16 @@
-[
-  
-]
+{
+  "itens": [
+    {
+      "id": "1",
+      "restauranteId": "123",
+      "nome": "Brigadeiro",
+      "preco": "1.00",
+      "descricao": "Brigadeiro normal",
+      "categorias": [
+        "Doce",
+        "Salgados"
+      ],
+      "imagem": "foto_brigadeiro"
+    }
+  ]
+}
