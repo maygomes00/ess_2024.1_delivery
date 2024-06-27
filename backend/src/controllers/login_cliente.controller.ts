@@ -1,3 +1,6 @@
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { sendEmail } from '../services/email.service';
 import { Request, Response } from 'express';
 import session from 'express-session';
 import fs from 'fs';
