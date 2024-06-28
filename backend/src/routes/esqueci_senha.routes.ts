@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { forgotPassword, resetPassword } from '../controllers/esqueci_senha.controller';
+import { forgotPassword, resetPassword } from '../controllers/esqueci_senha_cliente.controller';
 
 const senhaRouter = Router();
 

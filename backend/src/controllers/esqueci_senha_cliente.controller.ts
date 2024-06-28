@@ -58,7 +58,7 @@ interface User {
   
       const resetUrl = `http://localhost:5001/reset-password/${token}`;
   
-      sendEmail(user.email, 'ESS_Delivery | Alteração de Senha', `Você está recebendo este e-mail, porque você solcitou recuperação de sua senhao para acessar sua conta.\n\nPor favor, clique no link a seguir ou cole-o em seu navegado favorito para completar o processo:\n${resetUrl}\n\nSe você não realizou esta solicitação, por favor ignore este e-mail e sua senha será mantida.\n`);
+      sendEmail(user.email, 'ESS_Delivery | Alteração de Senha', `Você está recebendo este e-mail, porque você solcitou recuperação de sua senha para acessar sua conta.\n\nPor favor, clique no link a seguir ou cole-o em seu navegado favorito para completar o processo:\n${resetUrl}\n\nSe você não realizou esta solicitação, por favor ignore este e-mail e sua senha será mantida.\n`);
   
       res.json({ msg: 'Password reset link sent to your email', msgCode: 'success', code: 200 });
     } catch (error) {
