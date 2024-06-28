@@ -53,12 +53,3 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: 'Server error' });
   }
 };
-
-export const logout = (req: Request, res: Response) => {
-  if (currentUser) {
-    currentUser = null;
-    return res.status(200).json({ message: 'Logout successful' });
-  } else {
-    return res.status(400).json({ message: 'No user is logged in' });
-  }
-};
