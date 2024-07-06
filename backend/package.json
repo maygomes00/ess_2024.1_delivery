@@ -34,7 +34,6 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
-    "@types/jest": "^29.5.0",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/express-session": "^1.18.0",
     "@types/fuzzy-search": "^2.1.5",
