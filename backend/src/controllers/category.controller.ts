@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
-import TestRepository from '../repositories/test.repository';
+import CategoryRepository from '../repositories/category.repository';
 import {ItemData} from '../../src/types/types';
 
 interface Category {
@@ -22,7 +22,7 @@ interface Item {
   image: string;
 }
 
-const testRepository = new TestRepository();
+const testRepository = new CategoryRepository();
 
 // Caminhos dos arquivos JSON
 const categoryFilePath = path.resolve('./src/data/categories/categories.json');
@@ -223,12 +223,11 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
 
     // Verifica se há itens ativos na categoria a ser deletada
     const hasItemsInCategory = itemData.itens.some(item => {
-      // Verifica se o item está ativo e se a categoria está no item
-      if (item.active === '1' && Array.isArray(item.categorias)) {
-        return item.categorias.includes(categoryName);
-      } else {
-        return false;
+      if (item.active === '1') {
+        const itemCategories = item.categorias.split(',').map(cat => cat.trim());
+        return itemCategories.includes(categoryName);
       }
+      return false;
     });
 
     if (hasItemsInCategory) {
@@ -247,3 +246,4 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
     handleError(error, res, "Erro em categoryDeleteJson:");
   }
 };
+
