@@ -1,3 +1,6 @@
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { sendEmail } from '../services/email.service';
 import { Request, Response } from 'express';
 import session from 'express-session';
 import fs from 'fs';
@@ -48,14 +51,5 @@ export const login = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Erro no controlador de login:', error);
     return res.status(500).json({ message: 'Server error' });
-  }
-};
-
-export const logout = (req: Request, res: Response) => {
-  if (currentUser) {
-    currentUser = null;
-    return res.status(200).json({ message: 'Logout successful' });
-  } else {
-    return res.status(400).json({ message: 'No user is logged in' });
   }
 };
