@@ -1,0 +1,19 @@
+.section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    max-width: fit-content;
+}
+
+.div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1px
+}
+
+.linha {
+    height: var(--line-thickness, 3px);
+    background-color: var(--line-color, black);
+}
