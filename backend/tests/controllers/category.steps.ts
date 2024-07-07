@@ -477,12 +477,12 @@ defineFeature(feature, (test) => {
         const item: Item = {
           id: itemId,
           active: active,
-          restauranteId: restauranteId,
+          restaurantId: restauranteId,
           nome: nomeItem,
           preco: precoItem,
           descricao: descricaoItem,
           categorias: categoriasItem.split(','),
-          imagem: imagemItem,
+          image: imagemItem,
         };
         const data: { itens: Item[] } = readJsonFile(itemFilePath);
         data.itens.push(item);
@@ -531,12 +531,12 @@ defineFeature(feature, (test) => {
         const item: Item = {
           id: itemId,
           active: active,
-          restauranteId: restauranteId,
+          restaurantId: restauranteId,
           nome: nomeItem,
           preco: precoItem,
           descricao: descricaoItem,
-          categorias: categoriasItem.split(','),
-          imagem: imagemItem,
+          categorias: categoriasItem,
+          image: imagemItem,
         };
         const data: { itens: Item[] } = readJsonFile(itemFilePath);
         data.itens.push(item);
@@ -564,5 +564,5 @@ defineFeature(feature, (test) => {
         expect(response.body.error).toBe(mensagem);
       }
     );
-  });
+});
 });
