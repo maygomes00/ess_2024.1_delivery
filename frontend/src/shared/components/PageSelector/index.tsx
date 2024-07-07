@@ -11,7 +11,7 @@ const PageSelector = ({children, line_color = "black", line_thickness=1}: PageSe
   const linhaStyle = {
     "--line-color": line_color,
     "--line-thickness": `${line_thickness}px`
-  } as React.CSSProperties;
+  } as React.CSSProperties
 
   return (
     <section className={styles.section}>

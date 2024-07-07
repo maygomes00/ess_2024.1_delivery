@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./index.module.css";
-import ReactDOM from "react-dom";
-import { string } from "zod";
 
 type PageBlockProps = {
   elements: Array<JSX.Element>
