@@ -1,4 +1,4 @@
-declare module '../../src/helpers/resetDatabase' {
+declare module 'src/helpers/resetDatabase' {
     export function resetDatabase(): Promise<void>;
   }
   
