@@ -56,7 +56,7 @@ interface User {
   
       saveUsers(clientes);
   
-      const resetUrl = `http://localhost:5001/reset-password/${token}`;
+      const resetUrl = `http://localhost:5001/forgot-password/reset/${token}`;
   
       sendEmail(user.email, 'ESS_Delivery | Alteração de Senha', `Você está recebendo este e-mail, porque você solcitou recuperação de sua senha para acessar sua conta.\n\nPor favor, clique no link a seguir ou cole-o em seu navegado favorito para completar o processo:\n${resetUrl}\n\nSe você não realizou esta solicitação, por favor ignore este e-mail e sua senha será mantida.\n`);
   

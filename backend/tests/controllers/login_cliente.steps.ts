@@ -69,11 +69,11 @@ const writeUsersFile = (data: any) => {
   });*/
   //////////// POST FOR SUCCESSFULL LOGIN
   test('Realizar login de um cliente com sucesso', ({ given, when, then, and }) => {
-    given('acesso a rota "/login/client"', () => {
+    given('acesso a rota "/login-client"', () => {
     });
 
     when('realizo uma requisição "POST"', async () => {
-      response = await request.post('/login/client').send({
+      response = await request.post('/login-client').send({
         email: "john.doe@example.com",
         password: "senha123", // Enviando as credenciais do Cliente
       });
