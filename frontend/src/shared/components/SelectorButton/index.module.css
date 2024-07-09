@@ -1,0 +1,12 @@
+.button {
+  width: 100%;
+  padding: var(--padding, 10px);
+  background-color: transparent;
+  border: 0px solid black;
+  font-size: var(--font_size, 16px);
+  cursor: pointer;
+}
+
+.button_selected {
+  border-bottom: var(--line_size, 2px) solid var(--color, black);
+}
