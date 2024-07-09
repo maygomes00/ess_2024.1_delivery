@@ -1,4 +1,4 @@
-import { Item } from 'types';
+import { Item } from '../types/types';
 import CategoryEntity from '../entities/category.entity';
 import BaseRepository from './base.repository';
 
