@@ -3,17 +3,17 @@ import styles from "./index.module.css";
 
 type PageSelectorProps = {
   children: ReactNode
-  line_element_gap?: number
   line_size?: number
   line_color?: string
   line_thickness?: number
+  line_element_gap?: number
 }
 
 /*
   Campo de seleção, pode receber elementos para cerem selecionados e a linha de separação em baixo
   ajusta seu tamanho dinamicamente.
 */
-const PageSelector = ({children, line_size = 100, line_color = "black", line_thickness=1, line_element_gap=1}: PageSelectorProps) => {
+const PageSelector = ({children, line_size=100, line_color="black", line_thickness=1, line_element_gap=1}: PageSelectorProps) => {
   const [line_trastransform_x, setLineTrastransformX] = useState(0)
 
   useEffect(() => {
@@ -22,16 +22,19 @@ const PageSelector = ({children, line_size = 100, line_color = "black", line_thi
     setLineTrastransformX(-(100*(over_size/2)/ line_size))
   }, [line_size])
 
+  const sectionStyle = {
+    "--line_element_gap": `${line_element_gap}px`
+  } as React.CSSProperties
+
   const linhaStyle = {
     "--line_size": `${line_size}%`,
     "--line_trastransform_x": `${line_trastransform_x}%`,
     "--line_color": line_color,
     "--line_thickness": `${line_thickness}px`,
-    "--line_element_gap": `${line_element_gap}}px`
   } as React.CSSProperties
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} style={sectionStyle}>
       <div className={styles.div}>
         { children }
       </div>
