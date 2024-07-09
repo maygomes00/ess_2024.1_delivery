@@ -69,12 +69,12 @@ const writeUsersFile = (data: any) => {
   });*/
   //////////// POST FOR SUCCESSFULL LOGIN
   test('Realizar login de um restaurante com sucesso', ({ given, when, then, and }) => {
-    given('acesso a rota "/login/restaurant"', () => {
+    given('acesso a rota "/login-restaurant"', () => {
     });
 
     when('realizo uma requisição "POST"', async () => {
-      response = await request.post('/login/restaurant').send({
-        email: "undecillion@example.com",
+      response = await request.post('/login-restaurant').send({
+        email: "undecillion2@example.com",
         password: "!secureP4$$W0RD1234", // Enviando as credenciais do Restaurante
       });
     });
@@ -92,12 +92,12 @@ const writeUsersFile = (data: any) => {
 
  //////////// POST FOR LOGIN WITH WRONG PASSWORD
  test('Realizar login de um restaurante com senha incorreta', ({ given, when, then, and }) => {
-  given('acesso a rota "/login/restaurant"', () => {
+  given('acesso a rota "/login-restaurant"', () => {
   });
 
-  when('realizo uma requisição "POST" com o email "undecillion@example.com" e o password "wrongpassword!"', async () => {
-    response = await request.post('/login/restaurant').send({
-      email: "undecillion@example.com",
+  when('realizo uma requisição "POST" com o email "undecillion2@example.com" e o password "wrongpassword!"', async () => {
+    response = await request.post('/login-restaurant').send({
+      email: "undecillion2@example.com",
       password: "wrongpassword!", // Enviando as credenciais do Restaurante
     });
   });
