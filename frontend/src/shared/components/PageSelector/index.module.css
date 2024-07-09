@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     justify-items: center;
-    gap: 3px;
+    gap: var(--line_element_gap, 1px);
     max-width: fit-content;
 }
 
@@ -17,6 +17,6 @@
 .linha {
     transform: translateX(var(--line_trastransform_x, 0%));
     width: var(--line_size, 100%);
-    height: var(--line-thickness, 3px);
-    background-color: var(--line-color, black);
+    height: var(--line_thickness, 3px);
+    background-color: var(--line_color, black);
 }

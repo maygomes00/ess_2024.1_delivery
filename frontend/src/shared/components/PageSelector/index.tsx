@@ -2,7 +2,8 @@ import React, { ReactNode, useEffect, useState } from "react";
 import styles from "./index.module.css";
 
 type PageSelectorProps = {
-  children : ReactNode
+  children: ReactNode
+  line_element_gap?: number
   line_size?: number
   line_color?: string
   line_thickness?: number
@@ -12,7 +13,7 @@ type PageSelectorProps = {
   Campo de seleção, pode receber elementos para cerem selecionados e a linha de separação em baixo
   ajusta seu tamanho dinamicamente.
 */
-const PageSelector = ({children, line_size = 100, line_color = "black", line_thickness=1}: PageSelectorProps) => {
+const PageSelector = ({children, line_size = 100, line_color = "black", line_thickness=1, line_element_gap=1}: PageSelectorProps) => {
   const [line_trastransform_x, setLineTrastransformX] = useState(0)
 
   useEffect(() => {
@@ -24,8 +25,9 @@ const PageSelector = ({children, line_size = 100, line_color = "black", line_thi
   const linhaStyle = {
     "--line_size": `${line_size}%`,
     "--line_trastransform_x": `${line_trastransform_x}%`,
-    "--line-color": line_color,
-    "--line-thickness": `${line_thickness}px`
+    "--line_color": line_color,
+    "--line_thickness": `${line_thickness}px`,
+    "--line_element_gap": `${line_element_gap}}px`
   } as React.CSSProperties
 
   return (
