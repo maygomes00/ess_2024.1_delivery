@@ -1,0 +1,14 @@
+{
+  "itens": [
+    {
+      "id": "1",
+      "active": "1",
+      "restaurantId": "123",
+      "nome": "Brigadeiro",
+      "preco": "1.00",
+      "descricao": "Brigadeiro normal",
+      "categorias": "Doce,Salgado",
+      "image": "foto_brigadeiro"
+    }
+  ]
+}

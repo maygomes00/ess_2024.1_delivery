@@ -27,6 +27,7 @@ const testRepository = new CategoryRepository();
 // Caminhos dos arquivos JSON
 const categoryFilePath = path.resolve('./src/data/categories/categories.json');
 const itemFilePath = path.resolve('./src/data/itens/itens.json');
+const testItemFilePath = path.resolve('./src/data/categories/itens.json');//usado para os testes
 
 // Função para ler e analisar JSON de um arquivo
 export const readJsonFile = <T>(filePath: string): T => {
@@ -204,6 +205,10 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
 
     const categoryName = categoryData.categorias[categoryIndex].nome;
 
+    // Determina o caminho correto do arquivo de itens
+    const isTesting = process.env.NODE_ENV === 'test';
+    const currentItemFilePath = isTesting ? testItemFilePath : itemFilePath;
+
     if (!fs.existsSync(itemFilePath)) {
       res.status(404).json({ error: "Arquivo de itens não encontrado!" });
       return;
@@ -211,8 +216,8 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
 
     // Lê o arquivo de itens
     let itemData: { itens: Item[] } = { itens: [] };
-    if (fs.existsSync(itemFilePath)) {
-      itemData = readJsonFile<{ itens: Item[] }>(itemFilePath);
+    if (fs.existsSync(currentItemFilePath)) {
+      itemData = readJsonFile<{ itens: Item[] }>(currentItemFilePath);
     }
 
     // Garantir que itemData.itens é uma matriz
