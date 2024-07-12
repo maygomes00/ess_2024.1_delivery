@@ -1,22 +1,11 @@
 import styles from "./index.module.css";
-import { useContext, useEffect, useState } from "react";
-import { MainContext } from "../../context/MainContext";
-import PageSelector from "../../../../shared/components/PageSelector";
-import PageBlock from "../../../../shared/components/PageBlock";
-import CreateTest from "../CreateTest";
-import ListTests from "../ListTests";
-import SelectorButton from "../../../../shared/components/SelectorButton";
+import { useEffect, useState } from "react";
 import ItemBlock from "../../../../shared/components/ItemBlock";
 import { loadItens } from "../../../../shared/services/ItensService";
 import { Item_front } from "../../../../shared/types/types";
 
-const ItemPage = () => {
-  // Contexto:
-  const userContext = useContext(MainContext).user
-  const [id, setId] = userContext.id
-
+const ItemPage = ({restaurant_id}) => {
   // Variaveis:
-  const [blockIndex, setBlockIndex] = useState(0)
   const [restaurantItens, setRestaurantItens] = useState<Item_front[]>([])
 
   // Functions:
@@ -28,13 +17,10 @@ const ItemPage = () => {
   }
 
   useEffect(() => {
-    setId("123")
     const fetchData = async () => {
-      if (id != ""){
+      if (restaurant_id != null && restaurant_id != ""){ 
         try {
-          const itemRoute: string= "http://localhost:5001/restaurant/menu/item/all/"+id
-          console.log(id)
-          console.log(itemRoute)
+          const itemRoute: string= "http://localhost:5001/restaurant/menu/item/all/"+restaurant_id
           const fetchedItems: Item_front[] = await loadItens(itemRoute, "")
           setRestaurantItens(fetchedItems)
         } catch (error) {
@@ -43,21 +29,11 @@ const ItemPage = () => {
       }
     }
     fetchData()
-  }, [id])
+  }, [restaurant_id])
 
   return (
     <section className={styles.container}>
-      <PageSelector line_size={120} line_thickness={2} line_element_gap={0} line_color="gray">
-        <SelectorButton onClick={() => setBlockIndex(0)} selected={true} font_size={20} color="#EC7063"> AAAAA </SelectorButton>
-        <SelectorButton onClick={() => setBlockIndex(1)} selected={false} font_size={20} color="#EC7063"> BBBBB </SelectorButton>
-        <SelectorButton onClick={() => setBlockIndex(2)} selected={false} font_size={20} color="#EC7063"> CCCCC </SelectorButton>
-      </PageSelector>
       {test()}
-      <PageBlock
-        elements={[CreateTest(), ListTests()]} 
-        index={blockIndex}
-        border={0}
-      />
     </section>
   );
 };

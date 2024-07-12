@@ -10,7 +10,6 @@ export type Item_front = {
 
 export type Item_back = {
     id: string;
-    active: string;
     restaurant_id: string; 
     name: string; 
     price: string;
