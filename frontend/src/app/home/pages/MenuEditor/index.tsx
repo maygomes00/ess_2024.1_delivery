@@ -21,7 +21,7 @@ const MenuEditor = () => {
         <SelectorButton onClick={() => setBlockIndex(2)} selected={false} font_size={20} color="#EC7063"> CCCCC </SelectorButton>
       </PageSelector>
       <PageBlock
-        elements={[<CreateTest />, <ItemPage restaurant_id={restaurant_id} />, <ListTests />]} 
+        elements={[<CreateTest />, <ItemPage restaurantId={restaurant_id} />, <ListTests />]} 
         index={blockIndex}
         border={0}
       />

@@ -2,13 +2,13 @@ import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import ItemBlock from "../../../../shared/components/ItemBlock";
 import { loadItens } from "../../../../shared/services/ItensService";
-import { Item_front } from "../../../../shared/types/types";
+import { Item } from "../../../../shared/types/types";
 
-const ItemPage = ({restaurant_id}) => {
+const ItemPage = ({restaurantId}) => {
   // Variaveis:
-  const [restaurantItens, setRestaurantItens] = useState<Item_front[]>([])
+  const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
 
-  // Functions:
+  // Funcoes:
   function test() {
     if (restaurantItens.length > 0) {
       return (<ItemBlock item_info={restaurantItens[0]}/>)
@@ -18,10 +18,10 @@ const ItemPage = ({restaurant_id}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (restaurant_id != null && restaurant_id != ""){ 
+      if (restaurantId != null && restaurantId != ""){ 
         try {
-          const itemRoute: string= "http://localhost:5001/restaurant/menu/item/all/"+restaurant_id
-          const fetchedItems: Item_front[] = await loadItens(itemRoute, "")
+          const itemRoute: string= "http://localhost:5001/restaurant/menu/item/all/"+restaurantId
+          const fetchedItems: Item[] = await loadItens(itemRoute)
           setRestaurantItens(fetchedItems)
         } catch (error) {
             console.error('Error loading items:', error);
@@ -29,7 +29,7 @@ const ItemPage = ({restaurant_id}) => {
       }
     }
     fetchData()
-  }, [restaurant_id])
+  }, [restaurantId])
 
   return (
     <section className={styles.container}>
