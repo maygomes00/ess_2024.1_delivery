@@ -1,28 +1,39 @@
 import styles from "./index.module.css";
-import { useContext } from "react";
-import { MainContext } from "../../context/MainContext";
-import { Link } from "react-router-dom";
-import PageSelector from "../../../../shared/components/PageSelector";
-import PageBlock from "../../../../shared/components/PageBlock";
-import CreateTest from "../CreateTest";
-import ListTests from "../ListTests";
+import { useEffect, useState } from "react";
+import ItemBlock from "../../../../shared/components/ItemBlock";
+import { loadItens } from "../../../../shared/services/ItensService";
+import { Item } from "../../../../shared/types/types";
 
-const ItemPage = () => {
-  const userContext = useContext(MainContext).user
-  const [id, setId] = userContext.id
+const ItemPage = ({restaurantId}) => {
+  // Variaveis:
+  const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
+
+  // Funcoes:
+  function test() {
+    if (restaurantItens.length > 0) {
+      return (<ItemBlock item_info={restaurantItens[0]}/>)
+    }
+    return <p>Nada</p>
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (restaurantId != null && restaurantId != ""){ 
+        try {
+          const itemRoute: string= "http://localhost:5001/restaurant/menu/item/all/"+restaurantId
+          const fetchedItems: Item[] = await loadItens(itemRoute)
+          setRestaurantItens(fetchedItems)
+        } catch (error) {
+            console.error('Error loading items:', error);
+        }
+      }
+    }
+    fetchData()
+  }, [restaurantId])
 
   return (
     <section className={styles.container}>
-      <PageSelector line_thickness={2} line_color="Red">
-        <button> AAAAA </button>
-        <button> BBBBB </button>
-        <button> CCCCC </button>
-      </PageSelector>
-      <PageBlock
-        elements={[CreateTest(), ListTests()]} 
-        index={0}
-        border={1}
-      />
+      {test()}
     </section>
   );
 };

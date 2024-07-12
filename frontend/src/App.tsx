@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
-import ItemPage from "./app/home/pages/ItensPage";
+import MenuEditor from "./app/home/pages/MenuEditor";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
     Component: ListTests,
   },
   {
-    path: "/itens",
-    Component: ItemPage,
+    path: "/:restaurant_id/menu_editor",
+    Component: MenuEditor,
   },
 ]);
 

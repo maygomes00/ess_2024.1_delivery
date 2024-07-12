@@ -14,6 +14,7 @@ interface SelectorButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   Botão para ser usado no PageSelector; quando selected = true, 
 */
 const SelectorButton = ({ children, selected=false, font_size=16, padding=10, line_size=2, color="black", ...buttonProps }: SelectorButtonProps) => {
+  // Retorna o estilo do botão de acordo com ele está selecionado ou não.
   function set_button_style(is_selected) {
     if (is_selected) {
       return `${styles.button} ${styles.button_selected}`
