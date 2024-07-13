@@ -1,21 +1,30 @@
 .itemBox {
     display: flex;
     flex-direction: row;
+    justify-content: end;
     border: 1px solid gray;
     padding: 5px;
     border-radius: 10px;
     gap: 3px;
     width: 100%;
-    height: 15vh;
+    height: 20vh;
+}
+
+.itemImageContainer {
+    width: fit-content;
+    max-width: 25%;
+    max-height: 100%;
+    justify-content: center;
 }
 
 .itemImage {
-    width: fit-content;
-    max-width: 30%;
+    width: auto;
+    height: 100%;
 }
 
 .itemInfo {
-    width: 100%;
+    width: 75%;
+    min-width: 75%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

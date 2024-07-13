@@ -1,0 +1,11 @@
+.button {
+  width: var(--size);
+  height: var(--size);
+  max-width: var(--size);
+  max-height: var(--size);
+  justify-content: center;
+  border: 1px solid gray;
+  border-radius: 50%;
+  font-size: var(--font_size);
+  cursor: pointer;
+}

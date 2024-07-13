@@ -1,7 +1,6 @@
 import styles from "./index.module.css";
-import { Item } from "../../types/types";
-import Image64Display from '../Image64Display';
-import { useEffect } from "react";
+import { Item } from "../../../../../shared/types/types";
+import Image64Display from '../../../../../shared/components/Image64Display';
 
 type ItemBlockProps = {
   item_info: Item
@@ -21,8 +20,10 @@ const ItemBlock = ({item_info}: ItemBlockProps) => {
 
   return(
     <div className={styles.itemBox}>
-      <div className={styles.itemImage}>
-        <Image64Display base64_image={image64} alt={"Imagem de "+name} width={"100%"} height={"100%"}/>
+      <div className={styles.itemImageContainer}>
+        <div className={styles.itemImage}>
+          <Image64Display base64_image={image64} alt={"Imagem de "+name} width={"100%"} height={"100%"}/>
+        </div>
       </div>
       <div className={styles.itemInfo}>
         <div className={styles.itemInfoTexts}>
