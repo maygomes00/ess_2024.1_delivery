@@ -4,6 +4,7 @@ import { Router } from 'express'
 import { storer } from "../multer.config"
 
 const store_path = "./src/data/itens/images"
+const description_length = 60
 
 export default class ItemController {
     private prefix : string = "/restaurant/menu/item"
@@ -463,7 +464,7 @@ export default class ItemController {
             error_list.push("description is undefined")
         } else if (request_body.description == "") {
             error_list.push("item has no description")
-        } else if (request_body.description.length > 50) {
+        } else if (request_body.description.length > description_length) {
             error_list.push("description is to long")
         }
         // categories
