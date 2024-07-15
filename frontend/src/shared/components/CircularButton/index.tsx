@@ -7,12 +7,22 @@ type CircularButtonProps = {
   index?: number
   size?: string
   font_size?: string
+  border?: number
+  color?: string
+  background?: string
+  hover_color?: string
+  hover_background?: string
 }
 
-const CircularButton = ({children, props, index=0, size="50px", font_size="16px"}: CircularButtonProps) => {
+const CircularButton = ({children, props, index=0, size="50px", font_size="16px", border=1, color="black", background="white", hover_color="black", hover_background="white"}: CircularButtonProps) => {
   const buttonStyle = {
     "--size": size,
     "--font_size": font_size,
+    "--border": `${border}px`,
+    "--color": color,
+    "--background": background,
+    "--hover_color": hover_color,
+    "--hover_background": hover_background,
   } as React.CSSProperties
 
   return (

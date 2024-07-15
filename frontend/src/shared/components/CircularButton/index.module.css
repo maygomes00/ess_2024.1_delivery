@@ -3,9 +3,18 @@
   height: var(--size);
   max-width: var(--size);
   max-height: var(--size);
+  display: flex;
+  align-items: center;
   justify-content: center;
-  border: 1px solid gray;
+  border: var(--border) solid gray;
   border-radius: 50%;
   font-size: var(--font_size);
   cursor: pointer;
+  color: var(--color);
+  background-color: var(--background);
+}
+
+.button:hover {
+  color: var(--hover_color);
+  background-color: var(--hover_background);
 }

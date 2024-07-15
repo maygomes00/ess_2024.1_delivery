@@ -4,9 +4,13 @@ import ItemBlock from "./ItemBlock";
 import { loadItens } from "../../../../shared/services/ItensService";
 import { Item } from "../../../../shared/types/types";
 import CircularButton from "../../../../shared/components/CircularButton";
+import { MdClose } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
 
 const ItemPage = ({restaurantId}) => {
   // Variaveis:
+  const buttonSize = "3.5vw"
+  const buttonFontSize = "2vw"
   const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
 
   // Funcoes:
@@ -39,8 +43,8 @@ const ItemPage = ({restaurantId}) => {
           {test(0)}
         </div>
         <div className={styles.editButtonContainer}>
-          <CircularButton size="3.5vw" font_size="1.5vw">A</CircularButton>
-          <CircularButton size="3.5vw" font_size="1.5vw">B</CircularButton>
+          <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#09d321"><CiEdit /></CircularButton>
+          <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#fc2c2c"><MdClose /></CircularButton>
         </div>
       </div>
       <div className={styles.container}>
@@ -48,12 +52,11 @@ const ItemPage = ({restaurantId}) => {
           {test(1)}
         </div>
         <div className={styles.editButtonContainer}>
-          <CircularButton size="3.5vw" font_size="1.5vw">A</CircularButton>
-          <CircularButton size="3.5vw" font_size="1.5vw">B</CircularButton>
+          <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#09d321"><CiEdit /></CircularButton>
+          <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#fc2c2c"><MdClose /></CircularButton>
         </div>
       </div>
     </section>
-    
   );
 };
 
