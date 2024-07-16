@@ -7,7 +7,7 @@ type ItemBlockProps = {
 }
 
 /*
-  
+  Bloco que exibe o item, suas informações e imagem.
 */
 const ItemBlock = ({item_info}: ItemBlockProps) => {
   let {id, restaurant_id, name, price, description, image64} = item_info
