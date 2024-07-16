@@ -4,7 +4,7 @@ import path from 'path';
 export const resetDatabase = async () => {
   // Caminhos dos arquivos JSON de categorias e itens
   const categoryFilePath = path.resolve('./src/data/categories/categories.json');
-  const itemFilePath = path.resolve('./src/data/itens/itens.json');
+  const itemFilePath = path.resolve('./src/data/categories/itens.json');
 
   // Dados iniciais para categorias e itens
   const initialCategories = {

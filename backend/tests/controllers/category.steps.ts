@@ -11,7 +11,7 @@ import { Item} from '../../src/types/types';
 const feature = loadFeature('tests/features/category.feature');
 const request = supertest(app);
 const categoryFilePath = path.resolve(__dirname, '../../src/data/categories/categories.json');
-const itemFilePath = path.resolve(__dirname, '../../src/data/itens/itens.json'); 
+const itemFilePath = path.resolve(__dirname, '../../src/data/categories/itens.json'); 
 
 defineFeature(feature, (test) => {
   let mockCategoryRepository: CategoryRepository;

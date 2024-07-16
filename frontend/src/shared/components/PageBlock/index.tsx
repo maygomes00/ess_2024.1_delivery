@@ -13,7 +13,7 @@ type PageBlockProps = {
   exibe no bloco apenas o elemento correspondente ao indice recebido.
 */
 const PageBlock = ({elements = [], index = -1, border = 2, border_color = "black"}: PageBlockProps) => {
-  const linhaStyle = {
+  const divStyle = {
     "--border": `${border}px`,
     "--border_color": border_color
   } as React.CSSProperties
@@ -29,7 +29,7 @@ const PageBlock = ({elements = [], index = -1, border = 2, border_color = "black
   }
 
   return(
-    <div className={styles.div} style={linhaStyle}>
+    <div className={styles.div} style={divStyle}>
       {select_element(elements, index )}
     </div>
   )
