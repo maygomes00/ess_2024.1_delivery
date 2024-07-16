@@ -20,6 +20,10 @@ const router = createBrowserRouter([
     path: "/:restaurant_id/menu_editor",
     Component: MenuEditor,
   },
+  {
+    path: "/:restaurant_id/menu_editor/:page",
+    Component: MenuEditor,
+  },
 ]);
 
 export default function App() {

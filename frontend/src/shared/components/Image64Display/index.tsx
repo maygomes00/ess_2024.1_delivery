@@ -1,13 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import styles from "./index.module.css";
+import { useState, useEffect } from 'react';
 
 type Image64DisplayProps = {
   base64_image: string
   alt?: string
+  width?: string
+  height?: string
 }
 
-const Image64Display = ({ base64_image, alt=""}) => {
+const Image64Display = ({ base64_image, alt="", width="-1", height="-1"}: Image64DisplayProps) => {
   // Variaveis:
   const [imageUrl, setImageUrl] = useState("");
+
+  const imageStyle = {
+    "--width": width,
+    "--height": height,
+  } as React.CSSProperties
 
   // Funcoes:
   function convertBase64ImageToJpegUrl(base64Image: string) {
@@ -56,7 +64,7 @@ const Image64Display = ({ base64_image, alt=""}) => {
   }, [base64_image])
 
   return (
-    <img src={imageUrl} alt={alt} />
+    <img className={styles.image} src={imageUrl} alt={alt} style={imageStyle} />
   );
 };
 
