@@ -26,8 +26,7 @@ const ItemPage = ({restaurantId}) => {
     const fetchData = async () => {
       if (restaurantId != null && restaurantId != ""){ 
         try {
-          const itemRoute: string= "http://localhost:5001/restaurant/menu/item/all/"+restaurantId
-          const fetchedItems: Item[] = await loadItens(itemRoute)
+          const fetchedItems: Item[] = await loadItens(restaurantId)
           setRestaurantItens(fetchedItems)
         } catch (error) {
             console.error('Error loading items:', error);
