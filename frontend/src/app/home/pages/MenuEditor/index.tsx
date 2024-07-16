@@ -5,7 +5,7 @@ import PageBlock from "../../../../shared/components/PageBlock";
 import CreateTest from "../CreateTest";
 import ListTests from "../ListTests";
 import SelectorButton from "../../../../shared/components/SelectorButton";
-import ItemPage from "../ItensPage";
+import ItemPage from "./ItensPage";
 import { useParams } from "react-router-dom";
 
 const MenuEditor = () => {

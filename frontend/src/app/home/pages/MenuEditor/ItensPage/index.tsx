@@ -1,11 +1,12 @@
 import styles from "./index.module.css";
 import { useEffect, useState } from "react";
-import ItemBlock from "./ItemBlock";
-import { loadItens } from "../../../../shared/services/ItensService";
-import { Item } from "../../../../shared/types/types";
-import CircularButton from "../../../../shared/components/CircularButton";
+import ItemBlock from "../ItemBlock";
+import { loadItens } from "../../../../../shared/services/ItensService";
+import { Item } from "../../../../../shared/types/types";
+import CircularButton from "../../../../../shared/components/CircularButton";
 import { MdClose } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
+import AddItemButton from "./AddItemButton";
 
 const ItemPage = ({restaurantId}) => {
   // Variaveis:
@@ -56,6 +57,7 @@ const ItemPage = ({restaurantId}) => {
           <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#fc2c2c"><MdClose /></CircularButton>
         </div>
       </div>
+      <AddItemButton />
     </section>
   );
 };
