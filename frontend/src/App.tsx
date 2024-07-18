@@ -1,28 +1,37 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CreateTest from "./app/home/pages/CreateTest";
-import ListTests from "./app/home/pages/ListTests";
-import MenuEditor from "./app/home/pages/MenuEditor";
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import CreateTest from './app/home/pages/CreateTest';
+import ListTests from './app/home/pages/ListTests';
+import MenuEditor from './app/home/pages/MenuEditor';
+import UsersPage from './app/home/pages/UserPage/UserPage';
 
 const router = createBrowserRouter([
   {
-    path: "*",
-    Component: CreateTest,
-  },
-  {
     path: "/create-test",
-    Component: CreateTest,
+    element: <CreateTest />,
   },
   {
     path: "/tests",
-    Component: ListTests,
+    element: <ListTests />,
   },
   {
     path: "/:restaurant_id/menu_editor",
-    Component: MenuEditor,
+    element: <MenuEditor />,
   },
   {
     path: "/:restaurant_id/menu_editor/:page",
-    Component: MenuEditor,
+    element: <MenuEditor />,
+  },
+  {
+    path: "/users",
+    element: <UsersPage />,
+  },
+  {
+    path: "/",
+    element: <Navigate to="/create-test" replace />,
+  },
+  {
+    path: "*",
+    element: <h1>Página não encontrada</h1>,
   },
 ]);
 
