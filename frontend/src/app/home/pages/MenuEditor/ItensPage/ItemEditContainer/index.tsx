@@ -7,15 +7,19 @@ import ItemBlock from "../../ItemBlock";
 import { Item } from "../../../../../../shared/types/types";
 
 type ItemEditContainerProps = {
-  item_info : Item
+  item_info: Item
 }
 
 /*
   Conteiner que guarda o bloco do item e os botões de editar e remover. 
 */
 const ItemEditContainer = ({ item_info }: ItemEditContainerProps) => {
+  let {id, restaurant_id} = item_info
   const buttonSize = "3.5vw"
   const buttonFontSize = "2vw"
+
+  console.log(id)
+  console.log(restaurant_id)
 
   return(
     <div className={styles.container}>

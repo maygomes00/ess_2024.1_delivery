@@ -1,22 +1,27 @@
 import styles from "./index.module.css";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import ItemBlock from "../ItemBlock";
 import { loadItens } from "../../../../../shared/services/ItensService";
 import { Item } from "../../../../../shared/types/types";
 import AddItemButton from "./AddItemButton";
 import ItemEditContainer from "./ItemEditContainer";
+import DeletePopup, { DeletePopupMethods } from "./DeletePopup";
 import ReactDOM from "react-dom";
+import { any } from "zod";
 
 const ItemPage = ({restaurantId}) => {
   // Variaveis:
   const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
 
+  // Refs:
+  const deletePopupRef = useRef<DeletePopupMethods>(null)
+
   // Funcoes:
   const createItensContainers = () => {
     return (
     <div>
-      {restaurantItens.map((item) => (
-        <ItemEditContainer item_info={item} />
+      {restaurantItens.map((item, index) => (
+        <ItemEditContainer key={index} item_info={item} />
       ))}
     </div>
     )
@@ -24,6 +29,12 @@ const ItemPage = ({restaurantId}) => {
 
   const restaurantIdValido = () => {
     return restaurantId != null && restaurantId != ""
+  }
+
+  const handleOnClickDelete = () => {
+    if (deletePopupRef.current) {
+      deletePopupRef.current.openDeletePopup();
+    }
   }
 
   useEffect(() => {
@@ -43,7 +54,8 @@ const ItemPage = ({restaurantId}) => {
   return (
     <section id="exibidorDeItens" className={styles.section}>
       {createItensContainers()}
-      <AddItemButton />
+      <AddItemButton onClick={handleOnClickDelete}/>
+      <DeletePopup ref={deletePopupRef}/>
     </section>
   );
 };

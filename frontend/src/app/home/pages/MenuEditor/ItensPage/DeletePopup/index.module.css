@@ -1,0 +1,12 @@
+.popup {
+    display: none; /* Inicialmente oculto */
+    position: fixed; /* Fica posicionado fixamente na tela */
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Centraliza corretamente */
+    background-color: #fff; /* Cor de fundo */
+    padding: 20px; /* Espaçamento interno */
+    border: 1px solid #ccc; /* Borda */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    z-index: 1000; /* Posiciona sobre outros elementos */
+  }
