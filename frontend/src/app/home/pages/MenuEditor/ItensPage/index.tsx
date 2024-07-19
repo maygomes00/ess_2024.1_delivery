@@ -15,16 +15,20 @@ const ItemPage = ({restaurantId}) => {
   const createItensContainers = () => {
     return (
     <div>
-      {restaurantItens.map((item, index) => (
-        <ItemEditContainer><ItemBlock item_info={restaurantItens[index]}/></ItemEditContainer>
+      {restaurantItens.map((item) => (
+        <ItemEditContainer item_info={item} />
       ))}
     </div>
     )
   }
 
+  const restaurantIdValido = () => {
+    return restaurantId != null && restaurantId != ""
+  }
+
   useEffect(() => {
     const fetchData = async () => {
-      if (restaurantId != null && restaurantId != ""){ 
+      if (restaurantIdValido()){ 
         try {
           const fetchedItems: Item[] = await loadItens(restaurantId)
           setRestaurantItens(fetchedItems)
