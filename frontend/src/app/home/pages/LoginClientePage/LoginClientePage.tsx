@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import * as z from 'zod';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/MainContext';
 
 const schema = z.object({
@@ -48,6 +48,9 @@ const LoginClientPage: React.FC = () => {
           <label>Senha:</label>
           <input type="password" {...register('password')} />
           {errors.password && <p>{errors.password.message}</p>}
+        </div>
+        <div>
+        <Link to="/forgot-password">Esqueci minha Senha</Link>
         </div>
         <button type="submit">Entrar</button>
       </form>
