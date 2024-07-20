@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import CategoryRepository from '../repositories/category.repository';
@@ -108,11 +109,18 @@ export const categoryGetById = async (req: Request, res: Response): Promise<void
 export const categoryAdd = async (req: Request, res: Response): Promise<void> => {
   try {
     const nomeCategory = req.body.name?.trim(); // Obtém o nome da categoria e remove espaços em branco
+    const restauranteId = req.body.restaurantId?.trim(); // Obtém o restaurantId da requisição
 
     console.log('Nome da categoria recebido:', nomeCategory); // Log para depuração
+    console.log('ID do restaurante recebido:', restauranteId); // Log para depuração
 
     if (!nomeCategory || nomeCategory.length === 0) {
       res.status(400).json({ error: "É obrigatório um nome para a categoria!" });
+      return;
+    }
+
+    if (!restauranteId || restauranteId.length === 0) {
+      res.status(400).json({ error: "É obrigatório um ID de restaurante!" });
       return;
     }
 
@@ -125,14 +133,11 @@ export const categoryAdd = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    // Obtém o ID do restaurante (exemplo: pode ser obtido do req.user ou de outra fonte de autenticação)
-    const restauranteId = 'restaurante-1'; // Exemplo: ID fixo para ilustração
-
     // Cria a nova categoria
     const newCategory: Category = {
       id: getNextCategoryId(data.categorias),
       nome: nomeCategory,
-      restauranteId,
+      restauranteId, // Usa o ID do restaurante da requisição
       temItens: false
     };
 
