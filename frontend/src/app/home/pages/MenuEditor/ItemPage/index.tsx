@@ -6,6 +6,7 @@ import AddItemButton from "./AddItemButton";
 import ItemEditContainer from "./ItemEditContainer";
 import DeletePopup, { DeletePopupMethods } from "./DeletePopup";
 import { MainContext } from "../../../context/MainContext";
+import { Link } from "react-router-dom";
 
 const ItemPage = ({restaurantId}) => {
   // Variaveis:
@@ -66,7 +67,9 @@ const ItemPage = ({restaurantId}) => {
   return (
     <section id="exibidorDeItens" className={styles.section}>
       {createItensContainers()}
-      <AddItemButton />
+      <Link to={`/${restaurantId}/add_item`} style={{ textDecoration: 'none' }}>
+        <AddItemButton />
+      </Link>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />
     </section>
   );

@@ -5,6 +5,7 @@ import MenuEditor from './app/home/pages/MenuEditor';
 import UsersPage from './app/home/pages/UserPage/UserPage';
 import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
 import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
+import AddItem from './app/home/pages/AddItem';
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/:restaurant_id/menu_editor/:page",
     element: <MenuEditor />,
+  },
+  {
+    path: "/:restaurant_id/add_item",
+    element: <AddItem />,
   },
   {
     path: "/users",
