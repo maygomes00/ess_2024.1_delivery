@@ -10,7 +10,7 @@ export type Item = {
 
 export type Category = {
     id: string;
-    nome: string;
+    name: string;
     restauranteId: string;
     temItens: boolean;
   };
