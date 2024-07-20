@@ -10,7 +10,7 @@ const CreateTest = () => {
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Crie um test</h1>
-      <button onClick={() => setId("12345")}>AAAAAA</button>
+      <button onClick={() => setId("123")}>AAAAAA</button>
       <p>{id}</p>
       <Link to="/tests">AAAAAAAA2</Link>
     </section>

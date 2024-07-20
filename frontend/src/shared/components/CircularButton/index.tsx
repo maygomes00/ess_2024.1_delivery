@@ -3,8 +3,7 @@ import styles from "./index.module.css";
 
 type CircularButtonProps = {
   children?: ReactNode
-  props?: ButtonHTMLAttributes<HTMLButtonElement>
-  index?: number
+  onClick?: any
   size?: string
   font_size?: string
   border?: number
@@ -14,7 +13,7 @@ type CircularButtonProps = {
   hover_background?: string
 }
 
-const CircularButton = ({children, props, index=0, size="50px", font_size="16px", border=1, color="black", background="white", hover_color="black", hover_background="white"}: CircularButtonProps) => {
+const CircularButton = ({children, onClick, size="50px", font_size="16px", border=1, color="black", background="white", hover_color="black", hover_background="white"}: CircularButtonProps) => {
   const buttonStyle = {
     "--size": size,
     "--font_size": font_size,
@@ -27,7 +26,7 @@ const CircularButton = ({children, props, index=0, size="50px", font_size="16px"
 
   return (
     <div>
-      <button {...props} className={styles.button} style={buttonStyle}>
+      <button onClick={onClick} className={styles.button} style={buttonStyle}>
         {children}
       </button>
     </div>
