@@ -3,6 +3,8 @@ import CreateTest from './app/home/pages/CreateTest';
 import ListTests from './app/home/pages/ListTests';
 import MenuEditor from './app/home/pages/MenuEditor';
 import UsersPage from './app/home/pages/UserPage/UserPage';
+import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
+import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,18 @@ const router = createBrowserRouter([
   {
     path: "/users",
     element: <UsersPage />,
+  },
+  {
+    path: "/login-client",
+    element: <LoginClientPage />,
+  },
+  {
+    path: "/login-client",
+    element: <LoginClientPage />,
+  },
+  {
+    path: "/home-client",
+    element: <HomeClientePage />,
   },
   {
     path: "/",
