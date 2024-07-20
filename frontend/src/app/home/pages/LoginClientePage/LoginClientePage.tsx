@@ -1,18 +1,3 @@
-// src/app/pages/LoginPage.tsx
-// import React from 'react';
-// import LoginForm from '../../../../shared/components/LoginClienteForm/LoginClienteForm';
-
-// const LoginClientPage: React.FC = () => {
-//   return (
-//     <div>
-//       <h1>Login</h1>
-//       <LoginForm />
-//     </div>
-//   );
-// };
-
-// export default LoginClientPage;
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,13 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/MainContext';
 
 const schema = z.object({
-  email: z.string().email({ message: "Invalid email address" }),
+  email: z.string().email({ message: "E-mail inválido" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters long" })
 });
 
 type LoginFormInputs = z.infer<typeof schema>;
 
-const LoginPage: React.FC = () => {
+const LoginClientPage: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>({
     resolver: zodResolver(schema)
   });
@@ -41,13 +26,14 @@ const LoginPage: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:5001/login-client', data);
       setMessage(response.data.message);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      dispatch({ type: 'LOGIN', payload: response.data.user });
+      console.log('User ID:', response.data.id); // Verificar o ID do usuário no console
+      localStorage.setItem('user', JSON.stringify({ id: response.data.id }));
+      dispatch({ type: 'LOGIN', payload: response.data.id });
       navigate('/home-client'); // Redireciona para a página Home Cliente
     } catch (error: any) {
       setMessage(error.response.data.message);
     }
-  };
+  };  
 
   return (
     <div>
@@ -70,4 +56,4 @@ const LoginPage: React.FC = () => {
   );
 };
 
-export default LoginPage;
+export default LoginClientPage;
