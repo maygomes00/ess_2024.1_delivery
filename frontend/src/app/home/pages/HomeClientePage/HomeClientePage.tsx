@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
   id: number;
@@ -12,6 +13,7 @@ interface User {
 const HomeClientePage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate(); // Certifique-se de que useNavigate seja importado
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -39,6 +41,18 @@ const HomeClientePage: React.FC = () => {
     fetchUserData();
   }, []);
 
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:5001/login-client/logout-client');
+      localStorage.removeItem('user');
+      setUser(null);
+      navigate('/login-client'); // Use navigate aqui
+    } catch (e) {
+      console.error('Erro ao fazer logout:', e);
+      setError('Falha ao fazer logout');
+    }
+  };
+
   return (
     <div>
       <h2>Home Cliente</h2>
@@ -51,6 +65,7 @@ const HomeClientePage: React.FC = () => {
           <p>Email: {user.email}</p>
           <p>Telefone: {user.telefone}</p>
           <p>Endereço: {user.endereco}</p>
+          <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <p>Carregando dados do usuário...</p>

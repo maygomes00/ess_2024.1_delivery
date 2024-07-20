@@ -6,6 +6,10 @@ export const loginUser = async (email: string, password: string): Promise<User> 
   return response.data.user;
 };
 
+export const logoutUser = async (): Promise<void> => {
+  await axios.post('http://localhost:5001/login-client/logout-client');
+};
+
 
 
 

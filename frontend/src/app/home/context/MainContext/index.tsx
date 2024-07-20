@@ -29,7 +29,7 @@ import { LoginState, AuthAction } from '../../../../shared/types/login-cliente';
 import { authReducer } from './reducer';
 
 const initialState: LoginState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('user') as string) || null,
 };
 
 const AuthContext = createContext<{
