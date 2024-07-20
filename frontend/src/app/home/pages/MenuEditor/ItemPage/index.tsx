@@ -1,17 +1,19 @@
 import styles from "./index.module.css";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import ItemBlock from "../ItemBlock";
+import { useContext, useEffect, useRef, useState } from "react";
 import { loadItens } from "../../../../../shared/services/ItensService";
-import { Item } from "../../../../../shared/types/types";
+import { Item } from "../../../../../shared/types/Item";
 import AddItemButton from "./AddItemButton";
 import ItemEditContainer from "./ItemEditContainer";
 import DeletePopup, { DeletePopupMethods } from "./DeletePopup";
-import ReactDOM from "react-dom";
-import { any } from "zod";
+import { MainContext } from "../../../context/MainContext";
 
 const ItemPage = ({restaurantId}) => {
   // Variaveis:
+  const itemContext = useContext(MainContext).item
+  const [itemId, setItemId] = itemContext.selectedId
+  const [itemName, setItemName] = itemContext.selectedName
   const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
+  const [reload, setReload] = useState(false)
 
   // Refs:
   const deletePopupRef = useRef<DeletePopupMethods>(null)
@@ -21,7 +23,11 @@ const ItemPage = ({restaurantId}) => {
     return (
     <div>
       {restaurantItens.map((item, index) => (
-        <ItemEditContainer key={index} item_info={item} />
+        <ItemEditContainer 
+        key={index}
+        item_info={item}
+        onClickDelete={handleOnClickDelete}
+        />
       ))}
     </div>
     )
@@ -31,10 +37,16 @@ const ItemPage = ({restaurantId}) => {
     return restaurantId != null && restaurantId != ""
   }
 
-  const handleOnClickDelete = () => {
+  const handleOnClickDelete = (item_id: string, item_nome: string) => {
     if (deletePopupRef.current) {
       deletePopupRef.current.openDeletePopup();
+      setItemId(item_id)
+      setItemName(item_nome)
     }
+  }
+
+  const reloadPage = () => {
+    setReload(!reload)
   }
 
   useEffect(() => {
@@ -49,13 +61,13 @@ const ItemPage = ({restaurantId}) => {
       }
     }
     fetchData()
-  }, [restaurantId])
+  }, [restaurantId, reload])
 
   return (
     <section id="exibidorDeItens" className={styles.section}>
       {createItensContainers()}
-      <AddItemButton onClick={handleOnClickDelete}/>
-      <DeletePopup ref={deletePopupRef}/>
+      <AddItemButton />
+      <DeletePopup ref={deletePopupRef} reload={reloadPage} />
     </section>
   );
 };

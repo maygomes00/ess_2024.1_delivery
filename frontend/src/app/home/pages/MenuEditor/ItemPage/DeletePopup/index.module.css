@@ -1,0 +1,20 @@
+.contentDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: fit-content;
+}
+
+.p {
+  padding-bottom: 20px;
+  text-align: center;
+  word-break: break-all;
+  font-size: large;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
+}

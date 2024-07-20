@@ -8,13 +8,15 @@ interface MainProviderProps {
 }
 
 export const MainProvider = ({ children }: MainProviderProps) => {
-  const [userId, setUserId] = useState("")
-  const [userType, setUserType] = useState("")
+  const [userId, setUserId] = useState("123")
+  const [selectedItemId, setSelectedItemId] = useState("")
+  const [selectedItemIName, setSelectedItemName] = useState("")
 
   return (
     <MainContext.Provider
       value={{
-        user: {id: [userId,setUserId], type: [userType, setUserType]}
+        user: {id: [userId,setUserId]},
+        item: {selectedId: [selectedItemId, setSelectedItemId], selectedName: [selectedItemIName, setSelectedItemName]}
       }}
     >
       {children}

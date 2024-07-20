@@ -13,7 +13,7 @@
     --font-primary: 'Roboto', sans-serif;
 }
 
-body {
+.body {
     font-family: 'Roboto Light', sans-serif;
     background-color: var(--light);
     color: var(--dark);
@@ -37,7 +37,7 @@ body {
     margin-top: 20px;
 }
 
-h1 {
+.h1 {
     color: var(--primary);
     margin-bottom: 20px;
     font-family: var(--font-primary);
@@ -53,7 +53,7 @@ h1 {
     margin-right: auto;
 }
 
-table {
+.table {
     width: 100%;
     border-collapse: collapse;
     background-color: var(--white);
@@ -63,35 +63,35 @@ table {
     overflow: hidden;
 }
 
-table, th, td {
+.table, th, td {
     border: 1px solid #ddd;
 }
 
-th, td {
+.th, td {
     padding: 15px;
     text-align: left;
     color: var(--dark);
 }
 
-th {
+.th {
     background-color: var(--primary);
     color: var(--white);
     font-weight: 500;
 }
 
-td {
+.td {
     background-color: var(--light);
 }
 
-tr:nth-child(even) td {
+.tr:nth-child(even) td {
     background-color: var(--white);
 }
 
-tr:hover td {
+.tr:hover td {
     background-color: #f1f1f1;
 }
 
-button {
+.button {
     background-color: var(--primary);
     color: var(--white);
     border: none;
@@ -102,16 +102,16 @@ button {
     margin-right: 10px;  /* Adicionando margem direita */
 }
 
-button:hover {
+.button:hover {
     background-color: var(--secondary);
     transform: scale(1.05);
 }
 
-button.delete {
+.button.delete {
     background-color: var(--danger);
 }
 
-button.delete:hover {
+.button.delete:hover {
     background-color: #c82333;
 }
 
@@ -120,22 +120,22 @@ button.delete:hover {
     margin-bottom: 5px; /* Adicionando margem inferior */
 }
 
-form {
+.form {
     margin-bottom: 20px;
 }
 
-form div {
+.form div {
     margin-bottom: 20px;
 }
 
-form label {
+.form label {
     display: block;
     margin-bottom: 8px;
     font-weight: 500;
     color: var(--dark);
 }
 
-form input, form select {
+.form input, form select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ced4da;
@@ -143,7 +143,7 @@ form input, form select {
     transition: border-color 0.3s;
 }
 
-form input:focus, form select:focus {
+.form input:focus, form select:focus {
     border-color: var(--primary);
     outline: none;
 }
@@ -162,7 +162,7 @@ form input:focus, form select:focus {
     color: var(--dark);
 }
 
-progress {
+.progress {
     width: 100%;
     height: 12px;
     margin-top: 5px;
@@ -170,22 +170,22 @@ progress {
     overflow: hidden;
 }
 
-progress::-webkit-progress-bar {
+.progress::-webkit-progress-bar {
     background-color: var(--light);
 }
 
-progress::-webkit-progress-value {
+.progress::-webkit-progress-value {
     transition: width 0.2s;
 }
 
-progress[style*="background-color: red"]::-webkit-progress-value {
+.progress[style*="background-color: red"]::-webkit-progress-value {
     background-color: var(--danger);
 }
 
-progress[style*="background-color: yellow"]::-webkit-progress-value {
+.progress[style*="background-color: yellow"]::-webkit-progress-value {
     background-color: var(--warning);
 }
 
-progress[style*="background-color: green"]::-webkit-progress-value {
+.progress[style*="background-color: green"]::-webkit-progress-value {
     background-color: var(--success);
 }
