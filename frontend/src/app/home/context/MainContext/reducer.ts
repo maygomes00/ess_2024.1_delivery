@@ -19,3 +19,14 @@ const homeStateReducer = (state: HomeState, action: HomeStateAction) => {
 };
 
 export default homeStateReducer;
+
+import { LoginState, AuthAction } from '../../../../shared/types/login-cliente';
+
+export const authReducer = (state: LoginState, action: AuthAction): LoginState => {
+  switch (action.type) {
+    case 'LOGIN':
+      return { ...state, user: action.payload };
+    default:
+      return state;
+  }
+};
