@@ -1,8 +1,13 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import CreateTest from './app/home/pages/CreateTest';
-import ListTests from './app/home/pages/ListTests';
-import MenuEditor from './app/home/pages/MenuEditor';
-import UsersPage from './app/home/pages/UserPage/UserPage';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import CreateTest from "./app/home/pages/CreateTest";
+import ListTests from "./app/home/pages/ListTests";
+import MenuEditor from "./app/home/pages/MenuEditor";
+import UsersPage from "./app/home/pages/UserPage/UserPage";
+import UserHistory from "./app/home/pages/UserHistory";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/users",
     element: <UsersPage />,
+  },
+  {
+    path: "/:user_id/history",
+    element: <UserHistory />,
   },
   {
     path: "/",
