@@ -17,6 +17,7 @@ const setupRoutes = (app: Express): void => {
   app.use('/restaurant/menu/category', categoryRouter);
   app.use('/users', userRoutes);
   app.use('/login-client', clienteRouter);
+  app.use('/logout-client', clienteRouter);
   app.use('/login-restaurant', restauranteloginRouter);
   app.use('/forgot-password', senhaRouter);
   app.use(bodyParser.json());
