@@ -1,14 +1,10 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import { sendEmail } from '../services/email.service';
 import { Request, Response } from 'express';
 import session from 'express-session';
 import fs from 'fs';
-import user from "express-session";
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
-//Chamando o database JSON
+// Chamando o database JSON
 const dbPath = './src/data/users/users.json';
 
 interface User {
@@ -43,7 +39,7 @@ export const login = async (req: Request, res: Response) => {
       // Verifica se as informações do usuário condizem com o database
       if (user) {
         currentUser = user;
-        return res.status(200).json({ message: 'Login successful' });
+        return res.status(200).json({ message: 'Login successful', id: user.id });
       } else {
         return res.status(401).json({ message: 'Invalid credentials' });
       }
@@ -52,4 +48,9 @@ export const login = async (req: Request, res: Response) => {
     console.error('Erro no controlador de login:', error);
     return res.status(500).json({ message: 'Server error' });
   }
+};
+
+export const logout = (req: Request, res: Response) => {
+  currentUser = null;
+  return res.status(200).json({ message: 'Logout successful' });
 };

@@ -1,6 +1,6 @@
 import styles from "./index.module.css";
-import { Item } from "../../../../../shared/types/Item";
-import Image64Display from '../../../../../shared/components/Image64Display';
+import { Item } from "../../../../../../shared/types/Item";
+import Image64Display from '../../../../../../shared/components/Image64Display';
 
 type ItemBlockProps = {
   item_info: Item

@@ -1,8 +1,12 @@
 import { ReactNode } from "react";
-import { MainProvider } from "./app/home/context/MainContext";
+import { MainProvider } from "./app/home/context/MainContext"
 
 const Provider = ({ children }: { children: ReactNode }) => {
-  return <MainProvider>{children}</MainProvider>;
+  return (
+    <MainProvider>
+        {children}
+    </MainProvider>
+  );
 };
 
 export default Provider;
