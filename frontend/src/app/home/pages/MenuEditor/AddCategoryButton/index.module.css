@@ -1,4 +1,5 @@
-.button {
+/* Adicione uma classe única para o botão */
+.addCategoryButton {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -13,6 +14,6 @@
   cursor: pointer;
 }
 
-.button:hover {
+.addCategoryButton:hover {
   color: #00ff1e;
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import styles from "./index.module.css";
-import { addCategory } from "../../../../../../shared/services/CategoriesService";
+import { addCategory } from "../../../../../shared/services/CategoriesService";
 
 const AddCategoryPopup = ({ isOpen, onClose, onAddCategory, restaurantId, existingCategories }) => {
   const [categoryName, setCategoryName] = useState("");
