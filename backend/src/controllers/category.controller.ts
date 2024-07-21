@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import cors from 'cors';
 import fs from 'fs';
 import path from 'path';
 import CategoryRepository from '../repositories/category.repository';
@@ -12,14 +13,14 @@ interface Category {
 }
 
 interface Item {
-  active: string;
   id: string;
+  active: string;
   restaurant_id: string;
   name: string;
-  preco: string;
-  descricao: string;
-  categorias: string;
-  image: string;
+  prece: string;
+  description: string;
+  categories: string;
+  image64: string;
 }
 
 const testRepository = new CategoryRepository();
@@ -108,11 +109,18 @@ export const categoryGetById = async (req: Request, res: Response): Promise<void
 export const categoryAdd = async (req: Request, res: Response): Promise<void> => {
   try {
     const nomeCategory = req.body.name?.trim(); // Obtém o nome da categoria e remove espaços em branco
+    const restauranteId = req.body.restaurantId?.trim(); // Obtém o restaurantId da requisição
 
     console.log('Nome da categoria recebido:', nomeCategory); // Log para depuração
+    console.log('ID do restaurante recebido:', restauranteId); // Log para depuração
 
     if (!nomeCategory || nomeCategory.length === 0) {
       res.status(400).json({ error: "É obrigatório um nome para a categoria!" });
+      return;
+    }
+
+    if (!restauranteId || restauranteId.length === 0) {
+      res.status(400).json({ error: "É obrigatório um ID de restaurante!" });
       return;
     }
 
@@ -125,14 +133,11 @@ export const categoryAdd = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    // Obtém o ID do restaurante (exemplo: pode ser obtido do req.user ou de outra fonte de autenticação)
-    const restauranteId = 'restaurante-1'; // Exemplo: ID fixo para ilustração
-
     // Cria a nova categoria
     const newCategory: Category = {
       id: getNextCategoryId(data.categorias),
       nome: nomeCategory,
-      restauranteId,
+      restauranteId, // Usa o ID do restaurante da requisição
       temItens: false
     };
 
@@ -190,7 +195,7 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
     const categoryId = req.params.id;
 
     if (!fs.existsSync(categoryFilePath)) {
-      res.status(404).json({ error: "Categoria não encontrada!" });
+      res.status(404).json({ error: "Arquivo de categorias não encontrado!" });
       return;
     }
 
@@ -209,27 +214,24 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
     const isTesting = process.env.NODE_ENV === 'test';
     const currentItemFilePath = isTesting ? testItemFilePath : itemFilePath;
 
-    if (!fs.existsSync(itemFilePath)) {
+    if (!fs.existsSync(currentItemFilePath)) {
       res.status(404).json({ error: "Arquivo de itens não encontrado!" });
       return;
     }
 
     // Lê o arquivo de itens
-    let itemData: { itens: Item[] } = { itens: [] };
-    if (fs.existsSync(currentItemFilePath)) {
-      itemData = readJsonFile<{ itens: Item[] }>(currentItemFilePath);
-    }
+    const itemData: Item[] = readJsonFile(currentItemFilePath);
 
     // Garantir que itemData.itens é uma matriz
-    if (!Array.isArray(itemData.itens)) {
-      res.status(500).json({ error: "Erro interno do servidor" });
+    if (!Array.isArray(itemData)) {
+      res.status(500).json({ error: "Erro interno do servidor: Itens não é uma matriz!" });
       return;
     }
 
     // Verifica se há itens ativos na categoria a ser deletada
-    const hasItemsInCategory = itemData.itens.some(item => {
+    const hasItemsInCategory = itemData.some(item => {
       if (item.active === '1') {
-        const itemCategories = item.categorias.split(',').map(cat => cat.trim());
+        const itemCategories = item.categories.split(',').map(cat => cat.trim());
         return itemCategories.includes(categoryName);
       }
       return false;
@@ -248,7 +250,6 @@ export const categoryDelete = async (req: Request, res: Response): Promise<void>
 
     res.status(200).json({ message: "Categoria deletada com sucesso!" });
   } catch (error) {
-    handleError(error, res, "Erro em categoryDeleteJson:");
+    handleError(error, res, "Erro ao deletar categoria:");
   }
 };
-
