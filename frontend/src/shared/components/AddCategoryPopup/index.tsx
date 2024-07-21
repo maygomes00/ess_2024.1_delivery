@@ -1,17 +1,27 @@
-// AddCategoryPopup.jsx
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import styles from "./index.module.css";
 import { addCategory } from "../../../shared/services/CategoriesService";
 
-const AddCategoryPopup = ({ isOpen, onClose, onAddCategory, restaurantId }) => {
+const AddCategoryPopup = ({ isOpen, onClose, onAddCategory, restaurantId, existingCategories }) => {
   const [categoryName, setCategoryName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (isOpen) {
+      setCategoryName("");
+      setErrorMessage("");
+    }
+  }, [isOpen]);
 
   const handleAddCategory = async () => {
     if (!categoryName.trim()) {
       setErrorMessage("É obrigatório um nome para a categoria!");
+      return;
+    }
+
+    if (existingCategories.some(category => category.name.toLowerCase() === categoryName.toLowerCase())) {
+      setErrorMessage("Essa categoria já existe!");
       return;
     }
 
