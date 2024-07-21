@@ -8,7 +8,7 @@ import { localContextStart, localContextUpdateInfo } from '../../context/LocalCo
 
 const schema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),
-  password: z.string().email({ message: "A senha deve ser informada" }),
+  password: z.string().min(1, { message: "A senha deve ser informada" }),
 });
 
 type LoginFormInputs = z.infer<typeof schema>;
