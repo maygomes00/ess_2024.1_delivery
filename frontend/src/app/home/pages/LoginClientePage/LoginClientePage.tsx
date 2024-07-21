@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as z from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/MainContext';
+import Popup from '../../../../shared/components/Popup';
 
 const schema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),
