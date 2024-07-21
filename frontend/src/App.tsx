@@ -48,6 +48,10 @@ const router = createBrowserRouter([
     element: <UserStatistics />,
   },
   {
+    path: "/login-client",
+    element: <LoginClientPage />,
+  },
+  {
     path: "/home-client",
     element: <HomeClientePage />,
   },

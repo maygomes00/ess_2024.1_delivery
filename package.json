@@ -1,7 +1,9 @@
 {
   "devDependencies": {
     "@types/fuzzy-search": "^2.1.5",
-    "jest-cucumber": "^4.4.0"
+    "date-fns": "^3.6.0",
+    "jest-cucumber": "^4.4.0",
+    "react-modal": "^3.16.1"
   },
   "dependencies": {
     "fuzzy-search": "^3.2.1"
