@@ -27,7 +27,9 @@
           ],
           "total": 49.97
         }
-      ]
+      ],
+      "resetPasswordToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzIxNTI3OTU0LCJleHAiOjE3MjE1MzE1NTR9.qVN4DadQ30lteV-2IT2xUm9V-3Zk_e5Xh6wD5_vbUho",
+      "resetPasswordExpires": "2024-07-21T03:12:34.009Z"
     },
     {
       "id": "2",
