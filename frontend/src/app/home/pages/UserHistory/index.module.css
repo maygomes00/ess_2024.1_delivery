@@ -1,20 +1,44 @@
 .userHistory {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
+  margin: auto; /* Centraliza a página horizontalmente */
+  max-width: 860px; /* Define a largura máxima de 800px */
+  width: 100%; /* Garante que a página ocupe 100% da largura até 800px */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 30px;
 }
 
 .order {
-  margin: 30px;
+  margin: 20px;
 }
 
 .orderBox {
-  margin: 10px;
-  padding: 10px;
+  margin-top: 10px;
+  padding: 5px;
   border-radius: 10px;
   box-shadow: 0px 1px 2px 1px rgba(201, 201, 201, 1);
 }
 
+.itemsInfo {
+  border-bottom: 1px solid lightgray;
+}
+
+.listItemHeader {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  border-bottom: 3px solid #9f2234;
+}
+
+.restaurantImage {
+  height: 40px;
+  margin: 0px 20px 10px 0px;
+}
+/* 
+.restaurantName {
+  margin-bottom: 10px;
+} */
+
 .list {
   list-style: none;
+  margin: 20px 10px;
 }
