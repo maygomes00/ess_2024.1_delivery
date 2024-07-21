@@ -17,7 +17,7 @@ const AddEditItem = ({type=""}) => {
     if (type === "add") {
       return localContextGetInfo("user", "id") === restaurant_id
     }
-    else if (type == "edit") {
+    else if (type == "edit" && item_id != "") {
       let item_info = await getItemDetails(item_id)
       console.log(item_info)
       return localContextGetInfo("user", "id") === restaurant_id && item_info.restaurant_id == restaurant_id
