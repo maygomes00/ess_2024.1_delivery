@@ -8,7 +8,7 @@ import { useAuth } from '../../context/MainContext';
 
 const schema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters long" })
+  password: z.string().email({ message: "A senha deve ser informada" }),
 });
 
 type LoginFormInputs = z.infer<typeof schema>;
