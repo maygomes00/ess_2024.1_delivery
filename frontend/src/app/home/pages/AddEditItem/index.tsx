@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import styles from "./index.module.css";
 import { localContextGetInfo } from "../../context/LocalContext";
 import ItemForm from "../../forms/ItemForm";
 import { useEffect, useState } from "react";

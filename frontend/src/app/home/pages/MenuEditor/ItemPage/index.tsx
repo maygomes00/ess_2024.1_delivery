@@ -5,7 +5,7 @@ import { Item } from "../../../../../shared/types/Item";
 import AddItemButton from "./AddItemButton";
 import ItemEditContainer from "./ItemEditContainer";
 import DeletePopup, { DeletePopupMethods } from "./DeletePopup";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { localContextUpdateInfo } from "../../../context/LocalContext";
 
 const ItemPage = ({restaurantId}) => {

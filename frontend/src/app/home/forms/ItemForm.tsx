@@ -2,10 +2,8 @@ import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { addItem, editItem, getItemDetails } from '../../../shared/services/ItensService'
-import { localContextGetInfo } from '../context/LocalContext'
 import { loadCategories } from '../../../shared/services/CategoriesService'
 import { Category } from '../../../shared/types/category'
-import { Item } from 'react-bootstrap/lib/Breadcrumb'
 
 /*
   Formulario de itens.
@@ -20,7 +18,7 @@ const ItemForm = ({ type="add" }) => {
     image: ''
   }
   const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: {} } = useForm()
   const {restaurant_id, item_id} = useParams()
   const [restaurantCategories, setRestaurantCategories] = useState<Category[]>([])
   const base64PathStart = "data:image/png;base64,"
