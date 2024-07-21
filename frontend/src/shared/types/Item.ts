@@ -7,10 +7,3 @@ export type Item = {
     categories: string;
     image64: string;
 }
-
-export type Category = {
-    id: string;
-    name: string;
-    restauranteId: string;
-    temItens: boolean;
-  };

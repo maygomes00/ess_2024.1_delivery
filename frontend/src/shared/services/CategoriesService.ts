@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Category } from "../types/types";
+import { Category } from "../types/category";
 
 // Carrega informações das categorias do restaurante, do backend para o front.
 export async function loadCategories(restaurantId: string): Promise<Category[]> {

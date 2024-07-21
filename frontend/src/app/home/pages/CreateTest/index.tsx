@@ -1,17 +1,23 @@
 import styles from "./index.module.css";
-import { useContext } from "react";
-import { MainContext } from "../../context/MainContext";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const CreateTest = () => {
-  const userContext = useContext(MainContext).user
-  const [id, setId] = userContext.id
+  const [teste, setTeste] = useState("")
+
+  const funcTest = (valor) => {
+    localStorage.setItem("teste", valor)
+    setTeste(valor)
+  }
+
+  useEffect(() => {
+  }, [teste])
 
   return (
     <section className={styles.container}>
       <h1 className={styles.title}>Crie um test</h1>
-      <button onClick={() => setId("12345")}>AAAAAA</button>
-      <p>{id}</p>
+      <button onClick={() => {funcTest("Testando 123")}}>AAAAAA</button>
+      <p>{localStorage.getItem("teste")}</p>
       <Link to="/tests">AAAAAAAA2</Link>
     </section>
   );

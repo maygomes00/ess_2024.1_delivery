@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 import CategoryBlock from "../CategoryBlock";
 import { loadCategories, addCategory, updateCategory, deleteCategory } from "../../../../../shared/services/CategoriesService";
-import { Category } from "../../../../../shared/types/types";
+import { Category } from "../../../../../shared/types/category";
 import AddCategoryButton from "./AddCategoryButton";
 import CategoryEditContainer from "./CategoryEditContainer";
 import AddCategoryPopup from "./AddCategoryPopup";
