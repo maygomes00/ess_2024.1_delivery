@@ -1,17 +1,14 @@
 import { ReactNode } from "react";
 import styles from "./index.module.css";
-import CircularButton from "../../../../../../shared/components/CircularButton";
-import { MdClose } from "react-icons/md";
+import CircularButton from "../../../../../../shared/components/CircularButtonCategory";
 import { CiEdit } from "react-icons/ci";
 
 type CategoryEditContainerProps = {
   children: ReactNode;
+  onEditClick: () => void; // Adiciona a função de clique para editar
 };
 
-/*
-  Contêiner que guarda o bloco da categoria e os botões de editar e remover.
-*/
-const CategoryEditContainer = ({ children }: CategoryEditContainerProps) => {
+const CategoryEditContainer = ({ children, onEditClick }: CategoryEditContainerProps) => {
   const buttonSize = "3.5vw";
   const buttonFontSize = "2vw";
 
@@ -21,11 +18,14 @@ const CategoryEditContainer = ({ children }: CategoryEditContainerProps) => {
         {children}
       </div>
       <div className={styles.editButtonContainer}>
-        <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#09d321">
+        <CircularButton
+          size={buttonSize}
+          font_size={buttonFontSize}
+          border={2}
+          hover_background="#09d321"
+          onClick={onEditClick}
+        >
           <CiEdit />
-        </CircularButton>
-        <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#fc2c2c">
-          <MdClose />
         </CircularButton>
       </div>
     </div>

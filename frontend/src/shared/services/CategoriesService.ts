@@ -26,3 +26,13 @@ export async function addCategory(categoryName: string, restaurantId: string): P
   const newCategory: Category = response.data;
   return newCategory;
 }
+
+export async function updateCategory(categoryId: string, newName: string): Promise<Category> {
+  try {
+    const response = await axios.put(`http://localhost:5001/restaurant/menu/category/${categoryId}`, { name: newName });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao atualizar categoria:", error);
+    throw error;
+  }
+}
