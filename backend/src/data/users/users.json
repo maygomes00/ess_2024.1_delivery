@@ -13,19 +13,30 @@
           "data": "2024-06-01",
           "itens": [
             {
-              "produto_id": 1001,
-              "name": "Produto A",
-              "quantity": 2,
-              "price": 19.99
+              "produto_id": 0,
+              "quantity": 2
             },
             {
-              "produto_id": 1002,
-              "name": "Produto B",
-              "quantity": 1,
-              "price": 9.99
+              "produto_id": 1,
+              "quantity": 1
             }
           ],
           "total": 49.97
+        },
+        {
+          "order_id": 102,
+          "data": "2024-05-30",
+          "itens": [
+            {
+              "produto_id": 2,
+              "quantity": 1
+            },
+            {
+              "produto_id": 1,
+              "quantity": 3
+            }
+          ],
+          "total": 49.95
         }
       ]
     },
