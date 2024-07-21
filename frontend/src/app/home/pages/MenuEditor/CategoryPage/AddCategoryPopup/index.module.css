@@ -33,7 +33,7 @@
   margin-top: 10px;
 }
 /* Estilos para os botões */
-button {
+.button {
   margin: 10px;
   padding: 10px 20px;
   border: none;
@@ -49,13 +49,13 @@ button:nth-child(3) {
 }*/
 
 /* Estilo para o botão Cancelar */
-button:nth-child(4) {
+.button:nth-child(4) {
   background-color: #f44336;
   color: white;
 }
 
 /* Estilo para o input */
-input {
+.input {
   width: calc(100% - 20px);
   padding: 10px;
   margin-bottom: 10px;
