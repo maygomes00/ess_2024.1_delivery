@@ -91,7 +91,7 @@ interface User {
   
       saveUsers(clientes);
   
-      res.json({ msg: 'Password has been reset!', msgCode: 'success', code: 200 });
+      res.json({ msg: 'Senha nova confirmada! Tente fazer login novamente!', msgCode: 'success', code: 200 });
     } catch (error) {
       console.error('Error in resetPassword:', error);
       res.status(500).json({ msg: 'Internal server error', msgCode: 'failure', code: 500 });

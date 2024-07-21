@@ -5,11 +5,10 @@ import axios from 'axios';
 import * as z from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/MainContext';
-import Popup from '../../../../shared/components/Popup';
 
 const schema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters long" })
+  password: z.string().email({ message: "A senha deve ser informada" }),
 });
 
 type LoginFormInputs = z.infer<typeof schema>;

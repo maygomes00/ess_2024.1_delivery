@@ -6,6 +6,8 @@ const ResetPasswordPage: React.FC = () => {
   const { token } = useParams<{ token: string }>();
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -13,9 +15,19 @@ const ResetPasswordPage: React.FC = () => {
     try {
       const response = await axios.post(`http://localhost:5001/forgot-password/reset/${token}`, { newPassword });
       setMessage(response.data.msg);
-      navigate('/login-client');
+      setIsSuccess(true);
     } catch (error: any) {
       setMessage(error.response.data.msg);
+      setIsSuccess(false);
+    } finally {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    if (isSuccess) {
+      navigate('/login-client');
     }
   };
 
@@ -33,9 +45,38 @@ const ResetPasswordPage: React.FC = () => {
           />
         </div>
         <button type="submit">Redefinir Senha</button>
-        {/* //Depois tem que colocar redirect para Login */}
       </form>
-      {message && <p>{message}</p>}
+      {isModalOpen && (
+        <Modal message={message} isSuccess={isSuccess} onClose={handleCloseModal} />
+      )}
+    </div>
+  );
+};
+
+const Modal: React.FC<{ message: string; isSuccess: boolean; onClose: () => void }> = ({ message, isSuccess, onClose }) => {
+  return (
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.5)'
+    }}>
+      <div style={{
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '8px',
+        textAlign: 'center'
+      }}>
+        <p>{message}</p>
+        <button onClick={onClose}>
+          {isSuccess ? 'Ir para Login' : 'Fechar'}
+        </button>
+      </div>
     </div>
   );
 };
