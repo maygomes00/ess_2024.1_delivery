@@ -48,7 +48,9 @@
       "telefone": "(11) 9876-5432",
       "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
       "pedidos": [],
-      "total": 0
+      "total": 0,
+      "resetPasswordToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhc2NhZGViYWxhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzIxNTA4MzU4LCJleHAiOjE3MjE1MTE5NTh9.s34VOQuts18juNC2n2WEsXmzkPXqctTIU2n5OQGAzqQ",
+      "resetPasswordExpires": "2024-07-20T21:45:58.467Z"
     }
   ]
 }

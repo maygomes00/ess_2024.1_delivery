@@ -2,7 +2,7 @@
   {
     "id": "0",
     "active": "1",
-    "restaurant_id": "123",
+    "restaurant_id": "1",
     "name": "Pizza",
     "price": "20.99",
     "description": "Pizza media.",
@@ -12,7 +12,7 @@
   {
     "id": "1",
     "active": "1",
-    "restaurant_id": "123",
+    "restaurant_id": "1",
     "name": "Refri",
     "price": "10.00",
     "description": "Refrigerante 2L",
@@ -22,7 +22,7 @@
   {
     "id": "2",
     "active": "1",
-    "restaurant_id": "123",
+    "restaurant_id": "1",
     "name": "Hamburger medio",
     "price": "8.00",
     "description": "Hamburger medio com alface, tomate, queijo, carne e cebola.",

@@ -1,14 +1,15 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
-import CreateTest from "./app/home/pages/CreateTest";
-import ListTests from "./app/home/pages/ListTests";
-import MenuEditor from "./app/home/pages/MenuEditor";
-import UsersPage from "./app/home/pages/UserPage/UserPage";
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import CreateTest from './app/home/pages/CreateTest';
+import ListTests from './app/home/pages/ListTests';
+import MenuEditor from './app/home/pages/MenuEditor';
+import UsersPage from './app/home/pages/UserPage/UserPage';
 import UserHistory from "./app/home/pages/UserHistory";
 import UserStatistics from "./app/home/pages/UserStatistics";
+import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
+import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
+import AddItem from './app/home/pages/AddItem';
+import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
+import ResetPasswordPage from './app/home/pages/EsqueciClientePage/ResetPage';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
     element: <MenuEditor />,
   },
   {
+    path: "/:restaurant_id/add_item",
+    element: <AddItem />,
+  },
+  {
     path: "/users",
     element: <UsersPage />,
   },
@@ -38,6 +43,22 @@ const router = createBrowserRouter([
   {
     path: "/:user_id/statistics",
     element: <UserStatistics />,
+  },
+  {
+    path: "/login-client",
+    element: <LoginClientPage />,
+  },
+  {
+    path: "/home-client",
+    element: <HomeClientePage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/forgot-password/reset/:token",
+    element: <ResetPasswordPage />,
   },
   {
     path: "/",

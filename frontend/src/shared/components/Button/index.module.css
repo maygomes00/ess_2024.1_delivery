@@ -1,8 +1,24 @@
 .button {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+  width: var(--width);
+  height: var(--height);
+  max-width: var(--width);
+  max-height: var(--height);
+  padding-left: var(--padding_w);
+  padding-right: var(--padding_w);
+  padding-top: var(--padding_h);
+  padding-bottom: var(--padding_h);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border) solid gray;
+  border-radius: 5%;
+  font-size: var(--font_size);
   cursor: pointer;
+  color: var(--color);
+  background-color: var(--background);
+}
+
+.button:hover {
+  color: var(--hover_color);
+  background-color: var(--hover_background);
 }

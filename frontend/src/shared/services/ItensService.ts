@@ -23,3 +23,9 @@ export const getItemDetails = async (itemId: string): Promise<Item> => {
   const item = await response.json();
   return item;
 };
+
+export async function removeItem(itemId: string) {
+  const route: string= "http://localhost:5001/restaurant/menu/item/"+itemId
+  const response = await axios.delete(route)
+  return response.data
+}

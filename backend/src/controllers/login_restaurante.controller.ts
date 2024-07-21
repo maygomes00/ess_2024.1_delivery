@@ -36,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
         JSON.stringify(current_user_db)
       );
 
-      return res.status(200).json({ message: 'Login successful' });
+      return res.status(200).json({ message: 'Login successful', id: logged_restaurant.id });
     } else {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
