@@ -15,10 +15,7 @@ export const MainProvider = ({ children }: MainProviderProps) => {
 
   return (
     <MainContext.Provider
-      value={{
-        user: {id: [userId,setUserId]},
-        item: {selectedId: [selectedItemId, setSelectedItemId], selectedName: [selectedItemIName, setSelectedItemName]}
-      }}
+      value={{}}
     >
       {children}
     </MainContext.Provider>

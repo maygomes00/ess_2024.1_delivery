@@ -4,11 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import * as z from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../context/MainContext';
+import { localContextStart, localContextUpdateInfo } from '../../context/LocalContext';
 
 const schema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),
-  password: z.string().email({ message: "A senha deve ser informada" }),
+  password: z.string().min(1, { message: "A senha deve ser informada" }),
 });
 
 type LoginFormInputs = z.infer<typeof schema>;
@@ -20,15 +20,14 @@ const LoginClientPage: React.FC = () => {
 
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { dispatch } = useAuth();
 
   const handleLogin = async (data: LoginFormInputs) => {
     try {
       const response = await axios.post('http://localhost:5001/login-client', data);
       setMessage(response.data.message);
       console.log('User ID:', response.data.id); // Verificar o ID do usuário no console
-      localStorage.setItem('user', JSON.stringify({ id: response.data.id }));
-      dispatch({ type: 'LOGIN', payload: response.data.id });
+      localContextStart()
+      localContextUpdateInfo("user", "id", response.data.id)
       navigate('/home-client'); // Redireciona para a página Home Cliente
     } catch (error: any) {
       setMessage(error.response.data.message);
