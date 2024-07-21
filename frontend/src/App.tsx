@@ -8,6 +8,7 @@ import ListTests from "./app/home/pages/ListTests";
 import MenuEditor from "./app/home/pages/MenuEditor";
 import UsersPage from "./app/home/pages/UserPage/UserPage";
 import UserHistory from "./app/home/pages/UserHistory";
+import UserStatistics from "./app/home/pages/UserStatistics";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/:user_id/history",
     element: <UserHistory />,
+  },
+  {
+    path: "/:user_id/statistics",
+    element: <UserStatistics />,
   },
   {
     path: "/",

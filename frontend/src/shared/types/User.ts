@@ -15,7 +15,7 @@ export interface Pedido {
   total: number;
 }
 
-interface UserItem {
+export interface UserItem {
   produto_id: string;
   quantity: number;
 }
