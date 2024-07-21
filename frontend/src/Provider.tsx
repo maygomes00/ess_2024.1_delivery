@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
-import { MainProvider } from "./app/home/context/MainContext"
+import { ReactNode, useEffect, useState } from "react";
+import { localContextStart } from "./app/home/context/LocalContext";
 
 const Provider = ({ children }: { children: ReactNode }) => {
   return (
-    <MainProvider>
+    <div>
         {children}
-    </MainProvider>
+    </div>
   );
 };
 

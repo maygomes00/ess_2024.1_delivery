@@ -5,13 +5,11 @@ import { Item } from "../../../../../shared/types/Item";
 import AddItemButton from "./AddItemButton";
 import ItemEditContainer from "./ItemEditContainer";
 import DeletePopup, { DeletePopupMethods } from "./DeletePopup";
-import { MainContext } from "../../../context/MainContext";
+import { Link } from "react-router-dom";
+import { localContextUpdateInfo } from "../../../context/LocalContext";
 
 const ItemPage = ({restaurantId}) => {
   // Variaveis:
-  const itemContext = useContext(MainContext).item
-  const [itemId, setItemId] = itemContext.selectedId
-  const [itemName, setItemName] = itemContext.selectedName
   const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
   const [reload, setReload] = useState(false)
 
@@ -37,11 +35,11 @@ const ItemPage = ({restaurantId}) => {
     return restaurantId != null && restaurantId != ""
   }
 
-  const handleOnClickDelete = (item_id: string, item_nome: string) => {
+  const handleOnClickDelete = (item_id: string, item_name: string) => {
     if (deletePopupRef.current) {
       deletePopupRef.current.openDeletePopup();
-      setItemId(item_id)
-      setItemName(item_nome)
+      localContextUpdateInfo("item", "id", item_id)
+      localContextUpdateInfo("item", "name", item_name)
     }
   }
 
@@ -66,7 +64,9 @@ const ItemPage = ({restaurantId}) => {
   return (
     <section id="exibidorDeItens" className={styles.section}>
       {createItensContainers()}
-      <AddItemButton />
+      <Link to={`/${restaurantId}/add_item`} style={{ textDecoration: 'none' }}>
+        <AddItemButton />
+      </Link>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />
     </section>
   );
