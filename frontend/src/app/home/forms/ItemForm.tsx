@@ -9,7 +9,7 @@ import { Category } from '../../../shared/types/category'
 /*
   Formulario de itens.
 */
-const ItemForm = () => {
+const ItemForm = ({ type="add" }) => {
   // Constantes:
   const null_form_errors = {
     name: '',
@@ -220,7 +220,7 @@ const ItemForm = () => {
 
   return (
     <div>
-      <h1>Adicionar Item</h1>
+      <h1>Adicionar Item {type}</h1>
       <form onSubmit={handleSubmit(handleFinish)}>
         <div>
           <label htmlFor="fileInput">Escolher uma imagem:</label><br />
