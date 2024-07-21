@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
     --white: #ffffff;
@@ -95,11 +95,11 @@
     background-color: var(--primary);
     color: var(--white);
     border: none;
-    padding: 10px 20px;  /* Ajustando o padding */
+    padding: 10px 20px;  
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    margin-right: 10px;  /* Adicionando margem direita */
+    margin-right: 10px;  
 }
 
 .button:hover {
@@ -116,8 +116,8 @@
 }
 
 .action-button {
-    margin-right: 10px; /* Garantindo espaçamento horizontal entre botões */
-    margin-bottom: 5px; /* Adicionando margem inferior */
+    margin-right: 10px; 
+    margin-bottom: 5px; 
 }
 
 .form {
@@ -188,4 +188,4 @@
 
 .progress[style*="background-color: green"]::-webkit-progress-value {
     background-color: var(--success);
-}
+} */

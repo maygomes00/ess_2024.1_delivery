@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 import PageSelector from "../../../../../shared/components/PageSelector";
 import PageBlock from "../../../../../shared/components/PageBlock";
 import CreateTest from "../../CreateTest";
-import ListTests from "../../ListTests";
 import SelectorButton from "../../../../../shared/components/SelectorButton";
 import ItemPage from "../ItemPage";
 import { Link, useParams } from "react-router-dom";
+import CategoryPage from "../CategoryPage";
+
 
 const MenuEditorController = () => {
   // Constantes:
@@ -63,7 +64,7 @@ const MenuEditorController = () => {
           </Link>
         </PageSelector>
         <PageBlock
-          elements={[<CreateTest />, <ItemPage restaurantId={restaurant_id} />, <ListTests />]} 
+          elements={[<CreateTest />, <ItemPage restaurantId={restaurant_id} />,  <CategoryPage restaurantId={restaurant_id || ''} />]} 
           index={blockIndex}
           border={0}
         />
