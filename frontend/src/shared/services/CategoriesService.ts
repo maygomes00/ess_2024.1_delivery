@@ -36,3 +36,12 @@ export async function updateCategory(categoryId: string, newName: string): Promi
     throw error;
   }
 }
+
+export const deleteCategory = async (categoryId: string): Promise<void> => {
+  try {
+    await axios.delete(`http://localhost:5001/restaurant/menu/category/${categoryId}`);
+  } catch (error) {
+    console.error("Erro ao deletar categoria:", error);
+    throw error; // Lançar o erro para que ele possa ser tratado onde a função é chamada
+  }
+};
