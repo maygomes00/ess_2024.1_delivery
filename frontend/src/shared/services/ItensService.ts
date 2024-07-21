@@ -12,5 +12,11 @@ export async function loadItens(restaurantId: string) {
 export async function removeItem(itemId: string) {
   const route: string= "http://localhost:5001/restaurant/menu/item/"+itemId
   const response = await axios.delete(route)
-  return response.data
+  return response
+}
+
+export async function addItem(data) {
+  const route: string= "http://localhost:5001/restaurant/menu/item/"
+  const response = await axios.post(route, data)
+  return response
 }

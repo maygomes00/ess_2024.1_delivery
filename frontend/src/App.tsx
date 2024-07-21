@@ -5,7 +5,7 @@ import MenuEditor from './app/home/pages/MenuEditor';
 import UsersPage from './app/home/pages/UserPage/UserPage';
 import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
 import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
-import AddItem from './app/home/pages/AddItem';
+import AddEditItem from './app/home/pages/AddEditItem';
 import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
 import ResetPasswordPage from './app/home/pages/EsqueciClientePage/ResetPage';
 
@@ -28,15 +28,15 @@ const router = createBrowserRouter([
   },
   {
     path: "/:restaurant_id/add-item",
-    element: <AddItem />,
+    element: <AddEditItem />,
+  },
+  {
+    path: "/:restaurant_id/edit-item/:item_id",
+    element: <AddEditItem />,
   },
   {
     path: "/users",
     element: <UsersPage />,
-  },
-  {
-    path: "/login-client",
-    element: <LoginClientPage />,
   },
   {
     path: "/login-client",
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Navigate to="/create-test" replace />,
+    element: <Navigate to="/login-client" replace />,
   },
   {
     path: "*",
