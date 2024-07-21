@@ -1,0 +1,46 @@
+.modalOverlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajuste a altura para ocupar a tela toda */
+}
+
+.modalContent {
+  width: 860px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modalHeader,
+.modalFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalHeader {
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 10px;
+}
+
+.modalFooter {
+  border-top: 1px solid #e5e5e5;
+  padding-top: 10px;
+}
+
+.modalTitle {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+.modalBody {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.modalButton {
+  padding: 10px 20px;
+  font-size: 1em;
+}
