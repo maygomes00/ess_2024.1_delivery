@@ -1,9 +1,12 @@
-import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import MenuEditorController from "./MenuEditorController";
+import styles from "./index.module.css";
 import { localContextGetInfo } from "../../context/LocalContext";
+import ItemForm from "../../forms/ItemForm";
 
-const MenuEditor = () => {
+/*
+  Pagina onde são adicionados novos itens no menu do restaurante. 
+*/
+const AddEditItem = () => {
   // Variaveis:
   const {restaurant_id, page=""} = useParams()
 
@@ -17,10 +20,7 @@ const MenuEditor = () => {
     )
   }
 
-  useEffect(() => {}, [restaurant_id, page])
-
-  return ( canLoadMenuEditor() ? <MenuEditorController /> : deniedAccess()
-  );
+  return( canLoadMenuEditor() ?  <ItemForm /> :  deniedAccess())
 };
 
-export default MenuEditor;
+export default AddEditItem;
