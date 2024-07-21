@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import styles from "./index.module.css";
-import { Category } from "../../types/types";
+import { Category } from "../../../../../../shared/types/category";
 
 type EditCategoryPopupProps = {
   isOpen: boolean;
