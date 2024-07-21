@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./index.module.css";
-import CircularButton from "../../../../../../shared/components/CircularButtonCategory";
+import CircularButton from "../CircularButtonCategory";
 import { MdClose } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 

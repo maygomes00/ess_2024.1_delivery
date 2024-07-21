@@ -5,9 +5,9 @@ import { loadCategories, addCategory, updateCategory, deleteCategory } from "../
 import { Category } from "../../../../../shared/types/types";
 import AddCategoryButton from "./AddCategoryButton";
 import CategoryEditContainer from "./CategoryEditContainer";
-import AddCategoryPopup from "../../../../../shared/components/AddCategoryPopup";
-import EditCategoryPopup from "../../../../../shared/components/EditCategoryPopup";
-import ConfirmationPopup from "../../../../../shared/components/ConfirmationPopup/ConfirmationPopup";
+import AddCategoryPopup from "./AddCategoryPopup";
+import EditCategoryPopup from "../CategoryPage/EditCategoryPopup";
+import ConfirmationPopup from "./ConfirmationPopup/ConfirmationPopup";
 import { AxiosError } from 'axios';
 
 
