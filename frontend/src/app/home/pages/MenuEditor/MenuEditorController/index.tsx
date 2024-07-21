@@ -2,11 +2,11 @@ import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import PageSelector from "../../../../../shared/components/PageSelector";
 import PageBlock from "../../../../../shared/components/PageBlock";
-import CreateTest from "../../CreateTest";
 import SelectorButton from "../../../../../shared/components/SelectorButton";
 import ItemPage from "../ItemPage";
 import { Link, useParams } from "react-router-dom";
 import CategoryPage from "../CategoryPage";
+import MenuPage from "../MenuPage";
 
 
 const MenuEditorController = () => {
@@ -64,7 +64,7 @@ const MenuEditorController = () => {
           </Link>
         </PageSelector>
         <PageBlock
-          elements={[<CreateTest />, <ItemPage restaurantId={restaurant_id} />,  <CategoryPage restaurantId={restaurant_id || ''} />]} 
+          elements={[<MenuPage restaurantId={""} />, <ItemPage restaurantId={restaurant_id} />, <CategoryPage restaurantId={restaurant_id || ''} />]} 
           index={blockIndex}
           border={0}
         />
