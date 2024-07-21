@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { localContextEnd, localContextGetInfo } from '../../context/LocalContext';
 
 interface User {
   id: number;
@@ -19,14 +20,10 @@ const HomeClientePage: React.FC = () => {
     const fetchUserData = async () => {
       try {
         // Recuperar o ID do usuário do localStorage
-        const userToken = localStorage.getItem('user');
-        if (userToken) {
-          const user = JSON.parse(userToken);
-          console.log('User token:', userToken);
-          console.log('Fetching data for user ID:', user.id);
-
+        const userId = localContextGetInfo("user", "id")
+        if (userId != "") {
           // Fazer a requisição para buscar os dados do usuário pelo ID
-          const response = await axios.get(`http://localhost:5001/users/${user.id}`);
+          const response = await axios.get(`http://localhost:5001/users/${userId}`);
           console.log('User data fetched:', response.data);
           setUser(response.data);
         } else {
@@ -44,7 +41,7 @@ const HomeClientePage: React.FC = () => {
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:5001/login-client/logout-client');
-      localStorage.removeItem('user');
+      localContextEnd()
       setUser(null);
       navigate('/login-client'); // Use navigate aqui
     } catch (e) {
@@ -55,7 +52,7 @@ const HomeClientePage: React.FC = () => {
 
   return (
     <div>
-      <h2>Home Cliente</h2>
+      <h2>Home Cliente  {localStorage.getItem("start")}</h2>
       {error ? (
         <p>{error}</p>
       ) : user ? (

@@ -1,16 +1,14 @@
-import { useContext} from "react";
+import { useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
-import { MainContext } from "../../context/MainContext";
 import MenuEditorController from "./MenuEditorController";
+import { localContextGetInfo } from "../../context/LocalContext";
 
 const MenuEditor = () => {
   // Variaveis:
-  const userContext = useContext(MainContext).user
-  const [userId, setUserId] = userContext.id
   const {restaurant_id, page=""} = useParams()
 
   const canLoadMenuEditor = () => {
-    return userId === restaurant_id
+    return localContextGetInfo("user", "id") === restaurant_id
   }
 
   const deniedAccess = () => {
@@ -18,6 +16,8 @@ const MenuEditor = () => {
       <p>Você não tem acesso a essa pagina!</p>
     )
   }
+
+  useEffect(() => {}, [restaurant_id, page])
 
   return ( canLoadMenuEditor() ? <MenuEditorController /> : deniedAccess()
   );
