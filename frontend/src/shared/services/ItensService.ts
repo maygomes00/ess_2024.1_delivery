@@ -6,7 +6,7 @@ const API_URL = "http://localhost:5001/restaurant/menu/item";
 // Carrega informacoes dos itens do restaurante, do backend para o front.
 export async function loadItens(restaurantId: string) {
   const route: string =
-    "http://localhost:5001/restaurant/menu/item/all/" + restaurantId;
+    "http://localhost:5001/restaurant/menu/item/all/"+restaurantId
   const response = await axios.get(route);
   const itensList: Item[] = response.data;
   return itensList;
@@ -33,5 +33,11 @@ export async function removeItem(itemId: string) {
 export async function addItem(data) {
   const route: string= "http://localhost:5001/restaurant/menu/item/"
   const response = await axios.post(route, data)
+  return response
+}
+
+export async function editItem(data, item_id: string) {
+  const route: string= "http://localhost:5001/restaurant/menu/item/"+item_id
+  const response = await axios.put(route, data)
   return response
 }

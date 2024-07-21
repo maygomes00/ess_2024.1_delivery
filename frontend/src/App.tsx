@@ -5,7 +5,6 @@ import MenuEditor from './app/home/pages/MenuEditor';
 import UsersPage from './app/home/pages/UserPage/UserPage';
 import UserHistory from "./app/home/pages/UserHistory";
 import UserStatistics from "./app/home/pages/UserStatistics";
-import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
 import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
 import AddEditItem from './app/home/pages/AddEditItem';
 import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
@@ -30,11 +29,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/:restaurant_id/add-item",
-    element: <AddEditItem />,
+    element: <AddEditItem type='add' />,
   },
   {
     path: "/:restaurant_id/edit-item/:item_id",
-    element: <AddEditItem />,
+    element: <AddEditItem type='edit' />,
   },
   {
     path: "/users",

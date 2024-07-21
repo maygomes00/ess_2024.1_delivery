@@ -1,13 +1,14 @@
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { addItem } from '../../../shared/services/ItensService'
-import { localContextGetInfo } from '../context/LocalContext'
+import { addItem, editItem, getItemDetails } from '../../../shared/services/ItensService'
+import { loadCategories } from '../../../shared/services/CategoriesService'
+import { Category } from '../../../shared/types/category'
 
 /*
   Formulario de itens.
 */
-const ItemForm = () => {
+const ItemForm = ({ type="add" }) => {
   // Constantes:
   const null_form_errors = {
     name: '',
@@ -17,7 +18,10 @@ const ItemForm = () => {
     image: ''
   }
   const navigate = useNavigate()
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, formState: {} } = useForm()
+  const {restaurant_id, item_id} = useParams()
+  const [restaurantCategories, setRestaurantCategories] = useState<Category[]>([])
+  const base64PathStart = "data:image/png;base64,"
 
   // Variaveis:
   const [name, setName] = useState("")
@@ -25,23 +29,86 @@ const ItemForm = () => {
   const [price, setPrice] = useState("")
   const [categoryOptions, setCategoryOptions] = useState<string[]>([])
   const [imageBase64, setImageBase64] = useState("")
+
   const [imagePath, setImagePath] = useState("")
   const [formErrors, setFormErrors] = useState(null_form_errors)
-  const restaurant_id = localContextGetInfo("user", "id")
 
   // Funcoes:
   const handleFinish = async (data) => {
+    data.name = name
+    data.description = description
+    data.price = price
     data.categories = formatCategory(categoryOptions)
     data.image64 = imageBase64
     if (!verifyErros(data)) {
       data.restaurant_id = restaurant_id 
-      let result = await addItem(data)
-      if (result.status = 200) {
-        navigate(`/${restaurant_id}/menu-editor`)
+      let result = await addOrEdit(data)
+      if (result) {
+        if (result.status = 200) {
+          navigate(`/${restaurant_id}/menu-editor`)
+        }
+        else {
+          console.log(result.data.Erro)
+        }
       }
       else {
-        console.log(result.data.Erro)
+        console.log("Erro")
       }
+    }
+  }
+
+  // Add-Edit:
+  const formTitle = () => {
+    if (type == "edit") {
+      return "Editar item"
+    }
+    else {
+      return "Adicionar item"
+    }
+  }
+
+  const getItemInfo = async () => {
+    if (item_id) {
+      let item = await getItemDetails(item_id)
+      return item
+    }
+    return {
+      id: "",
+      restaurant_id: "", 
+      name: "",
+      price: "",
+      description: "",
+      categories: "",
+      image64: ""
+    }
+  }
+
+  const setVars = async () => {
+    try {
+      let info = await getItemInfo()
+      setName(info.name)
+      setDescription(info.description)
+      setPrice(info.price)
+      setImageBase64(info.image64)
+      setImagePath(base64PathStart+info.image64)
+      let categories_info = info.categories.split(",")
+      setCategoryOptions(categories_info)
+    } catch (error) {
+      console.error('Error loading item info:', error);
+    }
+  }
+
+  const addOrEdit = (data) => {
+    if (type == "edit") {
+      if (item_id) {
+        return editItem(data, item_id)
+      }
+      else {
+        return false
+      }
+    }
+    else {
+      return addItem(data)
     }
   }
 
@@ -95,21 +162,21 @@ const ItemForm = () => {
       return "Item deve ter um preço"
     }
     else if (!priceFormatRegex.test(price)) {
-      return 'Preço deve estar no formato: "10.00", "25.50", "3.75", ...'
+      return 'Preço deve estar no formato: nnn.nn; ex: "10.00", "25.50", "3.75", "200.00, ...'
     }
     return ""
   }
 
   const verifyCategory = (category: string) => {
     if (category.length < 1) {
-      return "Item deve ter uma categoria"
+      return "Item deve ter pelo menos uma categoria"
     }
     return ""
   }
 
   const verifyImage = (image: string) => {
     if (image.length < 1) {
-      return "Item deve ter imagem"
+      return "Item deve ter uma imagem"
     }
     return ""
   }
@@ -120,13 +187,12 @@ const ItemForm = () => {
   }
 
   const setCategoryCheckbox = () => {
-    let category_list = ["opção1", "opção2"]
     return (
       <div>
-        {category_list.map((category, index) => (
+        {restaurantCategories.map((category, index) => (
           <label key={index}>
-            <input type="checkbox" checked={categoryOptions.includes(category)} onChange={() => handleCheckboxChange(category)} />
-            {category}
+            <input type="checkbox" checked={categoryOptions.includes(category.name)} onChange={() => handleCheckboxChange(category.name)} />
+            {category.name}
           </label>
         ))}
       </div>
@@ -204,9 +270,24 @@ const ItemForm = () => {
     navigate(`/${restaurant_id}/menu-editor`)
   ]
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (restaurant_id) {
+        setVars()
+        try {
+          const fetchedCategories: Category[] = await loadCategories(restaurant_id)
+          setRestaurantCategories(fetchedCategories)
+        } catch (error) {
+            console.error('Error loading categories:', error);
+        }
+      }
+    }
+    fetchData()
+  }, [restaurant_id])
+
   return (
     <div>
-      <h1>Adicionar Item</h1>
+      <h1>{formTitle()}</h1>
       <form onSubmit={handleSubmit(handleFinish)}>
         <div>
           <label htmlFor="fileInput">Escolher uma imagem:</label><br />
@@ -230,7 +311,7 @@ const ItemForm = () => {
           <p>{formErrors.price}</p>
         </div>
         <div>
-          <label>Opções:</label><br />
+          <label>Categorias:</label><br />
             {setCategoryCheckbox()}
           <p>{formErrors.category}</p>
         </div>
