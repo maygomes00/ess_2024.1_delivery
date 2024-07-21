@@ -1,5 +1,5 @@
 import styles from "./index.module.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { loadItens } from "../../../../../shared/services/ItensService";
 import { Item } from "../../../../../shared/types/Item";
 import AddItemButton from "./AddItemButton";
@@ -64,7 +64,7 @@ const ItemPage = ({restaurantId}) => {
   return (
     <section id="exibidorDeItens" className={styles.section}>
       {createItensContainers()}
-      <Link to={`/${restaurantId}/add_item`} style={{ textDecoration: 'none' }}>
+      <Link to={`/${restaurantId}/add-item`} style={{ textDecoration: 'none' }}>
         <AddItemButton />
       </Link>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />

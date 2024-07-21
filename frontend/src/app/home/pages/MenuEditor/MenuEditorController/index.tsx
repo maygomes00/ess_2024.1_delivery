@@ -21,7 +21,7 @@ const MenuEditorController = () => {
 
   // Funcao:
   const changePage = (page: string) => {
-    return `/${restaurant_id}/menu_editor/${page}`
+    return `/${restaurant_id}/menu-editor/${page}`
   }
 
   const setSelectedButton = (button_id: number) => {
@@ -29,17 +29,17 @@ const MenuEditorController = () => {
   }
 
   useEffect(() => {
-    switch(`/${restaurant_id}/menu_editor/${page}`){
-      case(`/${restaurant_id}/menu_editor`):
+    switch(`/${restaurant_id}/menu-editor/${page}`){
+      case(`/${restaurant_id}/menu-editor`):
         setBlockIndex(0)
         break
-      case(`/${restaurant_id}/menu_editor/menu`):
+      case(`/${restaurant_id}/menu-editor/menu`):
         setBlockIndex(0)
         break
-      case(`/${restaurant_id}/menu_editor/itens`):
+      case(`/${restaurant_id}/menu-editor/itens`):
         setBlockIndex(1)
         break
-      case(`/${restaurant_id}/menu_editor/categorias`):
+      case(`/${restaurant_id}/menu-editor/categorias`):
         setBlockIndex(2)
         break
     }

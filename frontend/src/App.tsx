@@ -19,15 +19,15 @@ const router = createBrowserRouter([
     element: <ListTests />,
   },
   {
-    path: "/:restaurant_id/menu_editor",
+    path: "/:restaurant_id/menu-editor",
     element: <MenuEditor />,
   },
   {
-    path: "/:restaurant_id/menu_editor/:page",
+    path: "/:restaurant_id/menu-editor/:page",
     element: <MenuEditor />,
   },
   {
-    path: "/:restaurant_id/add_item",
+    path: "/:restaurant_id/add-item",
     element: <AddItem />,
   },
   {
