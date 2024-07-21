@@ -2,10 +2,9 @@ import axios from "axios";
 import { Category } from "../types/category";
 
 // Carrega informações das categorias do restaurante, do backend para o front.
-export async function loadCategories(restaurantId: string): Promise<Category[]> {
+export async function loadCategories(): Promise<Category[]> {
   try {
     const response = await axios.get(`http://localhost:5001/restaurant/menu/category`);
-    // Mapeia a propriedade 'nome' para 'name'
     const categories: Category[] = response.data.map((cat: any) => ({
       id: cat.id,
       name: cat.nome,

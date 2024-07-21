@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./index.module.css";
-import CircularButton from "../CircularButtonCategory";
+import CircularButton from "../CategoryPage/CircularButtonCategory";
 import { MdClose } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
 
@@ -11,7 +11,7 @@ type CategoryEditContainerProps = {
 };
 
 const CategoryEditContainer = ({ children, onEditClick, onDeleteClick }: CategoryEditContainerProps) => {
-  const buttonSize = "3.5vw";
+  const buttonSize = "2vw";
   const buttonFontSize = "2vw";
 
   return (

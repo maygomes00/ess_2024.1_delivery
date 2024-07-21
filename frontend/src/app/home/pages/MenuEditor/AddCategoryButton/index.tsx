@@ -6,7 +6,7 @@ type AddButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 const AddCategoryButton = (props: AddButtonProps) => {
   return (
-    <button {...props} className={styles.button}>
+    <button {...props} className={`${styles.button} ${styles.addCategoryButton}`}>
       <p>Adicionar categoria</p>
       <IoAddCircleOutline />
     </button>
