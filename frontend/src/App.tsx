@@ -6,6 +6,8 @@ import UsersPage from './app/home/pages/UserPage/UserPage';
 import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
 import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
 import AddItem from './app/home/pages/AddItem';
+import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
+import ResetPasswordPage from './app/home/pages/EsqueciClientePage/ResetPage';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
   {
     path: "/home-client",
     element: <HomeClientePage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: "/forgot-password/reset/:token",
+    element: <ResetPasswordPage />,
   },
   {
     path: "/",

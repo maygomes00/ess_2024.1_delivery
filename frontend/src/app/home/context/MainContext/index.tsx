@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
+import { LoginState, AuthAction } from '../../../../shared/types/login-cliente';
 
 
 export const MainContext = createContext({} as any);
@@ -24,7 +25,6 @@ export const MainProvider = ({ children }: MainProviderProps) => {
 // src/app/context/AuthContext.tsx
 
 import React, { useReducer, useContext } from 'react';
-import { LoginState, AuthAction } from '../../../../shared/types/login-cliente';
 import { authReducer } from './reducer';
 
 const initialState: LoginState = {
@@ -47,3 +47,4 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 };
 
 export const useAuth = () => useContext(AuthContext);
+
