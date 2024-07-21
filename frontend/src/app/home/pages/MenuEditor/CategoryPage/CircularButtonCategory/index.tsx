@@ -36,11 +36,9 @@ const CircularButton = ({
   } as React.CSSProperties;
 
   return (
-    <div>
-      <button {...rest} onClick={onClick} className={styles.button} style={buttonStyle}>
-        {children}
-      </button>
-    </div>
+    <button {...rest} onClick={onClick} className={styles.button} style={buttonStyle}>
+      {children}
+    </button>
   );
 };
 
