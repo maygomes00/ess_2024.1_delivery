@@ -7,7 +7,7 @@ import { ptBR } from "date-fns/locale";
 import { getUserOrders } from "../../../../shared/services/userService";
 import { getItemDetails } from "../../../../shared/services/ItensService";
 import { Pedido, UserItem } from "../../../../shared/types/User";
-import { Item } from "../../../../shared/types/types";
+import { Item } from "../../../../shared/types/Item";
 import restaurantProfile from "../../../../shared/assets/default_restaurant_pfp.svg";
 
 const UserHistory = () => {

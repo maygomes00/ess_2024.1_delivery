@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Item } from "../types/types";
+import { Item } from "../types/Item";
 
 const API_URL = "http://localhost:5001/restaurant/menu/item";
 
@@ -25,7 +25,7 @@ export const getItemDetails = async (itemId: string): Promise<Item> => {
 };
 
 export async function removeItem(itemId: string) {
-  const route: string= "http://localhost:5001/restaurant/menu/item/"+itemId
-  const response = await axios.delete(route)
-  return response.data
+  const route: string = "http://localhost:5001/restaurant/menu/item/" + itemId;
+  const response = await axios.delete(route);
+  return response.data;
 }
