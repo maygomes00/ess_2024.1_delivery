@@ -2,8 +2,14 @@
   "categorias": [
     {
       "id": "1",
+      "nome": "Doce",
+      "restauranteId": "1",
+      "temItens": false
+    },
+    {
+      "id": "2",
       "nome": "Salgado",
-      "restauranteId": "123",
+      "restauranteId": "1",
       "temItens": false
     }
   ]
