@@ -51,6 +51,9 @@ export const getUserOrders = async (id: string): Promise<Pedido[]> => {
   if (!response.ok) {
     throw new Error("Erro ao pegar histórico de pedidos do usuário");
   }
-  const orders = await response.json();
-  return orders;
+  const result = await response.json();
+  if (result.message === "Não há pedidos registrados para o perfil") {
+    return [];
+  }
+  return result;
 };

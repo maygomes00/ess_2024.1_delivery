@@ -5,6 +5,7 @@ import { ptBR } from "date-fns/locale";
 import styles from "./index.module.css";
 import { getUserOrders } from "../../../../shared/services/userService";
 import { Pedido } from "../../../../shared/types/User";
+import NoOrdersModal from "../../../../shared/components/NoOrdersModal/NoOrdersModal";
 
 interface EstatisticaMensal {
   mes: string;
@@ -29,6 +30,9 @@ const UserStatistics = () => {
   const [estatisticasDiarias, setEstatisticasDiarias] = useState<
     EstatisticaDiaria[]
   >([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -39,6 +43,10 @@ const UserStatistics = () => {
 
       try {
         const orders = await getUserOrders(user_id);
+        if (orders.length === 0) {
+          setShowModal(true);
+          return;
+        }
         setOrders(orders);
         calcularEstatisticas(orders);
       } catch (error) {
@@ -91,6 +99,10 @@ const UserStatistics = () => {
     return <div>{error}</div>;
   }
 
+  if (showModal) {
+    return <NoOrdersModal show={showModal} handleClose={handleCloseModal} />;
+  }
+
   return (
     <div className={styles.statisticsPage}>
       <h1 className={styles.title}>Estatísticas de Pedidos</h1>
@@ -107,9 +119,9 @@ const UserStatistics = () => {
           <h2 className={styles.detailsTitle}>Detalhes Mensais</h2>
           <ul className={styles.list}>
             {estatisticasMensais.map((estat) => (
-              <div className={styles.statistics}>
+              <div className={styles.statistics} key={estat.mes}>
                 <p>{capitalizeFirstLetter(estat.mes)}</p>
-                <li className={styles.detailsInfo} key={estat.mes}>
+                <li className={styles.detailsInfo}>
                   Gastos Totais: {estat.totalGasto.toFixed(2)}, Número de Itens:{" "}
                   {estat.numeroItens}
                 </li>
@@ -123,9 +135,9 @@ const UserStatistics = () => {
           <h2 className={styles.detailsTitle}>Detalhes Diários</h2>
           <ul className={styles.list}>
             {estatisticasDiarias.map((estat) => (
-              <div className={styles.statistics}>
+              <div className={styles.statistics} key={estat.dia}>
                 <p>{formatDate(estat.dia)}</p>
-                <li className={styles.detailsInfo} key={estat.dia}>
+                <li className={styles.detailsInfo}>
                   Gastos Totais: {estat.totalGasto.toFixed(2)}, Número de Itens:{" "}
                   {estat.numeroItens}
                 </li>
@@ -134,6 +146,9 @@ const UserStatistics = () => {
           </ul>
         </div>
       )}
+      <div>
+        <h2>Detalhes Gerais</h2>
+      </div>
     </div>
   );
 };
