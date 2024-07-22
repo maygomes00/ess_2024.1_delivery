@@ -1,0 +1,72 @@
+/* ForgotPasswordPage.module.css */
+:root {
+    --white: #ffffff;
+    --light: #fff5f5;
+    --dark: #440001;
+    --primary: #9f2234;
+    --secondary: #6e0001;
+    --info: #4e0f48;
+    --success: #549400;
+    --warning: #ffb952;
+    --danger: #ea0063;
+    --font-primary: 'Roboto', sans-serif;
+}
+
+.body {
+    font-family: 'Roboto Light', sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.container {
+    width: 90%;
+    max-width: 800px;
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: none;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 10px 20px;  
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-right: 10px;  
+}
+
+.button:hover {
+    background-color: var(--secondary);
+    transform: scale(1.05);
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
