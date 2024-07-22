@@ -111,9 +111,6 @@ export const categoryAdd = async (req: Request, res: Response): Promise<void> =>
     const nomeCategory = req.body.name?.trim(); // Obtém o nome da categoria e remove espaços em branco
     const restauranteId = req.body.restaurantId?.trim(); // Obtém o restaurantId da requisição
 
-    console.log('Nome da categoria recebido:', nomeCategory); // Log para depuração
-    console.log('ID do restaurante recebido:', restauranteId); // Log para depuração
-
     if (!nomeCategory || nomeCategory.length === 0) {
       res.status(400).json({ error: "É obrigatório um nome para a categoria!" });
       return;

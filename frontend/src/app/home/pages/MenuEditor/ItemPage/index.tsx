@@ -71,11 +71,11 @@ const ItemPage = ({restaurantId}) => {
   }, [restaurantId, reload])
 
   return (
-    <section id="exibidorDeItens" className={styles.section}>
+    <div id="exibidorDeItens" className={styles.section}>
       {createItensContainers()}
       <AddItemButton onClick={() => {navigate(addPath)}}/>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />
-    </section>
+    </div>
   );
 };
 

@@ -20,20 +20,28 @@ const LoginClientPage: React.FC = () => {
   });
 
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (data: LoginFormInputs) => {
+    setLoading(true);
     try {
       const response = await axios.post('http://localhost:5001/login-client', data);
       setMessage(response.data.message);
       console.log('User ID:', response.data.id); // Verificar o ID do usuário no console
-      localContextStart()
-      localContextUpdateInfo("user", "id", response.data.id)
+      localContextStart();
+      localContextUpdateInfo("user", "id", response.data.id);
       navigate('/home-client'); // Redireciona para a página Home Cliente
     } catch (error: any) {
-      setMessage(error.response.data.message);
+      setMessage(error.response?.data?.message || 'Erro desconhecido');
+    } finally {
+      setLoading(false);
     }
-  };  
+  };
+
+  const handleSignUp = () => {
+    navigate('/users'); // Redireciona para a página de cadastro
+  };
 
   return (
     <div className={styles.body}>
@@ -53,9 +61,16 @@ const LoginClientPage: React.FC = () => {
           <div>
             <Link to="/forgot-password">Esqueci minha Senha</Link>
           </div>
-          <button type="submit" className={styles.button}>Entrar</button>
+          <div className={styles.buttonContainer}>
+            <button type="submit" className={loading ? styles.loadingButton : styles.button} disabled={loading}>
+              {loading ? 'Entrando...' : 'Entrar'}
+            </button>
+            <button type="button" onClick={handleSignUp} className={`${styles.button} ${styles.signupButton}`}>
+              Cadastre-se
+            </button>
+          </div>
         </form>
-        {message && <p>{message}</p>}
+        {message && <p className={styles.message}>{message}</p>}
       </div>
     </div>
   );

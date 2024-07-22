@@ -1,4 +1,4 @@
-import styles from "./index.module.css";
+import styles from "../MenuEditor.module.css"
 import { useEffect, useState } from "react";
 import PageSelector from "../../../../../shared/components/PageSelector";
 import PageBlock from "../../../../../shared/components/PageBlock";
@@ -7,7 +7,6 @@ import ItemPage from "../ItemPage";
 import { Link, useParams } from "react-router-dom";
 import CategoryPage from "../CategoryPage";
 import MenuPage from "../MenuPage";
-
 
 const MenuEditorController = () => {
   // Constantes:
@@ -47,9 +46,9 @@ const MenuEditorController = () => {
   }, [restaurant_id, page, blockIndex])
 
   return (
-    <div className={styles.section}>
-      <div className={styles.container}>
-        <PageSelector line_size={120} line_thickness={2} line_element_gap={0} line_color="gray">
+    <div className={styles.MenuEditor}>
+      <div className={styles.ItemCategoryContainer}>
+        <PageSelector>
           <Link to={changePage("menu")}>
             <SelectorButton selected={setSelectedButton(0)} font_size={button_font}
               width={button_size} side_padding={buttons_side_padding} color={selected_color}> Menu </SelectorButton>
@@ -64,7 +63,7 @@ const MenuEditorController = () => {
           </Link>
         </PageSelector>
         <PageBlock
-          elements={[<MenuPage restaurantId={""} />, <ItemPage restaurantId={restaurant_id} />, <CategoryPage restaurantId={restaurant_id || ''} />]} 
+          elements={[<MenuPage restaurantId={restaurant_id} />, <ItemPage restaurantId={restaurant_id} />, <CategoryPage restaurantId={restaurant_id || ''} />]} 
           index={blockIndex}
           border={0}
         />

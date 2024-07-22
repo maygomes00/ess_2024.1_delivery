@@ -1,0 +1,14 @@
+.MenuEditor {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+.ItemCategoryContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+    gap: 10px;
+}

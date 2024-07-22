@@ -1,13 +1,29 @@
-.section {
+.button {
+background-color: var(--primary);
+color: var(--white);
+border: none;
+padding: 10px 20px;
+border-radius: 5px;
+cursor: pointer;
+transition: background-color 0.3s, transform 0.2s;
+margin-right: 10px;
+}
+
+.button:hover {
+background-color: var(--secondary);
+transform: scale(1.05);
+}
+
+.PageSelector {
     display: flex;
     flex-direction: column;
     justify-content: center;
     justify-items: center;
-    gap: var(--line_element_gap, 1px);
+    gap: 0;
     width: 100%;
 }
 
-.div {
+.buttonContainer {
     display: flex;
     flex-direction: row;
     justify-content: start;
@@ -16,6 +32,6 @@
 
 .linha {
     width: 100%;
-    height: var(--line_thickness, 3px);
-    background-color: var(--line_color, black);
+    height: 2px;
+    background-color: gray;
 }
