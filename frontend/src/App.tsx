@@ -9,6 +9,7 @@ import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage';
 import AddEditItem from './app/home/pages/AddEditItem';
 import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
 import ResetPasswordPage from './app/home/pages/EsqueciClientePage/ResetPage';
+import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
 
 const router = createBrowserRouter([
   {
