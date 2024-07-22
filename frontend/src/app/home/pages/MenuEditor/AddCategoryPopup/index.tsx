@@ -52,7 +52,7 @@ const AddCategoryPopup = ({ isOpen, onClose, onAddCategory, restaurantId, existi
       <input
         type="text"
         placeholder="Nome da Categoria"
-        value={categoryName}
+        data-cy={categoryName}
         onChange={(e) => setCategoryName(e.target.value)}
       />
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
