@@ -2,7 +2,7 @@
   {
     "id": "0",
     "active": "1",
-    "restaurant_id": "1",
+    "restaurant_id": "f257adef-dda8-46c7-bbfd-4275a90d837e",
     "name": "Pizza",
     "price": "30.00",
     "description": "Pizza media.",
@@ -12,7 +12,7 @@
   {
     "id": "1",
     "active": "1",
-    "restaurant_id": "1",
+    "restaurant_id": "f257adef-dda8-46c7-bbfd-4275a90d837e",
     "name": "Refri",
     "price": "13.99",
     "description": "Refrigerante 2L",
@@ -22,7 +22,7 @@
   {
     "id": "2",
     "active": "0",
-    "restaurant_id": "1",
+    "restaurant_id": "f257adef-dda8-46c7-bbfd-4275a90d837e",
     "name": "Bolo de morango",
     "price": "40.00",
     "description": "Bolo de morango, muito bom",
@@ -32,7 +32,7 @@
   {
     "id": "3",
     "active": "1",
-    "restaurant_id": "1",
+    "restaurant_id": "f257adef-dda8-46c7-bbfd-4275a90d837e",
     "name": "Pastel",
     "price": "10.00",
     "description": "Pasteis de sabores diversos.",
@@ -42,7 +42,7 @@
   {
     "id": "4",
     "active": "1",
-    "restaurant_id": "1",
+    "restaurant_id": "f257adef-dda8-46c7-bbfd-4275a90d837e",
     "name": "Bolo de morango",
     "price": "30.00",
     "description": "Bolo de morango, muito bom",
