@@ -1,14 +1,21 @@
-.button {
-  width: var(--width);
+.SelectorButton {
+  width: 100%;
   padding: 10px;
-  padding-left: var(--side_padding, 10px);
-  padding-right: var(--side_padding, 10px);
+  padding-left: 10px;
+  padding-right: 10px;
+  color: black;
   background-color: transparent;
   border: 0px solid black;
-  font-size: var(--font_size, 16px);
+  font-size: 20px;
   cursor: pointer;
 }
 
-.button_selected {
-  border-bottom: var(--line_size, 2px) solid var(--color, black);
+.SelectorButton:hover {
+  color: black;
+  background-color: transparent;
+}
+
+.SelectorButton_selected {
+  color: black;
+  border-bottom: #6e0001 solid 2px;
 }
