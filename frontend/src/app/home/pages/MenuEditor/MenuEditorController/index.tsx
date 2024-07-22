@@ -7,8 +7,6 @@ import ItemPage from "../ItemPage";
 import { Link, useParams } from "react-router-dom";
 import CategoryPage from "../CategoryPage";
 import MenuPage from "../MenuPage";
-import MenuPage from "../MenuPage";
-
 
 const MenuEditorController = () => {
   // Constantes:
