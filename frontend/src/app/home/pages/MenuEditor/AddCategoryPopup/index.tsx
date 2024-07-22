@@ -21,7 +21,7 @@ const AddCategoryPopup = ({ isOpen, onClose, onAddCategory, restaurantId, existi
     }
 
     if (existingCategories.some(category => category.name.toLowerCase() === categoryName.toLowerCase())) {
-      setErrorMessage("Essa categoria já existe!");
+      setErrorMessage("Já existe uma categoria com esse nome!");
       return;
     }
 
@@ -34,7 +34,7 @@ const AddCategoryPopup = ({ isOpen, onClose, onAddCategory, restaurantId, existi
       const newCategory = await addCategory(categoryName, restaurantId);
       onAddCategory(newCategory);
       setCategoryName("");
-      setErrorMessage(""); // Limpa a mensagem de erro após adicionar a categoria com sucesso
+      setErrorMessage(""); 
       onClose();
     } catch (error) {
       console.error("Erro ao adicionar categoria:", error);

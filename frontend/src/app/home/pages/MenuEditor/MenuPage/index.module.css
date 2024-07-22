@@ -2,20 +2,20 @@
     padding: 20px;
   }
   
-  .category {
+.category {
     margin-bottom: 15px;
-  }
+}
   
-  .categoryName {
-    font-size: 1.5em;
+.categoryName {
+    font-size: 1.2em;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }
+}
   
   .arrow {
-    font-size: 1.2em;
+    font-size: 0.8em;
   }
   
   .itemList {
