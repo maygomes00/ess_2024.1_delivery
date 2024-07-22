@@ -19,9 +19,9 @@ body {
     color: var(--dark);
     margin: 0;
     padding: 0;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-start; */
     height: 100vh;
     overflow-y: auto;
 }
