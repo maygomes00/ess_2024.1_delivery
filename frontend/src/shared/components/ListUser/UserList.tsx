@@ -1,20 +1,27 @@
+// src/shared/components/ListUser/UserList.tsx
 import React from 'react';
 import { User } from '../../types/User';
 import { Table, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import '../../../app/home/pages/UserPage/styles.css';
 
 interface UserListProps {
     users: User[];
-    setEditUser: (user: User | null) => void;
     deleteUser: (id: string) => void;
 }
 
-const UserList: React.FC<UserListProps> = ({ users, setEditUser, deleteUser }) => {
+const UserList: React.FC<UserListProps> = ({ users, deleteUser }) => {
+    const navigate = useNavigate();
+
     const handleDelete = (id: string) => {
         const confirmed = window.confirm('Tem certeza que deseja deletar este usuário?');
         if (confirmed) {
             deleteUser(id);
         }
+    };
+
+    const handleEdit = (id: string) => {
+        navigate(`/users/config/edit/${id}`);
     };
 
     return (
@@ -38,7 +45,7 @@ const UserList: React.FC<UserListProps> = ({ users, setEditUser, deleteUser }) =
                         <td>{user.telefone}</td>
                         <td>{user.endereco}</td>
                         <td>
-                            <Button variant="warning" onClick={() => setEditUser(user)} className="action-button">Editar</Button>
+                            <Button variant="warning" onClick={() => handleEdit(user.id)} className="action-button edit">Editar</Button>
                             <Button variant="danger" onClick={() => handleDelete(user.id)} className="action-button delete">Deletar</Button>
                         </td>
                     </tr>
