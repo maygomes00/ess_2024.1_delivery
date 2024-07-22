@@ -6,16 +6,31 @@
 $white: #ffffff;
 
 $theme-colors: (
-    "light":      #fff5f5,
-    "dark":       #440001,
-    "primary":    #9f2234,
-    "secondary":  #6e0001,
-    "info":       #4e0f48,
-    "success":    #549400,
-    "warning":    #ffb952,
-    "danger":   #ea0063,
+  "light": #fff5f5,
+  "dark": #440001,
+  "primary": #9f2234,
+  "secondary": #6e0001,
+  "info": #4e0f48,
+  "success": #549400,
+  "warning": #ffb952,
+  "danger": #ea0063,
 );
 
 @import "../../../frontend/node_modules/bootstrap/scss/bootstrap";
 
 // Then add additional custom code here
+
+ol,
+ul {
+  padding-left: 0;
+}
+
+ol,
+ul,
+dl {
+  margin-bottom: 0;
+}
+
+body {
+  background-color: map-get($theme-colors, "light");
+}

@@ -1,11 +1,11 @@
 .userHistory {
-  margin: auto; /* Centraliza a página horizontalmente */
-  max-width: 860px; /* Define a largura máxima de 800px */
-  width: 100%; /* Garante que a página ocupe 100% da largura até 800px */
+  margin: auto;
+  width: 860px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   padding: 30px;
   height: 100%;
+  background-color: #fff;
 }
 
 .order {

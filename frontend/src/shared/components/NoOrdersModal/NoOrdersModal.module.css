@@ -2,11 +2,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Ajuste a altura para ocupar a tela toda */
 }
 
 .modalContent {
-  width: 860px;
   padding: 20px;
   background-color: white;
   border-radius: 8px;
