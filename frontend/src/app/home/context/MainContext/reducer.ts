@@ -33,4 +33,19 @@ export const authReducer = (state: LoginState, action: AuthAction): LoginState =
   }
 };
 
+// src/app/home/context/MainContext/AuthRestaurantReducer.ts
+import { RestaurantLoginState, RestaurantAuthAction } from '../../../../shared/types/login-restaurant';
+
+export const authRestaurantReducer = (state: RestaurantLoginState, action: RestaurantAuthAction): RestaurantLoginState => {
+  switch (action.type) {
+    case 'LOGIN':
+      return { ...state, user: action.payload };
+    case 'LOGOUT':
+      return { ...state, user: null };
+    default:
+      return state;
+  }
+};
+
+
 

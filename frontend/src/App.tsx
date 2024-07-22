@@ -7,6 +7,8 @@ import UserHistory from "./app/home/pages/UserHistory";
 import UserStatistics from "./app/home/pages/UserStatistics";
 import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
 import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
+import LoginRestaurantPage from './app/home/pages/LoginRestaurantePage/LoginRestaurantePage';
+import HomeRestaurantePage from './app/home/pages/HomeRestaurantePage/HomeRestaurantePage';
 import AddEditItem from './app/home/pages/AddEditItem';
 import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
 import ResetPasswordPage from './app/home/pages/EsqueciClientePage/ResetPage';
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
   {
     path: "/home-client",
     element: <HomeClientePage />,
+  },
+  {
+    path: "/login-restaurant",
+    element: <LoginRestaurantPage />,
+  },
+  {
+    path: "/home-restaurant",
+    element: <HomeRestaurantePage />,
   },
   {
     path: "/forgot-password",
