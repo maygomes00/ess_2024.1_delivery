@@ -1,16 +1,15 @@
-import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-
+import styles from "./index.module.css";
 import { getUserOrders } from "../../../../shared/services/userService";
 import { getItemDetails } from "../../../../shared/services/ItensService";
 import { Pedido, UserItem } from "../../../../shared/types/User";
 import { Item } from "../../../../shared/types/Item";
-import restaurantProfile from "../../../../shared/assets/default_restaurant_pfp.svg";
 import NoOrdersModal from "../../../../shared/components/NoOrdersModal/NoOrdersModal";
 import { formatDate } from "../../../../shared/utils/dateUtils";
+import RestaurantHeader from "../../../../shared/components/ListItemHeader";
+import UserItemDetails from "../../../../shared/components/UserItemDetails";
+import OrderBoxHeader from "../../../../shared/components/OrderBoxHeader";
 
 const UserHistory = () => {
   const { user_id } = useParams<{ user_id: string }>();
@@ -85,34 +84,24 @@ const UserHistory = () => {
       <h1>Histórico</h1>
       {orders.map((order) => (
         <div className={styles.order} key={order.order_id}>
-          <p>{formatDate(order.data)}</p>
+          <OrderBoxHeader
+            date={formatDate(order.data)}
+            orderId={order.order_id}
+          />
           <div className={styles.orderBox}>
             <ul className={styles.itemsInfo}>
               {Object.entries(groupItemsByRestaurant(order.itens)).map(
                 ([restaurantId, userItems]) => (
                   <li key={restaurantId} className={styles.list}>
-                    <div className={styles.listItemHeader}>
-                      <img
-                        src={restaurantProfile}
-                        alt="restaurant"
-                        className={styles.restaurantImage}
-                      />
-                      <h3>Restaurante {restaurantId}</h3>
-                    </div>
+                    <RestaurantHeader restaurantId={restaurantId} />
                     <ul>
-                      {userItems.map((userItem) => {
-                        const item = items[userItem.produto_id];
-                        return item ? (
-                          <li key={userItem.produto_id} className={styles.list}>
-                            <strong>{userItem.quantity}</strong> {item.name} -
-                            Preço: {item.price}
-                          </li>
-                        ) : (
-                          <li key={userItem.produto_id} className={styles.list}>
-                            Carregando detalhes do item...
-                          </li>
-                        );
-                      })}
+                      {userItems.map((userItem) => (
+                        <UserItemDetails
+                          key={userItem.produto_id}
+                          userItem={userItem}
+                          item={items[userItem.produto_id]}
+                        />
+                      ))}
                     </ul>
                   </li>
                 )

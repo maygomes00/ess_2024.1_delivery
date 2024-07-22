@@ -8,7 +8,7 @@ interface NoOrdersModalProps {
   handleClose: () => void;
 }
 
-const NoOrdersModal: React.FC<NoOrdersModalProps> = ({ show, handleClose }) => {
+const NoOrdersModal: React.FC<NoOrdersModalProps> = ({ show }) => {
   const navigate = useNavigate();
 
   const redirectToHome = () => {
