@@ -1,7 +1,7 @@
 Feature: Login de Cliente
-  Como usuário do sistema
-  Eu quero fazer login no sistema
-  Para acessar a área de cliente
+  As a usuário do sistema
+  I want fazer login no sistema
+  So that eu possa acessar a área de cliente
 
 Scenario: Login com credenciais válidas
   Given o usuário está na página "login-client"
