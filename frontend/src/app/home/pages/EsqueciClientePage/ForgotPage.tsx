@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import styles from './EsqueciCliente.module.css'; // Importe o CSS Module
+import styles from './EsqueciCliente.module.css';
 
 const ForgotPasswordPage: React.FC = () => {
-  const [email, setEmail] = useState<string>(''); // Tipagem explícita para string
-  const [message, setMessage] = useState<string>(''); // Tipagem explícita para string
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Tipagem explícita para boolean
-  const [isSuccess, setIsSuccess] = useState<boolean>(false); // Tipagem explícita para boolean
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -41,20 +41,32 @@ const ForgotPasswordPage: React.FC = () => {
               Insira seu e-mail de cadastro para que a gente te envie 
               um link de acesso para recuperação da sua senha.
             </div>
-            <label>Email:</label>
+            <label htmlFor="email">Email:</label>
             <div>
-            <input 
-              type="email" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
-            />
+              <input 
+                type="email" 
+                id="email"
+                data-cy="email" // Atributo data-cy para o campo de email
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
+                required 
+              />
             </div>
           </div>
-          <button type="submit" className={styles.button}>Enviar Link</button>
+          <button 
+            type="submit" 
+            data-cy="submit-button" // Atributo data-cy para o botão de envio
+            className={styles.button}
+          >
+            Enviar Link
+          </button>
         </form>
         {isModalOpen && (
-          <Modal message={message} isSuccess={isSuccess} onClose={handleCloseModal} />
+          <Modal 
+            message={message} 
+            isSuccess={isSuccess} 
+            onClose={handleCloseModal} 
+          />
         )}
       </div>
     </div>
@@ -63,10 +75,13 @@ const ForgotPasswordPage: React.FC = () => {
 
 const Modal: React.FC<{ message: string; isSuccess: boolean; onClose: () => void }> = ({ message, isSuccess, onClose }) => {
   return (
-    <div className={styles.modal}>
-      <div className={styles['modal-content']}>
+    <div className={styles.modal} data-cy="modal"> {/* Atributo data-cy para o modal */}
+      <div className={styles['modal-content']} data-cy="modal-content"> {/* Atributo data-cy para o conteúdo do modal */}
         <p>{message}</p>
-        <button onClick={onClose} className={styles.button}>
+        <button 
+          onClick={onClose} 
+          data-cy={isSuccess ? 'go-to-login-button' : 'close-button'} // Atributo data-cy para o botão de ação do modal
+        >
           {isSuccess ? 'Ir para Login' : 'Fechar'}
         </button>
       </div>
