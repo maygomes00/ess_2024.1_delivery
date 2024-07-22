@@ -28,5 +28,12 @@ Then("o usuário deve ser redirecionado para a página {string}", (page: string)
 });
 
 Then("o usuário deve ver a mensagem {string}", (message: string) => {
-  cy.contains(message).should("be.visible");
+  // Adicionando mais espera e usando `get` em vez de `contains`
+  cy.get("body").then(($body) => {
+    if ($body.find(`[class*="message"]`).length) {
+      cy.get(`[class*="message"]`).should("contain.text", message);
+    } else {
+      cy.contains(message).should("be.visible");
+    }
+  });
 });

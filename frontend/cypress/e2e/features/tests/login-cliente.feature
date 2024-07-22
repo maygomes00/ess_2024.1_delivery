@@ -15,14 +15,14 @@ Scenario: Login com e-mail inválido
   When o usuário preenche o campo "email" com "invalid@user.com"
   And o usuário preenche o campo "password" com "senha123"
   And o usuário clica no botão "Entrar"
-  Then o usuário deve ver a mensagem "Invalid credencials"
+  Then o usuário deve ver a mensagem "Invalid credentials"
 
 Scenario: Login com senha inválida
   Given o usuário está na página "login-client"
   When o usuário preenche o campo "email" com "john.doe@example.com"
   And o usuário preenche o campo "password" com "invalidpassword"
   And o usuário clica no botão "Entrar"
-  Then o usuário deve ver a mensagem "Invalid credencials"
+  Then o usuário deve ver a mensagem "Invalid credentials"
 
 Scenario: Login com e-mail em branco
   Given o usuário está na página "login-client"
