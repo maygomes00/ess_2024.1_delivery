@@ -92,11 +92,11 @@ const writeUsersFile = (data: any) => {
 
  //////////// POST FOR LOGIN WITH WRONG PASSWORD
  test('Realizar login de um cliente com senha incorreta', ({ given, when, then, and }) => {
-  given('acesso a rota "/login/client"', () => {
+  given('acesso a rota "/login-client"', () => {
   });
 
   when('realizo uma requisição "POST" com o email "john.doe@example.com" e o password "senha456"', async () => {
-    response = await request.post('/login/client').send({
+    response = await request.post('/login-client').send({
       email: "john.doe@example.com",
       password: "senha456", // Enviando as credenciais do Restaurante
     });
@@ -145,8 +145,8 @@ test('Realizar logout de um cliente com sucesso', ({ given, when, then, and }) =
     expect(response!.status).toBe(200);
   });
 
-  when('realizo uma requisição "POST" para "/logout"', async () => {
-    response = await request.post('/logout');
+  when('realizo uma requisição "POST" para "/login-client/logout-client"', async () => {
+    response = await request.post('/login-client/logout-client');
   });
 
   then('o status da resposta retornada da API é "200"', () => {

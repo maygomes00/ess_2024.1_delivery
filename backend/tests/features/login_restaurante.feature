@@ -23,3 +23,9 @@ Scenario: Realizar login de um restaurante com credenciais de Cliente
 	When  realizo uma requisição "POST" com o email "joao.silva@example.com" e o password "senha123"
 	Then  o status da resposta retornada da API é "401"
     And o retorno deve ser a mensagem "Invalid credentials"
+
+Scenario: Realizar logout de um restaurante com sucesso
+  Given um restaurante está logado
+  When  realizo uma requisição "POST" para "/login-restaurant/logout-restaurant"
+  Then  o status da resposta retornada da API é "200"
+  And o retorno deve ser a mensagem "Logout successful"

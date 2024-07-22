@@ -20,6 +20,6 @@ Scenario: Realizar login de um cliente com e-mail incorreto
 
 Scenario: Realizar logout de um cliente com sucesso
   Given um cliente está logado
-  When  realizo uma requisição "POST" para "/logout"
+  When  realizo uma requisição "POST" para "/login-client/logout-client"
   Then  o status da resposta retornada da API é "200"
   And o retorno deve ser a mensagem "Logout successful"
