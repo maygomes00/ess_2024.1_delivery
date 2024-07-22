@@ -3,7 +3,7 @@ import { Category } from "../../../../../shared/types/category";
 import { Item } from "../../../../../shared/types/Item";
 import { loadCategories } from "../../../../../shared/services/CategoriesService";
 import { loadItens } from "../../../../../shared/services/ItensService";
-import styles from "./index.module.css";
+import styles from "../MenuEditor.module.css";
 import CategoryCard from "./CategoryCard";
 import ItemBlock from "../ItemBlock";
 
@@ -65,7 +65,7 @@ const MenuPage = ({ restaurantId }) => {
   }, [restaurantId]);
 
   return (
-    <div className={styles.menuPage}>
+    <div className={styles.Page}>
       {showCategories()}
     </div>
   );
