@@ -113,13 +113,13 @@ const writeUsersFile = (data: any) => {
 
 
 
-/////////////// POST FOR LOGIN WITH WRONG EMAIL
+///////////// POST FOR LOGIN WITH WRONG EMAIL
 test('Realizar login de um cliente com e-mail incorreto', ({ given, when, then, and }) => {
-  given('acesso a rota "/login/client"', () => {
+  given('acesso a rota "/login-client"', () => {
   });
 
   when('realizo uma requisição "POST" com o email "john.doe@gmail.com" e o password "senha123"', async () => {
-    response = await request.post('/login/client').send({
+    response = await request.post('/login-client').send({
       email: "john.doe@gmail.com",
       password: "senha123", // Enviando as credenciais do Cliente
     });
@@ -131,6 +131,30 @@ test('Realizar login de um cliente com e-mail incorreto', ({ given, when, then, 
 
   and('o retorno deve ser a mensagem "Invalid credentials"', () => {
     expect(response!.body).toEqual({ message: 'Invalid credentials' })
+  });
+});
+
+///////////// POST FOR SUCCESSFUL LOGOUT
+test('Realizar logout de um cliente com sucesso', ({ given, when, then, and }) => {
+  given('um cliente está logado', async () => {
+    // Realizando o login primeiro
+    response = await request.post('/login-client').send({
+      email: "john.doe@example.com",
+      password: "senha123",
+    });
+    expect(response!.status).toBe(200);
+  });
+
+  when('realizo uma requisição "POST" para "/logout"', async () => {
+    response = await request.post('/logout');
+  });
+
+  then('o status da resposta retornada da API é "200"', () => {
+    expect(response!.status).toBe(200);
+  });
+
+  and('o retorno deve ser a mensagem "Logout successful"', () => {
+    expect(response!.body).toEqual({ message: 'Logout successful' })
   });
 });
 });
