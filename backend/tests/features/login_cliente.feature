@@ -17,3 +17,9 @@ Scenario: Realizar login de um cliente com e-mail incorreto
 	When  realizo uma requisição "POST" com o email "john.doe@gmail.com" e o password "senha123"
 	Then  o status da resposta retornada da API é "401"
     And o retorno deve ser a mensagem "Invalid credentials"
+
+Scenario: Realizar logout de um cliente com sucesso
+  Given um cliente está logado
+  When  realizo uma requisição "POST" para "/login-client/logout-client"
+  Then  o status da resposta retornada da API é "200"
+  And o retorno deve ser a mensagem "Logout successful"
