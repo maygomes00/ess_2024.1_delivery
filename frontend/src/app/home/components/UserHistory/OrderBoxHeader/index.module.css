@@ -1,0 +1,13 @@
+.orderBoxHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.orderBoxHeader p {
+  margin: 0;
+}
+
+.light {
+  color: rgb(147, 147, 147);
+}

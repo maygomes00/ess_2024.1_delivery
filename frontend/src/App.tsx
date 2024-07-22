@@ -1,86 +1,98 @@
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
-import CreateTest from './app/home/pages/CreateTest';
-import ListTests from './app/home/pages/ListTests';
-import MenuEditor from './app/home/pages/MenuEditor';
-import UsersPage from './app/home/pages/UserPage/UserPage';
+// src/App.tsx
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import CreateTest from "./app/home/pages/CreateTest";
+import ListTests from "./app/home/pages/ListTests";
+import MenuEditor from "./app/home/pages/MenuEditor";
+import UsersPage from "./app/home/pages/UserPage/UserPage";
 import UserHistory from "./app/home/pages/UserHistory";
 import UserStatistics from "./app/home/pages/UserStatistics";
-import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
-import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
-import LoginRestaurantPage from './app/home/pages/LoginRestaurantePage/LoginRestaurantePage';
-import HomeRestaurantePage from './app/home/pages/HomeRestaurantePage/HomeRestaurantePage';
-import AddEditItem from './app/home/pages/AddEditItem';
-import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
-import ResetPasswordPage from './app/home/pages/EsqueciClientePage/ResetPage';
+import LoginClientPage from "./app/home/pages/LoginClientePage/LoginClientePage";
+import HomeClientePage from "./app/home/pages/HomeClientePage/HomeClientePage";
+import LoginRestaurantPage from "./app/home/pages/LoginRestaurantePage/LoginRestaurantePage";
+import HomeRestaurantePage from "./app/home/pages/HomeRestaurantePage/HomeRestaurantePage";
+import AddEditItem from "./app/home/pages/AddEditItem";
+import ForgotPasswordPage from "./app/home/pages/EsqueciClientePage/ForgotPage";
+import ResetPasswordPage from "./app/home/pages/EsqueciClientePage/ResetPage";
+import Layout from "./shared/components/Layout"; // Atualizado para importar Layout
 
 const router = createBrowserRouter([
   {
-    path: "/create-test",
-    element: <CreateTest />,
-  },
-  {
-    path: "/tests",
-    element: <ListTests />,
-  },
-  {
-    path: "/:restaurant_id/menu-editor",
-    element: <MenuEditor />,
-  },
-  {
-    path: "/:restaurant_id/menu-editor/:page",
-    element: <MenuEditor />,
-  },
-  {
-    path: "/:restaurant_id/add-item",
-    element: <AddEditItem type='add' />,
-  },
-  {
-    path: "/:restaurant_id/edit-item/:item_id",
-    element: <AddEditItem type='edit' />,
-  },
-  {
-    path: "/users",
-    element: <UsersPage />,
-  },
-  {
-    path: "/:user_id/history",
-    element: <UserHistory />,
-  },
-  {
-    path: "/:user_id/statistics",
-    element: <UserStatistics />,
-  },
-  {
-    path: "/login-client",
-    element: <LoginClientPage />,
-  },
-  {
-    path: "/home-client",
-    element: <HomeClientePage />,
-  },
-  {
-    path: "/login-restaurant",
-    element: <LoginRestaurantPage />,
-  },
-  {
-    path: "/home-restaurant",
-    element: <HomeRestaurantePage />,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: "/forgot-password/reset/:token",
-    element: <ResetPasswordPage />,
-  },
-  {
     path: "/",
-    element: <Navigate to="/login-client" replace />,
-  },
-  {
-    path: "*",
-    element: <h1>Página não encontrada</h1>,
+    element: <Layout />, // Define Layout como elemento principal
+    children: [
+      {
+        path: "/create-test",
+        element: <CreateTest />,
+      },
+      {
+        path: "/tests",
+        element: <ListTests />,
+      },
+      {
+        path: "/:restaurant_id/menu-editor",
+        element: <MenuEditor />,
+      },
+      {
+        path: "/:restaurant_id/menu-editor/:page",
+        element: <MenuEditor />,
+      },
+      {
+        path: "/:restaurant_id/add-item",
+        element: <AddEditItem type="add" />,
+      },
+      {
+        path: "/:restaurant_id/edit-item/:item_id",
+        element: <AddEditItem type="edit" />,
+      },
+      {
+        path: "/users",
+        element: <UsersPage />,
+      },
+      {
+        path: "/:user_id/history",
+        element: <UserHistory />,
+      },
+      {
+        path: "/:user_id/statistics",
+        element: <UserStatistics />,
+      },
+      {
+        path: "/login-client",
+        element: <LoginClientPage />,
+      },
+      {
+        path: "/home-client",
+        element: <HomeClientePage />,
+      },
+      {
+        path: "/login-restaurant",
+        element: <LoginRestaurantPage />,
+      },
+      {
+        path: "/home-restaurant",
+        element: <HomeRestaurantePage />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path: "/forgot-password/reset/:token",
+        element: <ResetPasswordPage />,
+      },
+      {
+        path: "/",
+        element: <Navigate to="/login-client" replace />,
+      },
+      {
+        path: "*",
+        element: <h1>Página não encontrada</h1>,
+      },
+    ],
   },
 ]);
 
