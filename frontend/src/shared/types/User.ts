@@ -12,6 +12,7 @@ export interface Pedido {
   order_id: number;
   data: string;
   itens: UserItem[];
+  total: number;
 }
 
 export interface UserItem {
