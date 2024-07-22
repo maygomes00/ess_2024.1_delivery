@@ -1,0 +1,16 @@
+.listItemHeader {
+  display: flex;
+  margin: 10px;
+  align-items: center;
+  border-bottom: 3px solid #9f2234;
+  cursor: pointer;
+}
+
+.listItemHeader:hover {
+  text-decoration: underline;
+}
+
+.restaurantImage {
+  height: 60px;
+  margin: 0px 20px 10px 0px;
+}
