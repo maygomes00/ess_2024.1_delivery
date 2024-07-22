@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Restaurant } from "../../../shared/types/Restaurant";
+import { registerRestaurant } from "../../../shared/services/RestaurantRegistrationService";
 // import "../pages/RestaurantRegistration/styles.css";
+import { defineConfig } from 'cypress';
 
 import {
   Form,
@@ -10,6 +12,37 @@ import {
   Col,
   ButtonToolbar,
 } from "react-bootstrap";
+
+const initialRestaurantState = {
+  id: '',
+  email: '',
+  password: '',
+  owner_name: '',
+  owner_cpf: '',
+  owner_address: '',
+  owner_telephone: '',
+  restaurant_name: '',
+  restaurant_cnpj: '',
+  restaurant_address: '',
+  restaurant_telephone: '',
+  items: [],
+};
+
+const dummyRestaurant = {
+  id: '',
+  email: 'undecillion@example.com',
+  password: '!secureP4$$W0RD1234',
+  owner_name: 'UNDECILLION',
+  owner_cpf: '123.456.789-00',
+  owner_address: '1234 Abcd Ab, Abcdefg, AB',
+  owner_telephone: '55 (81) 12345-6789',
+  restaurant_name: 'Abcde Fghij',
+  restaurant_cnpj: '12.345.678/0001-99',
+  restaurant_address: '5678 Ijklmn Ij, Ijkmlno, IJ',
+  restaurant_telephone: '55 81 1111-1111',
+  items: [],
+}
+
 
 const RestaurantForm: React.FC = () => {
   const [restaurant, setRestaurant] = useState<Restaurant>({
@@ -38,7 +71,22 @@ const RestaurantForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log("Submitted restaurant:", restaurant);
+    console.log("Restaurant to submit:", restaurant);
+    registerRestaurant(restaurant)
+      .then((response) => {
+        console.log("Restaurant registered successfully:", response);
+      })
+      .catch((error) => {
+        console.error("Error registering restaurant:", error);
+      });
+  };
+
+  const handleReset = () => {
+    setRestaurant(initialRestaurantState);
+  };
+
+  const handleDummy = () => {
+    setRestaurant(dummyRestaurant);
   };
 
   return (
@@ -152,8 +200,11 @@ const RestaurantForm: React.FC = () => {
               <Button variant="outline-primary" type="submit">
                 Submit
               </Button>
-              <Button variant="danger" type="reset">
+              <Button variant="danger" type="reset" onClick={handleReset}>
                 Limpar
+              </Button>
+              <Button variant="info" onClick={handleDummy}>
+                Dummy
               </Button>
             </ButtonToolbar>
           </Form>
