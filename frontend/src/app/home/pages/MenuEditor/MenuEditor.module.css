@@ -1,17 +1,14 @@
-.section {
+.MenuEditor {
     display: flex;
     justify-content: center;
     align-items: start;
-    width: 100vw;
-    height: 100vh;
-    overflow: auto;
 }
 
-.container {
+.ItemCategoryContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 50vw;
+    width: 60vw;
     gap: 10px;
 }
