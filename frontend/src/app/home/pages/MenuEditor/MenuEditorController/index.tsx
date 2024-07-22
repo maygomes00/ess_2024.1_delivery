@@ -64,7 +64,7 @@ const MenuEditorController = () => {
           </Link>
         </PageSelector>
         <PageBlock
-          elements={[<MenuPage restaurantId={""} />, <ItemPage restaurantId={restaurant_id} />, <CategoryPage restaurantId={restaurant_id || ''} />]} 
+          elements={[<MenuPage restaurantId={restaurant_id} />, <ItemPage restaurantId={restaurant_id} />, <CategoryPage restaurantId={restaurant_id || ''} />]} 
           index={blockIndex}
           border={0}
         />
