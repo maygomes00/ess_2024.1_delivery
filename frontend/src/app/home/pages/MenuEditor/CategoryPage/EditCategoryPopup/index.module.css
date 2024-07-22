@@ -3,10 +3,10 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
+  background-color: #fff5f5;
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 9px 9px rgba(0, 0, 0, 0.1);
   width: 400px;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .acceptButton {
-  background-color: #09d321;
+  background-color: #ea0063;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -35,7 +35,7 @@
 }
 
 .cancelButton {
-  background-color: #fc2c2c;
+  background-color: #9f2234;
   color: white;
   border: none;
   padding: 10px 20px;

@@ -7,7 +7,9 @@ import UserHistory from "./app/home/pages/UserHistory";
 import UserStatistics from "./app/home/pages/UserStatistics";
 import LoginClientPage from './app/home/pages/LoginClientePage/LoginClientePage';
 import HomeClientePage from './app/home/pages/HomeClientePage/HomeClientePage'; 
-import AddItem from './app/home/pages/AddItem';
+import LoginRestaurantPage from './app/home/pages/LoginRestaurantePage/LoginRestaurantePage';
+import HomeRestaurantePage from './app/home/pages/HomeRestaurantePage/HomeRestaurantePage';
+import AddEditItem from './app/home/pages/AddEditItem';
 import ForgotPasswordPage from './app/home/pages/EsqueciClientePage/ForgotPage';
 import ResetPasswordPage from './app/home/pages/EsqueciClientePage/ResetPage';
 
@@ -21,16 +23,20 @@ const router = createBrowserRouter([
     element: <ListTests />,
   },
   {
-    path: "/:restaurant_id/menu_editor",
+    path: "/:restaurant_id/menu-editor",
     element: <MenuEditor />,
   },
   {
-    path: "/:restaurant_id/menu_editor/:page",
+    path: "/:restaurant_id/menu-editor/:page",
     element: <MenuEditor />,
   },
   {
-    path: "/:restaurant_id/add_item",
-    element: <AddItem />,
+    path: "/:restaurant_id/add-item",
+    element: <AddEditItem type='add' />,
+  },
+  {
+    path: "/:restaurant_id/edit-item/:item_id",
+    element: <AddEditItem type='edit' />,
   },
   {
     path: "/users",
@@ -53,6 +59,14 @@ const router = createBrowserRouter([
     element: <HomeClientePage />,
   },
   {
+    path: "/login-restaurant",
+    element: <LoginRestaurantPage />,
+  },
+  {
+    path: "/home-restaurant",
+    element: <HomeRestaurantePage />,
+  },
+  {
     path: "/forgot-password",
     element: <ForgotPasswordPage />,
   },
@@ -62,7 +76,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: <Navigate to="/create-test" replace />,
+    element: <Navigate to="/login-client" replace />,
   },
   {
     path: "*",

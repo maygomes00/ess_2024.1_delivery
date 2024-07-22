@@ -1,14 +1,18 @@
 import styles from "./index.module.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { loadItens } from "../../../../../shared/services/ItensService";
 import { Item } from "../../../../../shared/types/Item";
 import AddItemButton from "./AddItemButton";
 import ItemEditContainer from "./ItemEditContainer";
 import DeletePopup, { DeletePopupMethods } from "./DeletePopup";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { localContextUpdateInfo } from "../../../context/LocalContext";
 
 const ItemPage = ({restaurantId}) => {
+  const navigate = useNavigate()
+  const addPath = `/${restaurantId}/add-item`
+  const editPath = `/${restaurantId}/edit-item/`
+
   // Variaveis:
   const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
   const [reload, setReload] = useState(false)
@@ -25,6 +29,7 @@ const ItemPage = ({restaurantId}) => {
         key={index}
         item_info={item}
         onClickDelete={handleOnClickDelete}
+        onClickEdit={handleOnClickEdit}
         />
       ))}
     </div>
@@ -41,6 +46,10 @@ const ItemPage = ({restaurantId}) => {
       localContextUpdateInfo("item", "id", item_id)
       localContextUpdateInfo("item", "name", item_name)
     }
+  }
+
+  const handleOnClickEdit= (item_id: string) => {
+    navigate(editPath + item_id)
   }
 
   const reloadPage = () => {
@@ -64,9 +73,7 @@ const ItemPage = ({restaurantId}) => {
   return (
     <section id="exibidorDeItens" className={styles.section}>
       {createItensContainers()}
-      <Link to={`/${restaurantId}/add_item`} style={{ textDecoration: 'none' }}>
-        <AddItemButton />
-      </Link>
+      <AddItemButton onClick={() => {navigate(addPath)}}/>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />
     </section>
   );

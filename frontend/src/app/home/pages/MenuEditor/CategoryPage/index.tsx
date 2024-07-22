@@ -3,9 +3,9 @@ import styles from "./index.module.css";
 import CategoryBlock from "../CategoryBlock";
 import { loadCategories, addCategory, updateCategory, deleteCategory } from "../../../../../shared/services/CategoriesService";
 import { Category } from "../../../../../shared/types/category";
-import AddCategoryButton from "./AddCategoryButton";
-import CategoryEditContainer from "./CategoryEditContainer";
-import AddCategoryPopup from "./AddCategoryPopup";
+import AddCategoryButton from "../AddCategoryButton";
+import CategoryEditContainer from "../CategoryEditContainer";
+import AddCategoryPopup from "../AddCategoryPopup";
 import EditCategoryPopup from "../CategoryPage/EditCategoryPopup";
 import ConfirmationPopup from "./ConfirmationPopup/ConfirmationPopup";
 import { AxiosError } from 'axios';
@@ -21,11 +21,21 @@ const CategoryPage = ({ restaurantId }: { restaurantId: string }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fetchCategories = async () => {
+    if (!restaurantId) {
+      console.error("Erro: restaurantId não definido");
+      return;
+    }
+  
     try {
-      const fetchedCategories = await loadCategories(restaurantId);
-      setRestaurantCategories(fetchedCategories);
+      // Obtém todas as categorias do backend
+      const allCategories = await loadCategories(restaurantId); 
+  
+      // Filtra as categorias para manter apenas aquelas que pertencem ao restaurantId atual
+      const filteredCategories = allCategories.filter(category => category.restauranteId === restaurantId);
+  
+      setRestaurantCategories(filteredCategories);
     } catch (error) {
-      console.error("Error loading categories:", error);
+      console.error("Erro ao carregar categorias:", error);
     }
   };
 
@@ -110,7 +120,7 @@ const CategoryPage = ({ restaurantId }: { restaurantId: string }) => {
         <CategoryEditContainer 
           key={category.id} 
           onEditClick={() => openEditPopup(category)} 
-          onDeleteClick={() => openConfirmationPopup(category.id)} // Alterado para abrir o popup de confirmação
+          onDeleteClick={() => openConfirmationPopup(category.id)}
         >
           <CategoryBlock categoryName={category.name} />
         </CategoryEditContainer>
@@ -136,7 +146,7 @@ const CategoryPage = ({ restaurantId }: { restaurantId: string }) => {
         isOpen={isConfirmationOpen}
         onClose={closeConfirmationPopup}
         onConfirm={handleConfirmDelete}
-        errorMessage={errorMessage} // Passa a mensagem de erro para o popup de confirmação
+        errorMessage={errorMessage} 
       />
     </section>
   );

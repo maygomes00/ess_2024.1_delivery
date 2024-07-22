@@ -38,11 +38,13 @@ const DeletePopup = forwardRef<DeletePopupMethods, DeletePopupProps>((props, ref
   }
 
   const handleConfirm = async () => {
-    let result = removeItem(localContextGetInfo("item", "id"))
-    if (props.reload){
-      props.reload()
+    let result = await removeItem(localContextGetInfo("item", "id"))
+    if (result.status == 200) {
+      if (props.reload){
+        props.reload()
+      }
+      closeDeletePopup() 
     }
-    closeDeletePopup()
   }
 
   return(

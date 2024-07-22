@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import styles from "./index.module.css";
-import { Category } from "../../types/types";
+import { Category } from "../../../../../../shared/types/category";
 
 type EditCategoryPopupProps = {
   isOpen: boolean;
@@ -17,12 +17,12 @@ const EditCategoryPopup = ({ isOpen, onClose, category, onEditCategory, existing
 
   const handleEditCategory = async () => {
     if (!newCategoryName.trim()) {
-      setErrorMessage("É obrigatório um nome para a categoria!");
+      setErrorMessage("Nome da categoria não pode ser vazio!");
       return;
     }
 
     if (existingCategories.some(cat => cat.name.toLowerCase() === newCategoryName.toLowerCase() && cat.id !== category.id)) {
-      setErrorMessage("Essa categoria já existe!");
+      setErrorMessage("Já existe uma categoria com esse nome!");
       return;
     }
 

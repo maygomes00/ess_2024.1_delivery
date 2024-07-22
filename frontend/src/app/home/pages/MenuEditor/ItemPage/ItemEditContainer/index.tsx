@@ -8,12 +8,13 @@ import { Item } from "../../../../../../shared/types/Item";
 type ItemEditContainerProps = {
   item_info: Item
   onClickDelete?: any
+  onClickEdit?: any
 }
 
 /*
   Conteiner que guarda o bloco do item e os botões de editar e remover. 
 */
-const ItemEditContainer = ({ item_info, onClickDelete }: ItemEditContainerProps) => {
+const ItemEditContainer = ({ item_info, onClickDelete, onClickEdit }: ItemEditContainerProps) => {
   let {id, name} = item_info
   const buttonSize = "3.5vw"
   const buttonFontSize = "2vw"
@@ -23,7 +24,7 @@ const ItemEditContainer = ({ item_info, onClickDelete }: ItemEditContainerProps)
   }
 
   const handleOnClickEdit = () => {
-    return
+    onClickEdit(id)
   }
 
   return(
