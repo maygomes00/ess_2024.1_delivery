@@ -22,7 +22,7 @@ export const MainProvider = ({ children }: MainProviderProps) => {
   );
 };
 
-// src/app/context/AuthContext.tsx
+//Login de Cliente
 
 import React, { useReducer, useContext } from 'react';
 import { authReducer } from './reducer';

@@ -28,7 +28,7 @@ const CategoryPage = ({ restaurantId }: { restaurantId: string }) => {
   
     try {
       // Obtém todas as categorias do backend
-      const allCategories = await loadCategories(); // Chama a função sem o restaurantId
+      const allCategories = await loadCategories(restaurantId); 
   
       // Filtra as categorias para manter apenas aquelas que pertencem ao restaurantId atual
       const filteredCategories = allCategories.filter(category => category.restauranteId === restaurantId);
@@ -38,7 +38,7 @@ const CategoryPage = ({ restaurantId }: { restaurantId: string }) => {
       console.error("Erro ao carregar categorias:", error);
     }
   };
-  
+
   useEffect(() => {
     fetchCategories();
   }, [restaurantId]);

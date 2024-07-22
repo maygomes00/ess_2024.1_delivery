@@ -24,7 +24,7 @@ const CategoryEditContainer = ({ children, onEditClick, onDeleteClick }: Categor
           size={buttonSize}
           font_size={buttonFontSize}
           border={2}
-          hover_background="#09d321"
+          hover_background="#008000"
           onClick={onEditClick}
         >
           <CiEdit />
@@ -33,7 +33,7 @@ const CategoryEditContainer = ({ children, onEditClick, onDeleteClick }: Categor
           size={buttonSize}
           font_size={buttonFontSize}
           border={2}
-          hover_background="#ff4d4d"
+          hover_background="#912234"
           onClick={onDeleteClick}
         >
           <MdClose />

@@ -277,7 +277,7 @@ const ItemForm = ({ type="add" }) => {
       if (restaurant_id) {
         setVars()
         try {
-          const fetchedCategories: Category[] = await loadCategories()
+          const fetchedCategories: Category[] = await loadCategories(restaurant_id)
           setRestaurantCategories(fetchedCategories)
         } catch (error) {
             console.error('Error loading categories:', error);
