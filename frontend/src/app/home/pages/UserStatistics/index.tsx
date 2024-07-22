@@ -4,7 +4,9 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import styles from "./index.module.css";
 import { getUserOrders } from "../../../../shared/services/userService";
-import { Pedido } from "../../../../shared/types/User";
+import { getItemDetails } from "../../../../shared/services/ItensService";
+import { Pedido, UserItem } from "../../../../shared/types/User";
+import { Item } from "../../../../shared/types/Item";
 import NoOrdersModal from "../../../../shared/components/NoOrdersModal/NoOrdersModal";
 
 interface EstatisticaMensal {
@@ -30,6 +32,7 @@ const UserStatistics = () => {
   const [estatisticasDiarias, setEstatisticasDiarias] = useState<
     EstatisticaDiaria[]
   >([]);
+  const [items, setItems] = useState<{ [key: string]: Item }>({});
   const [showModal, setShowModal] = useState(false);
 
   const handleCloseModal = () => setShowModal(false);
@@ -48,10 +51,23 @@ const UserStatistics = () => {
           return;
         }
         setOrders(orders);
+        await fetchItems(orders);
         calcularEstatisticas(orders);
       } catch (error) {
         setError("Erro ao pegar histórico de pedidos do usuário");
       }
+    };
+
+    const fetchItems = async (orders: Pedido[]) => {
+      const itemPromises = orders.flatMap((order) =>
+        order.itens.map((userItem) => getItemDetails(userItem.produto_id))
+      );
+      const itemsArray = await Promise.all(itemPromises);
+      const itemsMap: { [key: string]: Item } = {};
+      itemsArray.forEach((item) => {
+        itemsMap[item.id] = item;
+      });
+      setItems(itemsMap);
     };
 
     fetchOrders();
@@ -65,18 +81,26 @@ const UserStatistics = () => {
       const mes = format(new Date(order.data), "MMMM yyyy", { locale: ptBR });
       const dia = format(new Date(order.data), "dd/MM/yyyy", { locale: ptBR });
 
+      const totalGasto = order.itens.reduce((acc, userItem) => {
+        const item = items[userItem.produto_id];
+        if (item) {
+          return acc + Number(item.price) * userItem.quantity;
+        }
+        return acc;
+      }, 0);
+
       // Estatísticas Mensais
       if (!estatMensais[mes]) {
         estatMensais[mes] = { mes, totalGasto: 0, numeroItens: 0 };
       }
-      estatMensais[mes].totalGasto += order.total;
+      estatMensais[mes].totalGasto += totalGasto;
       estatMensais[mes].numeroItens += order.itens.length;
 
       // Estatísticas Diárias
       if (!estatDiarias[dia]) {
         estatDiarias[dia] = { dia, totalGasto: 0, numeroItens: 0 };
       }
-      estatDiarias[dia].totalGasto += order.total;
+      estatDiarias[dia].totalGasto += totalGasto;
       estatDiarias[dia].numeroItens += order.itens.length;
     });
 
