@@ -44,26 +44,6 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const logout = (req: Request, res: Response) => {
-  fs.readFile(path.resolve(userHandlingPath), 'utf8', (err, data) => {
-    if (err) {
-      return res.status(500).json({ message: 'Server error' });
-    }
-
-    const current_user_db: User[] = JSON.parse(data);
-
-    if (current_user_db.length > 0) {
-      fs.writeFile(
-        path.resolve(userHandlingPath),
-        JSON.stringify([]),
-        (writeErr) => {
-          if (writeErr) {
-            return res.status(500).json({ message: 'Server error' });
-          }
-          return res.status(200).json({ message: 'Logout successful' });
-        }
-      );
-    } else {
-      return res.status(404).json({ message: 'No user currently logged in' });
-    }
-  });
+  currentUser = null;
+  return res.status(200).json({ message: 'Logout successful' });
 };
