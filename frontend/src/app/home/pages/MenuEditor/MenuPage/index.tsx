@@ -17,7 +17,9 @@ const MenuPage = ({ restaurantId }) => {
         {categories.map((category) => (
           <div>
             <CategoryCard category={category}></CategoryCard>
-            {showItens(category.name)}
+            <div>
+              {showItens(category.name)}
+            </div>
           </div>
         ))}
       </div>
@@ -26,7 +28,7 @@ const MenuPage = ({ restaurantId }) => {
 
   const showItens = (categoryName: string) => {
     return (
-      <div>
+      <div className={styles.ShowItens}>
         {itens.map((item) => createItemBlock(categoryName, item))}
       </div>
     )

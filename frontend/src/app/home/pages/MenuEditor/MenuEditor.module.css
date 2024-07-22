@@ -1,9 +1,11 @@
+/* Pagina de editor de menu */
 .MenuEditor {
     display: flex;
     justify-content: center;
     align-items: start;
 }
 
+/* Conteiner que guarda o PageSelector e o PageBlock */
 .ItemCategoryContainer {
     display: flex;
     flex-direction: column;
@@ -13,7 +15,109 @@
     gap: 10px;
 }
 
+/* Pagina que é exibida no PageBlock */
 .Page {
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 30px;
     width: 60vw;
 }
+
+/* MenuPage */
+.ShowItens {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+/* CategoryCard */
+.CategoryCard {
+    border-bottom: 1px solid gray;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.CategoryCardHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ItemBlock */
+.ItemBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    border: 1px solid gray;
+    padding: 5px;
+    border-radius: 10px;
+    gap: 3px;
+    width: 100%;
+    height: 20vh;
+}
+
+.ItemSpace {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    max-width: 25%;
+    max-height: 100%;
+}
+
+.ItemBoxItemImageContainer {
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.ItemBoxItemImage {
+    width: auto;
+    height: 100%;
+}
+
+.ItemInfo {
+    width: 75%;
+    min-width: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.ItemInfoTexts {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    width: fit-content;
+    max-width: 60%;
+    height: 100%;
+}
+
+.ItemName {
+    font-size: 2.3vw;
+    align-content: center;
+    word-break: break-all;
+}
+
+.ItemDescription {
+    font-size: 1.4vw;
+    align-content: center;
+    word-break: break-all;
+}
+
+.ItemInfoPrice {
+    font-size: 1.4vw;
+    min-width: fit-content;
+    max-width: 40%;
+    text-align: end;
+    padding-right: 1vw;
+    align-content: center;
+}
+
+/**/
+
+
+/**/

@@ -2,8 +2,14 @@
   "categorias": [
     {
       "id": "1",
-      "nome": "Salgado",
-      "restauranteId": "123",
+      "nome": "Doce",
+      "restauranteId": "f257adef-dda8-46c7-bbfd-4275a90d837e",
+      "temItens": false
+    },
+    {
+      "id": "2",
+      "nome": "Salgados",
+      "restauranteId": "f257adef-dda8-46c7-bbfd-4275a90d837e",
       "temItens": false
     }
   ]
