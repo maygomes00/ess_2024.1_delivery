@@ -83,8 +83,8 @@ const writeUsersFile = (data: any) => {
       expect(response!.status).toBe(200);
     });
 
-    and('o retorno deve ser a mensagem "Login successful"', () => {
-      expect(response!.body).toEqual({ message: 'Login successful' })
+    and('o retorno deve ser a mensagem "Login successful" e o id do usuário', () => {
+      expect(response!.body).toEqual(expect.objectContaining({ message: 'Login successful', id: "f257adef-dda8-46c7-bbfd-4275a90d837e" }));
     });
   });
 
@@ -156,7 +156,7 @@ test('Realizar login de um restaurante com credenciais de Cliente', ({ given, wh
   });
 });
 
-///////////// POST FOR SUCCESSFUL LOGOUT
+// POST FOR SUCCESSFUL LOGOUT
 test('Realizar logout de um restaurante com sucesso', ({ given, when, then, and }) => {
   given('um restaurante está logado', async () => {
     // Realizando o login primeiro
@@ -176,7 +176,7 @@ test('Realizar logout de um restaurante com sucesso', ({ given, when, then, and 
   });
 
   and('o retorno deve ser a mensagem "Logout successful"', () => {
-    expect(response!.body).toEqual({ message: 'Logout successful' })
+    expect(response!.body).toEqual({ message: 'Logout successful' });
   });
 });
 });

@@ -4,7 +4,7 @@ Scenario: Realizar login de um restaurante com sucesso
 	Given acesso a rota "/login-restaurant"
 	When  realizo uma requisição "POST"
 	Then  o status da resposta retornada da API é "200"
-    And o retorno deve ser a mensagem "Login successful"
+    And o retorno deve ser a mensagem "Login successful" e o id do usuário
 
 Scenario: Realizar login de um restaurante com senha incorreta
 	Given acesso a rota "/login-restaurant"

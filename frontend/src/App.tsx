@@ -17,6 +17,7 @@ import HomeRestaurantePage from "./app/home/pages/HomeRestaurantePage/HomeRestau
 import AddEditItem from "./app/home/pages/AddEditItem";
 import ForgotPasswordPage from "./app/home/pages/EsqueciClientePage/ForgotPage";
 import ResetPasswordPage from "./app/home/pages/EsqueciClientePage/ResetPage";
+import RestaurantRegistrationPage from "./app/home/pages/RestaurantRegistration/RestaurantRegistrationPage";
 import Layout from "./shared/components/Layout"; // Atualizado para importar Layout
 
 const router = createBrowserRouter([
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Navigate to="/login-client" replace />,
+      },
+      {
+        path: "/register-restaurant",
+        element: <RestaurantRegistrationPage />,
       },
       {
         path: "*",
