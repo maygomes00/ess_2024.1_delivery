@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./index.module.css";
-import restaurantProfile from "../../assets/circle-64.png";
+import restaurantProfile from "../../../../../shared/assets/circle-64.png";
 
 interface RestaurantHeaderProps {
   restaurantId: string;

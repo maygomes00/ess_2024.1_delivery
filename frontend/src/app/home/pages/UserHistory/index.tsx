@@ -7,9 +7,9 @@ import { Pedido, UserItem } from "../../../../shared/types/User";
 import { Item } from "../../../../shared/types/Item";
 import NoOrdersModal from "../../../../shared/components/NoOrdersModal/NoOrdersModal";
 import { formatDate } from "../../../../shared/utils/dateUtils";
-import RestaurantHeader from "../../../../shared/components/ListItemHeader";
+import RestaurantHeader from "../../components/UserHistory/ListItemHeader/index";
 import UserItemDetails from "../../../../shared/components/UserItemDetails";
-import OrderBoxHeader from "../../../../shared/components/OrderBoxHeader";
+import OrderBoxHeader from "../../components/UserHistory/OrderBoxHeader";
 
 const UserHistory = () => {
   const { user_id } = useParams<{ user_id: string }>();
@@ -79,6 +79,7 @@ const UserHistory = () => {
     return <NoOrdersModal show={showModal} handleClose={handleCloseModal} />;
   }
 
+  // componente
   return (
     <div className={styles.userHistory}>
       <h1>Histórico</h1>
