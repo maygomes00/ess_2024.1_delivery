@@ -57,3 +57,13 @@ export const getUserOrders = async (id: string): Promise<Pedido[]> => {
   }
   return result;
 };
+
+// Nova função para buscar usuário por ID
+export const fetchUserById = async (id: string): Promise<User> => {
+  const response = await fetch(`${API_URL}/${id}`);
+  if (!response.ok) {
+    throw new Error("Erro ao buscar usuário");
+  }
+  const user = await response.json();
+  return user;
+};
