@@ -8,6 +8,8 @@ import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
 import MenuEditor from "./app/home/pages/MenuEditor";
 import UsersPage from "./app/home/pages/UserPage/UserPage";
+import UsersConfigPage from "./app/home/pages/UsersConfigPage/UsersConfigPage"; // Novo componente importado
+import EditUserPage from "./app/home/pages/UsersEditPage/EditUserPage"; // Novo componente importado
 import UserHistory from "./app/home/pages/UserHistory";
 import UserStatistics from "./app/home/pages/UserStatistics";
 import LoginClientPage from "./app/home/pages/LoginClientePage/LoginClientePage";
@@ -52,6 +54,14 @@ const router = createBrowserRouter([
       {
         path: "/users",
         element: <UsersPage />,
+      },
+      {
+        path: "/users/config",
+        element: <UsersConfigPage />,
+      },
+      {
+        path: "/users/config/edit/:userId",
+        element: <EditUserPage />,
       },
       {
         path: "/:user_id/history",
