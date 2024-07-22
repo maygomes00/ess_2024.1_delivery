@@ -5,6 +5,7 @@ import axios from 'axios';
 import * as z from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
 import { localContextStart, localContextUpdateInfo } from '../../context/LocalContext';
+import styles from './LoginClientPage.module.css'; // Importe o CSS Module
 
 const schema = z.object({
   email: z.string().email({ message: "E-mail inválido" }),
@@ -35,25 +36,27 @@ const LoginClientPage: React.FC = () => {
   };  
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit(handleLogin)}>
-        <div>
-          <label>Email:</label>
-          <input type="email" {...register('email')} />
-          {errors.email && <p>{errors.email.message}</p>}
-        </div>
-        <div>
-          <label>Senha:</label>
-          <input type="password" {...register('password')} />
-          {errors.password && <p>{errors.password.message}</p>}
-        </div>
-        <div>
-        <Link to="/forgot-password">Esqueci minha Senha</Link>
-        </div>
-        <button type="submit">Entrar</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className={styles.body}>
+      <div className={styles.container}>
+        <h2>Login</h2>
+        <form onSubmit={handleSubmit(handleLogin)} className={styles.form}>
+          <div>
+            <label>Email:</label>
+            <input type="email" {...register('email')} />
+            {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+          </div>
+          <div>
+            <label>Senha:</label>
+            <input type="password" {...register('password')} />
+            {errors.password && <p className={styles.error}>{errors.password.message}</p>}
+          </div>
+          <div>
+            <Link to="/forgot-password">Esqueci minha Senha</Link>
+          </div>
+          <button type="submit" className={styles.button}>Entrar</button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };

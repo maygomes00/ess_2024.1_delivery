@@ -1,0 +1,29 @@
+.menuPage {
+    padding: 20px;
+  }
+  
+.category {
+    margin-bottom: 15px;
+}
+  
+.categoryName {
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+  .arrow {
+    font-size: 0.8em;
+  }
+  
+  .itemList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .item {
+    margin: 5px 0;
+  }
+  
