@@ -84,17 +84,19 @@ const ItemForm = ({ type="add" }) => {
   }
 
   const setVars = async () => {
-    try {
-      let info = await getItemInfo()
-      setName(info.name)
-      setDescription(info.description)
-      setPrice(info.price)
-      setImageBase64(info.image64)
-      setImagePath(base64PathStart+info.image64)
-      let categories_info = info.categories.split(",")
-      setCategoryOptions(categories_info)
-    } catch (error) {
-      console.error('Error loading item info:', error);
+    if (type == "edit") {
+      try {
+        let info = await getItemInfo()
+        setName(info.name)
+        setDescription(info.description)
+        setPrice(info.price)
+        setImageBase64(info.image64)
+        setImagePath(base64PathStart+info.image64)
+        let categories_info = info.categories.split(",")
+        setCategoryOptions(categories_info)
+      } catch (error) {
+        console.error('Error loading item info:', error);
+      }
     }
   }
 
@@ -275,7 +277,7 @@ const ItemForm = ({ type="add" }) => {
       if (restaurant_id) {
         setVars()
         try {
-          const fetchedCategories: Category[] = await loadCategories(restaurant_id)
+          const fetchedCategories: Category[] = await loadCategories()
           setRestaurantCategories(fetchedCategories)
         } catch (error) {
             console.error('Error loading categories:', error);
