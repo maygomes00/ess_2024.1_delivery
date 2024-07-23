@@ -5,7 +5,8 @@ const UserPage = () => {
         nome: '',
         email: '',
         telefone: '',
-        endereco: ''
+        endereco: '',
+        senha: ''
     });
 
     const handleSubmit = (e) => {
@@ -54,6 +55,16 @@ const UserPage = () => {
                     value={user.endereco} 
                     onChange={(e) => setUser({ ...user, endereco: e.target.value })}
                     data-cy="endereco"
+                />
+            </div>
+            <div>
+                <label htmlFor="senha">Senha:</label>
+                <input 
+                    type="password" 
+                    id="senha" 
+                    value={user.senha} 
+                    onChange={(e) => setUser({ ...user, senha: e.target.value })}
+                    data-cy="senha"
                 />
             </div>
             <button type="submit" data-cy="cadastrar">Cadastrar</button>
