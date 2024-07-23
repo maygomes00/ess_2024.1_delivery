@@ -14,39 +14,53 @@ const MenuPage = ({ restaurantId }) => {
   const showCategories = () => {
     return (
       <div>
-        {categories.map((category) => (
-          <div>
-            <CategoryCard category={category}></CategoryCard>
-            <div>
-              {showItens(category.name)}
-            </div>
+        {categories.map((category, index) => (
+          <div key={index}>
+            {categoryHasItem(category) ? showCategoryAndItens(category) : null} 
           </div>
         ))}
       </div>
     )
   }
 
-  const showItens = (categoryName: string) => {
+  const showCategoryAndItens = (category: Category) => {
     return (
-      <div className={styles.ShowItens}>
-        {itens.map((item) => createItemBlock(categoryName, item))}
+      <div>
+        <CategoryCard category={category}></CategoryCard>
+        <div className={styles.ShowItens}>
+          {itens.map((item) => createItemBlock(category.name, item))}
+        </div>
       </div>
     )
   }
 
   const createItemBlock = (categoryName: string, itemInfo: Item) => {
-    let itensCategories = itemInfo.categories.split(",")
-    if (itensCategories.includes(categoryName)) {
+    if (itemIncludesCategory(categoryName, itemInfo)) {
       return (
         <ItemBlock item_info={itemInfo}></ItemBlock>
       )
     }
     else {
       return (
-        <div></div>
+        null
       )
     }
   }
+
+  const itemIncludesCategory = (categoryName: string, itemInfo: Item) => {
+    let itensCategories = itemInfo.categories.split(",")
+    return itensCategories.includes(categoryName)
+  }
+
+  const categoryHasItem = (category: Category, ) => {
+    for  (let item of itens) {
+      if (item.categories.split(",").includes(category.name)) {
+        return true
+      }
+    }
+    return false  
+  }
+  
 
   useEffect(() => {
     const fetchData = async () => {

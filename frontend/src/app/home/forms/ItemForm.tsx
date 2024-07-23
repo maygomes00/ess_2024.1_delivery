@@ -194,7 +194,7 @@ const ItemForm = ({ type="add" }) => {
       <div>
         {restaurantCategories.map((category, index) => (
           <div key={index} >
-            <input className={"checkbox"} type="checkbox" checked={categoryOptions.includes(category.name)} onChange={() => handleCheckboxChange(category.name)} />
+            <input className={"checkbox"} type="checkbox" checked={categoryOptions.includes(category.name)} onChange={() => handleCheckboxChange(category.name)} data-cy={`checkbox-${category.name}`} />
             {category.name}
           </div>
         ))}
@@ -296,22 +296,22 @@ const ItemForm = ({ type="add" }) => {
           <div>
             <label htmlFor="fileInput">Escolher uma imagem:</label>
             {imagePath && <img src={imagePath} alt="Imagem selecionada" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
-            <input type="file" id="fileInput" onChange={handleImageChange} accept="image/*" />
+            <input data-cy="ImageUpload" type="file" id="fileInput" onChange={handleImageChange} accept="image/*" />
             <p className={"error"}>{formErrors.image}</p>
           </div>
           <div>
             <label>Nome:</label>
-            <input type="text" {...register('name')} value={name} onChange={(e) => setName(e.target.value)} />
+            <input data-cy="Name" type="text" {...register('name')} value={name} onChange={(e) => setName(e.target.value)} />
             <p className={"error"}>{formErrors.name}</p>
           </div>
           <div>
             <label>Descrição:</label>
-            <input type="text" {...register('description')} value={description} onChange={(e) => setDescription(e.target.value)} />
+            <input data-cy="Description" type="text" {...register('description')} value={description} onChange={(e) => setDescription(e.target.value)} />
             <p className={"error"}>{formErrors.description}</p>
           </div>
           <div>
             <label>Preço:</label>
-            <input type="text" {...register('price')} value={price} onChange={(e) => setPrice(e.target.value)} />
+            <input data-cy="Price" type="text" {...register('price')} value={price} onChange={(e) => setPrice(e.target.value)} />
             <p className={"error"}>{formErrors.price}</p>
           </div>
           <div>

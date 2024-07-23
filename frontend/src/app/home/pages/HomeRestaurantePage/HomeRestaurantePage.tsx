@@ -14,12 +14,13 @@ interface User {
 const HomeRestaurantePage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [restauranteId, setRestaurantId] = useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const restauranteId = localContextGetInfo("user", "id");
+        setRestaurantId(localContextGetInfo("user", "id"));
         if (restauranteId != "") {
           const response = await axios.get(`http://localhost:5001/restaurant/${restauranteId}`);
           console.log('User data fetched:', response.data);
@@ -49,7 +50,7 @@ const HomeRestaurantePage: React.FC = () => {
   };
 
   const handleNavigateToMenuEditor = () => {
-    navigate('/f257adef-dda8-46c7-bbfd-4275a90d837e/menu-editor/categorias');
+    navigate("/"+restauranteId+"/menu-editor");
   };
 
   return (
@@ -69,7 +70,7 @@ const HomeRestaurantePage: React.FC = () => {
       ) : (
         <p>Carregando dados do usuário...</p>
       )}
-      <button onClick={handleNavigateToMenuEditor}>Ir para Menu Editor</button>
+      <button data-cy="EnterMenuEditor" onClick={handleNavigateToMenuEditor}>Ir para Menu Editor</button>
     </div>
   );
 };
