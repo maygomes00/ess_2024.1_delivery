@@ -1,31 +1,25 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
-Given('o usuário está na página {string}', (page: string) => {
-  cy.visit(`/${page}`);
+Given("o usuário está na página {string}", (page: string) => {
+  cy.visit(`http://localhost:3000/${page}`);
 });
 
-When(
-  'o usuário preenche o campo {string} com {string} e clica no botão {string}',
-  (inputCy: string, value: string, buttonCy: string) => {
-    cy.get(`[data-cy=${inputCy}]`).type(value);
-    cy.get(`[data-cy=${buttonCy}]`).click();
-  }
-);
-
-Then('o usuário deve ver a mensagem {string} no modal', (message: string) => {
-  cy.get('[data-cy=modal]').should('be.visible');
-  cy.get('[data-cy=modal-message]').should('contain', message);
+When("o usuário preenche a nova senha com {string}", (newPassword: string) => {
+  cy.get('[data-cy="new-password"]').type(newPassword);
 });
 
-Then('o usuário deve ver o botão {string} no modal', (buttonText: string) => {
-  cy.get('[data-cy=modal]').should('be.visible');
-  cy.get('[data-cy=modal-button]').should('contain', buttonText);
+When("o usuário clica no botão {string}", (button: string) => {
+  cy.get(`button[data-cy="${button === 'Redefinir Senha' ? 'submit-button' : 'modal-button'}"]`).click();
 });
 
-When('o usuário clica no botão {string}', (buttonCy: string) => {
-  cy.get(`[data-cy=${buttonCy}]`).click();
+Then("o usuário deve ver a mensagem {string}", (message: string) => {
+  cy.get('[data-cy="modal-message"]').should('contain.text', message);
 });
 
-Then('o usuário deve ser redirecionado para a página {string}', (page: string) => {
+Then("o modal deve fechar", () => {
+  cy.get('[data-cy="modal"]').should('not.exist');
+});
+
+Then("o usuário deve ser redirecionado para a página {string}", (page: string) => {
   cy.url().should('include', page);
 });

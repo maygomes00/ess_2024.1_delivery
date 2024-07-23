@@ -14,15 +14,13 @@ interface User {
 const HomeRestaurantePage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate(); // Certifique-se de que useNavigate seja importado
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Recuperar o ID do usuário do localStorage
-        const restauranteId = localContextGetInfo("user", "id")
+        const restauranteId = localContextGetInfo("user", "id");
         if (restauranteId != "") {
-          // Fazer a requisição para buscar os dados do usuário pelo ID
           const response = await axios.get(`http://localhost:5001/restaurant/${restauranteId}`);
           console.log('User data fetched:', response.data);
           setUser(response.data);
@@ -41,18 +39,22 @@ const HomeRestaurantePage: React.FC = () => {
   const handleLogout = async () => {
     try {
       await axios.post('http://localhost:5001/login-restaurant/logout-restaurant');
-      localContextEnd()
+      localContextEnd();
       setUser(null);
-      navigate('/login-restaurant'); // Use navigate aqui
+      navigate('/login-restaurant');
     } catch (e) {
       console.error('Erro ao fazer logout:', e);
       setError('Falha ao fazer logout');
     }
   };
 
+  const handleNavigateToMenuEditor = () => {
+    navigate('/f257adef-dda8-46c7-bbfd-4275a90d837e/menu-editor/categorias');
+  };
+
   return (
     <div>
-      <h2>Home Restaurante  {localStorage.getItem("start")}</h2>
+      <h2>Home Restaurante {localStorage.getItem("start")}</h2>
       {error ? (
         <p>{error}</p>
       ) : user ? (
@@ -67,6 +69,7 @@ const HomeRestaurantePage: React.FC = () => {
       ) : (
         <p>Carregando dados do usuário...</p>
       )}
+      <button onClick={handleNavigateToMenuEditor}>Ir para Menu Editor</button>
     </div>
   );
 };
