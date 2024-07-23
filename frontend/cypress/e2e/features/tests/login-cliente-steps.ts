@@ -16,6 +16,10 @@ When("o usuário clica no botão {string}", (button: string) => {
   cy.get(`button[data-cy="${button}"]`).click();
 });
 
+When("o usuário clica no link {string}", (link: string) => {
+  cy.get(`a[data-cy="${link}"]`).click();
+});
+
 Then("o usuário deve ser redirecionado para a página {string}", (page: string) => {
   cy.url().should("include", page);
 });
