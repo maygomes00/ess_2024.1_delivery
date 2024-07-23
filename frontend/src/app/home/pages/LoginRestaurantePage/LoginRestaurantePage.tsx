@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 import * as z from 'zod';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { localContextStart, localContextUpdateInfo } from '../../context/LocalContext';
 import styles from './LoginRestaurantePage.module.css'; // Importe o CSS Module
 
@@ -42,17 +42,17 @@ const LoginRestaurantPage: React.FC = () => {
         <form onSubmit={handleSubmit(handleLogin)} className={styles.form}>
           <div>
             <label>Email:</label>
-            <input type="email" {...register('email')} />
-            {errors.email && <p className={styles.error}>{errors.email.message}</p>}
+            <input type="email" {...register('email')} data-cy="email-input" />
+            {errors.email && <p className={styles.error} data-cy="email-error">{errors.email.message}</p>}
           </div>
           <div>
             <label>Senha:</label>
-            <input type="password" {...register('password')} />
-            {errors.password && <p className={styles.error}>{errors.password.message}</p>}
+            <input type="password" {...register('password')} data-cy="password-input" />
+            {errors.password && <p className={styles.error} data-cy="password-error">{errors.password.message}</p>}
           </div>
-          <button type="submit" className={styles.button}>Entrar</button>
+          <button type="submit" className={styles.button} data-cy="submit-button">Entrar</button>
         </form>
-        {message && <p>{message}</p>}
+        {message && <p data-cy="message">{message}</p>}
       </div>
     </div>
   );
