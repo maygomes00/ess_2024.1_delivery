@@ -102,7 +102,7 @@ const RestaurantForm: React.FC = () => {
                 name="restaurant_name"
                 value={restaurant.restaurant_name}
                 onChange={handleChange}
-                placeholder="Enter restaurant name"
+                placeholder="Insira o nome do restaurante"
               />
             </Form.Group>
 
@@ -113,84 +113,84 @@ const RestaurantForm: React.FC = () => {
                 name="restaurant_address"
                 value={restaurant.restaurant_address}
                 onChange={handleChange}
-                placeholder="Enter restaurant address"
+                placeholder="Insira o endereço do restaurante"
               />
             </Form.Group>
 
             <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
+              <Form.Label>E-mail</Form.Label>
               <Form.Control
                 type="email"
                 name="email"
                 value={restaurant.email}
                 onChange={handleChange}
-                placeholder="Enter restaurant email"
+                placeholder="Insira o email do restaurante"
               />
             </Form.Group>
 
             <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Senha</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
                 value={restaurant.password}
                 onChange={handleChange}
-                placeholder="Enter password"
+                placeholder="Insira uma senha"
               />
             </Form.Group>
 
             <Form.Group controlId="formOwnerName">
-              <Form.Label>Owner Name</Form.Label>
+              <Form.Label>Nome do proprietário</Form.Label>
               <Form.Control
                 type="text"
                 name="owner_name"
                 value={restaurant.owner_name}
                 onChange={handleChange}
-                placeholder="Enter owner's name"
+                placeholder="Insira o nome do proprietário"
               />
             </Form.Group>
 
             <Form.Group controlId="formOwnerCpf">
-              <Form.Label>Owner CPF</Form.Label>
+              <Form.Label>CPF do proprietário</Form.Label>
               <Form.Control
                 type="text"
                 name="owner_cpf"
                 value={restaurant.owner_cpf}
                 onChange={handleChange}
-                placeholder="Enter owner's CPF"
+                placeholder="Insira o CPF do proprietário"
               />
             </Form.Group>
 
             <Form.Group controlId="formOwnerAddress">
-              <Form.Label>Owner Address</Form.Label>
+              <Form.Label>Endereço do proprietário</Form.Label>
               <Form.Control
                 type="text"
                 name="owner_address"
                 value={restaurant.owner_address}
                 onChange={handleChange}
-                placeholder="Enter owner's address"
+                placeholder="Insira o endereço do proprietário"
               />
             </Form.Group>
 
             <Form.Group controlId="formOwnerTelephone">
-              <Form.Label>Owner Telephone</Form.Label>
+              <Form.Label>Telefone do proprietário</Form.Label>
               <Form.Control
                 type="text"
                 name="owner_telephone"
                 value={restaurant.owner_telephone}
                 onChange={handleChange}
-                placeholder="Enter owner's telephone"
+                placeholder="Insira o telefone do proprietário"
               />
             </Form.Group>
 
             <Form.Group controlId="formRestaurantCnpj">
-              <Form.Label>Restaurant CNPJ</Form.Label>
+              <Form.Label>CNPJ do restaurante</Form.Label>
               <Form.Control
                 type="text"
                 name="restaurant_cnpj"
                 value={restaurant.restaurant_cnpj}
                 onChange={handleChange}
-                placeholder="Enter restaurant CNPJ"
+                placeholder="Insira o CNPJ do restaurante"
               />
             </Form.Group>
 
