@@ -5,18 +5,20 @@ import { Item } from "../../types/Item";
 import styles from "./index.module.css";
 
 interface UserItemDetailsProps {
+  restaurantId: string;
   userItem: UserItem;
   item: Item | undefined;
 }
 
 const UserItemDetails: React.FC<UserItemDetailsProps> = ({
+  restaurantId,
   userItem,
   item,
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/item/${item?.id}`);
+    navigate(`/restaurant/${restaurantId}/cardapio/${item?.id}`);
   };
 
   return item ? (

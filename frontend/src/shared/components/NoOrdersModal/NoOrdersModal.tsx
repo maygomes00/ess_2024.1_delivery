@@ -12,7 +12,7 @@ const NoOrdersModal: React.FC<NoOrdersModalProps> = ({ show }) => {
   const navigate = useNavigate();
 
   const redirectToHome = () => {
-    navigate("/");
+    navigate("/home-client");
   };
 
   return (
@@ -34,6 +34,7 @@ const NoOrdersModal: React.FC<NoOrdersModalProps> = ({ show }) => {
             variant="primary"
             onClick={redirectToHome}
             className={styles.modalButton}
+            data-cy="confirmar"
           >
             Confirmar
           </Button>

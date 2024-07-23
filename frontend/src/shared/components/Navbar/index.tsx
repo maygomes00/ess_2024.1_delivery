@@ -21,7 +21,9 @@ const Navbar = () => {
                 <Link to={`/${userId}/statistics`}>Estatísticas</Link>
               </li>
               <li className={styles.listItem}>
-                <Link to={`/${userId}/history`}>Histórico</Link>
+                <Link to={`/${userId}/history`} data-cy="historico">
+                  Histórico
+                </Link>
               </li>
               <li className={styles.listItem}>
                 <Link to="/users">Users</Link>
