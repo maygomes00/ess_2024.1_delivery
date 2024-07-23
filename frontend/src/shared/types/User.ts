@@ -19,3 +19,15 @@ export interface UserItem {
   produto_id: string;
   quantity: number;
 }
+
+export interface EstatisticaMensal {
+  mes: string;
+  totalGasto: number;
+  numeroItens: number;
+}
+
+export interface EstatisticaDiaria {
+  dia: string;
+  totalGasto: number;
+  numeroItens: number;
+}

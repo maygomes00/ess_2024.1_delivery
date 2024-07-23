@@ -1,0 +1,21 @@
+/* .content {
+} */
+
+.detailsTitle {
+  margin-top: 20px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px;
+}
+
+.detailsInfoBox {
+  margin: 10px 0px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #9f2234;
+}
