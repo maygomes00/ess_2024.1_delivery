@@ -49,7 +49,7 @@ const HomeRestaurantePage: React.FC = () => {
   };
 
   const handleNavigateToMenuEditor = () => {
-    navigate('/f257adef-dda8-46c7-bbfd-4275a90d837e/menu-editor/categorias');
+    navigate(`/${localContextGetInfo("user", "id")}/menu-editor/menu`);
   };
 
   return (

@@ -41,12 +41,39 @@ declare global {
   namespace Cypress {
     interface Chainable {
       getDataCy(dataCySelector: string): Chainable<JQuery<HTMLElement>>;
+      setUserId(id: string): void;
+      getUserId(): Chainable<string | undefined>;
+      getMenuEditorPage(page: string): Chainable<string | undefined>;
     }
   }
 }
 
+
+let userId: string | undefined;
+
 Cypress.Commands.add("getDataCy", (dataCySelector) => {
   return cy.get(`[data-cy="${dataCySelector}"]`);
+});
+
+Cypress.Commands.add('setUserId', (id) => {
+  Cypress.env('userId', id);
+});
+
+Cypress.Commands.add('getUserId', () => {
+  return Cypress.env('userId');
+});
+
+Cypress.Commands.add("getMenuEditorPage", (page) => {
+  if (page == "menu") {
+    return cy.wrap("menu-editor/menu")
+  }
+  else if (page == "itens") {
+    return cy.wrap("menu-editor/itens")
+  }
+  else if (page == "categories") {
+    return cy.wrap("menu-editor/categorias")
+  }
+  return undefined
 });
 
 export {};

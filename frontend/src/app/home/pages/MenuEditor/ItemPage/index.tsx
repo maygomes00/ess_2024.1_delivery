@@ -85,7 +85,7 @@ const ItemPage = ({restaurantId}) => {
   return (
     <div id="exibidorDeItens" className={styles.Page}>
       {createItensContainers()}
-      <AddItemButton onClick={handleOnClickAdd}/>
+      <AddItemButton data-cy="AddItemButton" onClick={handleOnClickAdd}/>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />
     </div>
   );
