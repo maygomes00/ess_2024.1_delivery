@@ -38,18 +38,24 @@ const ResetPasswordPage: React.FC = () => {
         <h2>Redefinir Senha</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Nova Senha:</label>
+            <label htmlFor="newPassword">Nova Senha:</label>
             <input 
+              id="newPassword"
               type="password" 
               value={newPassword} 
               onChange={(e) => setNewPassword(e.target.value)} 
               required 
+              data-cy="new-password-input"
             />
           </div>
-          <button type="submit" className={styles.button}>Redefinir Senha</button>
+          <button type="submit" className={styles.button} data-cy="reset-password-button">Redefinir Senha</button>
         </form>
         {isModalOpen && (
-          <Modal message={message} isSuccess={isSuccess} onClose={handleCloseModal} />
+          <Modal 
+            message={message} 
+            isSuccess={isSuccess} 
+            onClose={handleCloseModal} 
+          />
         )}
       </div>
     </div>
@@ -58,10 +64,10 @@ const ResetPasswordPage: React.FC = () => {
 
 const Modal: React.FC<{ message: string; isSuccess: boolean; onClose: () => void }> = ({ message, isSuccess, onClose }) => {
   return (
-    <div className={styles.modal}>
+    <div className={styles.modal} data-cy="modal">
       <div className={styles['modal-content']}>
-        <p>{message}</p>
-        <button onClick={onClose} className={styles.button}>
+        <p data-cy="modal-message">{message}</p>
+        <button onClick={onClose} className={styles.button} data-cy="modal-button">
           {isSuccess ? 'Ir para Login' : 'Fechar'}
         </button>
       </div>
