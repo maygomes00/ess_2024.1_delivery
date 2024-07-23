@@ -48,9 +48,50 @@
       "telefone": "(11) 9876-5432",
       "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
       "pedidos": [],
-      "total": 0,
       "resetPasswordToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhc2NhZGViYWxhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzIxNTA4MzU4LCJleHAiOjE3MjE1MTE5NTh9.s34VOQuts18juNC2n2WEsXmzkPXqctTIU2n5OQGAzqQ",
       "resetPasswordExpires": "2024-07-20T21:45:58.467Z"
+    },
+    {
+      "id": "33",
+      "nome": "usuarioteste1",
+      "email": "usuarioteste1@example.com",
+      "password": "senhateste1",
+      "telefone": "(11) 9999-5234",
+      "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
+      "pedidos": [
+        {
+          "order_id": 3091,
+          "data": "2024-04-01",
+          "itens": [
+            {
+              "produto_id": 0,
+              "quantity": 2
+            },
+            {
+              "produto_id": 1,
+              "quantity": 1
+            }
+          ],
+          "total": 73.99
+        },
+        {
+          "order_id": 4091,
+          "data": "2024-02-30",
+          "itens": [
+            {
+              "produto_id": 2,
+              "quantity": 1
+            },
+            {
+              "produto_id": 1,
+              "quantity": 3
+            }
+          ],
+          "total": 81.97
+        }
+      ],
+      "resetPasswordToken": "",
+      "resetPasswordExpires": ""
     }
   ]
 }
