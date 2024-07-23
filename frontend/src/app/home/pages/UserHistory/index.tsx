@@ -90,15 +90,16 @@ const UserHistory = () => {
             orderId={order.order_id}
           />
           <div className={styles.orderBox}>
-            <ul className={styles.itemsInfo}>
+            <ul className={styles.itemsInfo} data-cy="pedidos">
               {Object.entries(groupItemsByRestaurant(order.itens)).map(
                 ([restaurantId, userItems]) => (
                   <li key={restaurantId} className={styles.list}>
                     <RestaurantHeader restaurantId={restaurantId} />
-                    <ul>
+                    <ul data-cy="pedidos-itens">
                       {userItems.map((userItem) => (
                         <UserItemDetails
                           key={userItem.produto_id}
+                          restaurantId={restaurantId}
                           userItem={userItem}
                           item={items[userItem.produto_id]}
                         />
