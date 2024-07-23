@@ -5,7 +5,13 @@ import e, { Request, Response } from 'express';
 import { User, Restaurant } from './login_common_interfaces';
 import FuzzySearch from 'fuzzy-search';
 
-const restaurants_path = './src/data/restaurants/restaurants_database.json';
+let restaurants_path = './src/data/restaurants/restaurants.json';
+export function setTesting(arewetesting: boolean): string {
+  if (arewetesting) {
+    return restaurants_path = './src/data/restaurants/restaurants_database.json';
+  }
+  return restaurants_path = './src/data/restaurants/restaurants.json';
+}
 export function eraseRestaurants() {
   fs.writeFileSync(path.resolve(restaurants_path), JSON.stringify([]));
 }
