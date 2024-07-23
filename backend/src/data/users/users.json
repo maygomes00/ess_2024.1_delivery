@@ -4,7 +4,7 @@
       "id": "1",
       "nome": "João Silva",
       "email": "john.doe@example.com",
-      "password": "novaSenha123",
+      "password": "senha123",
       "telefone": "(11) 9876-5432",
       "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
       "pedidos": [
