@@ -1,0 +1,19 @@
+.buttonsBox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  background-color: #9f2234;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #6e0001;
+}
