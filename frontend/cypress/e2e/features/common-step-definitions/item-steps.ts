@@ -71,14 +71,17 @@ When("o usuario adiciona uma imagem {string}", (filePath: string) => {
     cy.get(`[data-cy="ImageUpload"]`).attachFile(filePath)
 })
 
+
 When("espera {string} ms", (tempo: string) => {
     cy.wait(toInteger(tempo))
 })
+
 
 // Verifica se usuario esta na pagina:
 Then("o usuario deve ser redirecionado para a pagina {string}", (page: string) => {
     cy.url().should("include", page);
 });
+
 
 
 // Verifica se usuario esta na pagina de editor de menu com seu id:
