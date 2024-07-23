@@ -1,7 +1,7 @@
 import { loadFeature, defineFeature } from 'jest-cucumber';
 import supertest from 'supertest';
 import app from '../../src/app';
-import { eraseRestaurants } from '../../src/controllers/restaurant-controller';
+import { eraseRestaurants, setTesting } from '../../src/controllers/restaurant-controller';
 import fs from 'fs';
 import path from 'path';
 
@@ -10,6 +10,9 @@ const feature = loadFeature(
 );
 const request = supertest(app);
 const restaurants_path = './src/data/restaurants/restaurants_database.json';
+
+setTesting(true);
+
 defineFeature(feature, (test) => {
   let response: supertest.Response | null;
 
