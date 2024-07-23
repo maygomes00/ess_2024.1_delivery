@@ -1,6 +1,5 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/react.svg";
+import logo from "../../assets/logo-delivery-branco.svg";
 import styles from "./index.module.css";
 import { localContextGetInfo } from "../../../app/home/context/LocalContext";
 
@@ -11,9 +10,8 @@ const Navbar = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbarLogo}>
-        <Link to="/">
-          <img src={logo} alt="logo" className={styles.navbarLogoImage} />
-        </Link>
+        <img src={logo} alt="logo" className={styles.navbarLogoImage} />
+        <p>DeliveryApp</p>
       </div>
       <div className={styles.navbarLinks}>
         <ul className={styles.list}>

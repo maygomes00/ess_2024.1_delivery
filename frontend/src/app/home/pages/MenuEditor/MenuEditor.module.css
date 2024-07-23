@@ -1,9 +1,11 @@
+/* Pagina de editor de menu */
 .MenuEditor {
     display: flex;
     justify-content: center;
     align-items: start;
 }
 
+/* Conteiner que guarda o PageSelector e o PageBlock */
 .ItemCategoryContainer {
     display: flex;
     flex-direction: column;
@@ -12,3 +14,213 @@
     width: 60vw;
     gap: 10px;
 }
+
+/* Pagina que é exibida no PageBlock */
+.Page {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 30px;
+    width: 60vw;
+}
+
+/* ItemBlock */
+.ItemBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    border: 1px solid gray;
+    padding: 5px;
+    border-radius: 10px;
+    gap: 3px;
+    width: 100%;
+    height: 20vh;
+}
+
+.ItemSpace {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    max-width: 25%;
+    max-height: 100%;
+}
+
+.ItemBoxItemImageContainer {
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.ItemBoxItemImage {
+    width: auto;
+    height: 100%;
+}
+
+.ItemInfo {
+    width: 75%;
+    min-width: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.ItemInfoTexts {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    width: fit-content;
+    max-width: 60%;
+    height: 100%;
+}
+
+.ItemName {
+    font-size: 2.3vw;
+    align-content: center;
+    word-break: break-all;
+}
+
+.ItemDescription {
+    font-size: 1.4vw;
+    align-content: center;
+    word-break: break-all;
+}
+
+.ItemInfoPrice {
+    font-size: 1.4vw;
+    min-width: fit-content;
+    max-width: 40%;
+    text-align: end;
+    padding-right: 1vw;
+    align-content: center;
+}
+
+.ShowItens {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+/* CategoryCard */
+.CategoryCard {
+    border-bottom: 1px solid gray;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.CategoryCardHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ItemEditContainer */
+.ItemEditContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-content: center;
+    width: 100%;
+    height: 20vh;
+}
+
+.ItemEditContainerItem {
+    width: 92%;
+    height: 100%;
+    min-width: 92%;
+    min-height: 100%;
+}
+
+.ItemEditContainerEditButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    width: 8%;
+    height: 100%;
+    max-width: 8%;
+}
+
+/* DeletePopup */
+.DeletePopupContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 9px 9px rgba(0, 0, 0, 0.1);
+    width: 30vw;
+}
+
+.DeletePopupP {
+    padding-bottom: 20px;
+    text-align: center;
+    word-break: keep-all;
+    font-size: large;
+}
+
+.DeletePopupButtonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Buttons */
+.ConfirmButton {
+    background-color: #ea0063;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.ConfirmButton:hover {
+    background-color: #ea0063;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.CancelButton {
+    background-color: #4e0f48;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.CancelButton:hover {
+    background-color: #4e0f48;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.AddButtom {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: black;
+    background-color: transparent;
+    width: 100%;
+    gap: 1%;
+    padding: 0px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: large;
+    cursor: pointer;
+}
+
+.AddButtom:hover {
+    color: #912234;
+    background-color: transparent;
+}
+
+/**/

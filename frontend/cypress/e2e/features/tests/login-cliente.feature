@@ -40,10 +40,10 @@ Scenario: Login com senha em branco
 
 Scenario: Navegar para a página de recuperação de senha
   Given o usuário está na página "login-client"
-  When o usuário clica no link "Esqueci minha Senha"
+  When o usuário clica no link "forgot-password-link"
   Then o usuário deve ser redirecionado para a página "forgot-password"
 
 Scenario: Redirecionar para a página de cadastro
-    Given o usuário está na página de login de cliente
-    When o usuário clica no botão "Cadastre-se"
-    Then o usuário deve ser redirecionado para a página "users"
+  Given o usuário está na página "login-client"
+  When o usuário clica no botão "Cadastre-se"
+  Then o usuário deve ser redirecionado para a página "users"

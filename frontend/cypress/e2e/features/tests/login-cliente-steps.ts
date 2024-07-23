@@ -1,7 +1,7 @@
-import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
-Given("o usuário está na página de login de cliente", () => {
-  cy.visit(`http://localhost:3000/login-client`);
+Given("o usuário está na página {string}", (page: string) => {
+  cy.visit(`/${page}`);
 });
 
 When("o usuário preenche o campo {string} com {string}", (field: string, value: string) => {
@@ -13,7 +13,11 @@ When("o usuário deixa o campo {string} em branco", (field: string) => {
 });
 
 When("o usuário clica no botão {string}", (button: string) => {
-  cy.contains("button", button).click();
+  cy.get(`button[data-cy="${button}"]`).click();
+});
+
+When("o usuário clica no link {string}", (link: string) => {
+  cy.get(`a[data-cy="${link}"]`).click();
 });
 
 Then("o usuário deve ser redirecionado para a página {string}", (page: string) => {

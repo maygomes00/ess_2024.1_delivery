@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { localContextGetInfo } from "../../context/LocalContext";
 import ItemForm from "../../forms/ItemForm";
 import { useEffect, useState } from "react";
-import { getItemDetails } from "../../../../shared/services/ItensService";
+import { loadItem } from "../../../../shared/services/ItensService";
 
 /*
   Pagina onde são adicionados novos itens no menu do restaurante. 
@@ -13,15 +13,20 @@ const AddEditItem = ({type=""}) => {
   const [canLoad, setCanLoad] = useState(false)
 
   const canLoadMenuEditor = async (type: string, item_id="") => {
-    if (type === "add") {
-      return localContextGetInfo("user", "id") === restaurant_id
+    try {
+      if (type === "add") {
+        return localContextGetInfo("user", "id") === restaurant_id
+      }
+      else if (type == "edit" && item_id != "") {
+        let item_info = await loadItem(item_id)
+        return localContextGetInfo("user", "id") === restaurant_id && item_info.restaurant_id == restaurant_id
+      }
+      return false
     }
-    else if (type == "edit" && item_id != "") {
-      let item_info = await getItemDetails(item_id)
-      console.log(item_info)
-      return localContextGetInfo("user", "id") === restaurant_id && item_info.restaurant_id == restaurant_id
+    catch (error) {
+      console.error('Error:', error);
+      return false
     }
-    return false
   }
 
   const deniedAccess = () => {

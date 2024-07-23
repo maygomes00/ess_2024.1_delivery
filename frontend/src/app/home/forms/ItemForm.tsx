@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { addItem, editItem, getItemDetails } from '../../../shared/services/ItensService'
 import { loadCategories } from '../../../shared/services/CategoriesService'
 import { Category } from '../../../shared/types/category'
+import {Form, Button, Container, Row, Col, ButtonToolbar} from "react-bootstrap";
 
 /*
   Formulario de itens.
@@ -164,7 +165,7 @@ const ItemForm = ({ type="add" }) => {
       return "Item deve ter um preço"
     }
     else if (!priceFormatRegex.test(price)) {
-      return 'Preço deve estar no formato: nnn.nn; ex: "10.00", "25.50", "3.75", "200.00, ...'
+      return 'Preço deve estar no formato: nnn.nn; ex: "10.00", "25.50", "3.75", "200.00", ...'
     }
     return ""
   }
@@ -192,10 +193,10 @@ const ItemForm = ({ type="add" }) => {
     return (
       <div>
         {restaurantCategories.map((category, index) => (
-          <label key={index}>
-            <input type="checkbox" checked={categoryOptions.includes(category.name)} onChange={() => handleCheckboxChange(category.name)} />
+          <div key={index} >
+            <input className={"checkbox"} type="checkbox" checked={categoryOptions.includes(category.name)} onChange={() => handleCheckboxChange(category.name)} />
             {category.name}
-          </label>
+          </div>
         ))}
       </div>
       )
@@ -288,41 +289,44 @@ const ItemForm = ({ type="add" }) => {
   }, [restaurant_id])
 
   return (
-    <div>
-      <h1>{formTitle()}</h1>
-      <form onSubmit={handleSubmit(handleFinish)}>
-        <div>
-          <label htmlFor="fileInput">Escolher uma imagem:</label><br />
-          {imagePath && <img src={imagePath} alt="Imagem selecionada" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
-          <input type="file" id="fileInput" onChange={handleImageChange} accept="image/*" />
-          <p>{formErrors.image}</p>
-        </div>
-        <div>
-          <label>Nome:</label>
-          <input type="text" {...register('name')} value={name} onChange={(e) => setName(e.target.value)} />
-          <p>{formErrors.name}</p>
-        </div>
-        <div>
-          <label>Descrição:</label>
-          <input type="text" {...register('description')} value={description} onChange={(e) => setDescription(e.target.value)} />
-          <p>{formErrors.description}</p>
-        </div>
-        <div>
-          <label>Preço:</label>
-          <input type="text" {...register('price')} value={price} onChange={(e) => setPrice(e.target.value)} />
-          <p>{formErrors.price}</p>
-        </div>
-        <div>
-          <label>Categorias:</label><br />
+    <Container>
+      <Row className="justify-content-md-center">
+        <Form onSubmit={handleSubmit(handleFinish)}>
+        <h1>{formTitle()}</h1>
+          <div>
+            <label htmlFor="fileInput">Escolher uma imagem:</label>
+            {imagePath && <img src={imagePath} alt="Imagem selecionada" style={{ maxWidth: '100%', maxHeight: '200px' }} />}
+            <input type="file" id="fileInput" onChange={handleImageChange} accept="image/*" />
+            <p className={"error"}>{formErrors.image}</p>
+          </div>
+          <div>
+            <label>Nome:</label>
+            <input type="text" {...register('name')} value={name} onChange={(e) => setName(e.target.value)} />
+            <p className={"error"}>{formErrors.name}</p>
+          </div>
+          <div>
+            <label>Descrição:</label>
+            <input type="text" {...register('description')} value={description} onChange={(e) => setDescription(e.target.value)} />
+            <p className={"error"}>{formErrors.description}</p>
+          </div>
+          <div>
+            <label>Preço:</label>
+            <input type="text" {...register('price')} value={price} onChange={(e) => setPrice(e.target.value)} />
+            <p className={"error"}>{formErrors.price}</p>
+          </div>
+          <div>
+            <label>Categorias:</label>
+            <p className={"error"}>{formErrors.category}</p>
             {setCategoryCheckbox()}
-          <p>{formErrors.category}</p>
-        </div>
-        <div>
-          <button type="button" onClick={handleCancel}>Cancelar</button>
-          <button type="submit">Salvar</button>
-        </div>
-      </form>
-    </div>
+          </div>
+          <ButtonToolbar 
+          style={{ gap: "30px" }}>
+            <Button type="button" onClick={handleCancel}>Cancelar</Button>
+            <Button type="submit">Salvar</Button>
+          </ButtonToolbar>
+        </Form>
+      </Row>
+    </Container>
   )
 }
 

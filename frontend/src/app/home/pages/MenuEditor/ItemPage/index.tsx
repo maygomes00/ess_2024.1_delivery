@@ -1,4 +1,4 @@
-import styles from "./index.module.css";
+import styles from "../MenuEditor.module.css";
 import { useEffect, useRef, useState } from "react";
 import { loadItens } from "../../../../../shared/services/ItensService";
 import { Item } from "../../../../../shared/types/Item";
@@ -23,9 +23,9 @@ const ItemPage = ({restaurantId}) => {
   // Funcoes:
   const createItensContainers = () => {
     return (
-    <div>
+    <div className={styles.ShowItens}>
       {restaurantItens.map((item, index) => (
-        <ItemEditContainer 
+        <ItemEditContainer
         key={index}
         item_info={item}
         onClickDelete={handleOnClickDelete}
@@ -71,7 +71,7 @@ const ItemPage = ({restaurantId}) => {
   }, [restaurantId, reload])
 
   return (
-    <div id="exibidorDeItens" className={styles.section}>
+    <div id="exibidorDeItens" className={styles.Page}>
       {createItensContainers()}
       <AddItemButton onClick={() => {navigate(addPath)}}/>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />

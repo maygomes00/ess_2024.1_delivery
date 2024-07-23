@@ -1,4 +1,4 @@
-import styles from "./index.module.css";
+import styles from "../MenuEditor.module.css";
 import { Item } from "../../../../../shared/types/Item";
 import Image64Display from '../../../../../shared/components/Image64Display';
 
@@ -19,22 +19,20 @@ const ItemBlock = ({item_info}: ItemBlockProps) => {
   }
 
   return(
-    <div className={styles.itemBox}>
-      <div className={styles.itemImageContainer}>
-        <div className={styles.itemImage}>
-          <Image64Display base64_image={image64} alt={"Imagem de "+name} width={"100%"} height={"100%"}/>
+    <div className={styles.ItemBox}>
+      <div className={styles.ItemSpace}>
+        <div className={styles.ItemBoxItemImageContainer}>
+          <div className={styles.ItemBoxItemImage}>
+            <Image64Display base64_image={image64} alt={"Imagem de "+name} width={"100%"} height={"100%"}/>
+          </div>
         </div>
       </div>
-      <div className={styles.itemInfo}>
-        <div className={styles.itemInfoTexts}>
-          <div className={styles.itemName}>
-            <p>{name}</p>
-          </div>
-          <div className={styles.itemDescription}>
-            <p>{description}</p>
-          </div>
+      <div className={styles.ItemInfo}>
+        <div className={styles.ItemInfoTexts}>
+          <p className={styles.ItemName}>{name}</p>
+          <p className={styles.ItemDescription}>{description}</p>
         </div>
-        <div className={styles.itemInfoPrice}>
+        <div className={styles.ItemInfoPrice}>
           <p>{price_formated(price)}</p>
         </div>
       </div>
