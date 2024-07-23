@@ -7,7 +7,7 @@ import { Pedido, UserItem } from "../../../../shared/types/User";
 import { Item } from "../../../../shared/types/Item";
 import NoOrdersModal from "../../../../shared/components/NoOrdersModal/NoOrdersModal";
 import { formatDate } from "../../../../shared/utils/dateUtils";
-import RestaurantHeader from "../../components/UserHistory/ListItemHeader/index";
+import RestaurantHeader from "../../../../shared/components/RestaurantHeader/index";
 import UserItemDetails from "../../../../shared/components/UserItemDetails";
 import OrderBoxHeader from "../../components/UserHistory/OrderBoxHeader";
 

@@ -8,8 +8,8 @@ import CreateTest from "./app/home/pages/CreateTest";
 import ListTests from "./app/home/pages/ListTests";
 import MenuEditor from "./app/home/pages/MenuEditor";
 import UsersPage from "./app/home/pages/UserPage/UserPage";
-import UsersConfigPage from "./app/home/pages/UsersConfigPage/UsersConfigPage"; // Novo componente importado
-import EditUserPage from "./app/home/pages/UsersEditPage/EditUserPage"; // Novo componente importado
+import UsersConfigPage from "./app/home/pages/UsersConfigPage/UsersConfigPage";
+import EditUserPage from "./app/home/pages/UsersEditPage/EditUserPage";
 import UserHistory from "./app/home/pages/UserHistory";
 import UserStatistics from "./app/home/pages/UserStatistics";
 import LoginClientPage from "./app/home/pages/LoginClientePage/LoginClientePage";
@@ -20,12 +20,13 @@ import AddEditItem from "./app/home/pages/AddEditItem";
 import ForgotPasswordPage from "./app/home/pages/EsqueciClientePage/ForgotPage";
 import ResetPasswordPage from "./app/home/pages/EsqueciClientePage/ResetPage";
 import RestaurantRegistrationPage from "./app/home/pages/RestaurantRegistration/RestaurantRegistrationPage";
-import Layout from "./shared/components/Layout"; // Atualizado para importar Layout
+import RestaurantProfilePage from "./app/home/pages/RestaurantProfilePage";
+import Layout from "./shared/components/Layout";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // Define Layout como elemento principal
+    element: <Layout />,
     children: [
       {
         path: "/create-test",
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "/tests",
         element: <ListTests />,
+      },
+      {
+        path: "/restaurant/:restaurant_id",
+        element: <RestaurantProfilePage />,
       },
       {
         path: "/:restaurant_id/menu-editor",
