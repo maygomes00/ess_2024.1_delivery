@@ -1,4 +1,3 @@
-// src/shared/components/ListUser/UserList.tsx
 import React from 'react';
 import { User } from '../../types/User';
 import { Table, Button } from 'react-bootstrap';
@@ -33,6 +32,7 @@ const UserList: React.FC<UserListProps> = ({ users, deleteUser }) => {
                     <th>Email</th>
                     <th>Telefone</th>
                     <th>Endereço</th>
+                    <th>password</th> {/* Nova coluna para password */}
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -44,6 +44,7 @@ const UserList: React.FC<UserListProps> = ({ users, deleteUser }) => {
                         <td>{user.email}</td>
                         <td>{user.telefone}</td>
                         <td>{user.endereco}</td>
+                        <td>{user.password}</td> {/* Exibindo a password */}
                         <td>
                             <Button variant="warning" onClick={() => handleEdit(user.id)} className="action-button edit">Editar</Button>
                             <Button variant="danger" onClick={() => handleDelete(user.id)} className="action-button delete">Deletar</Button>

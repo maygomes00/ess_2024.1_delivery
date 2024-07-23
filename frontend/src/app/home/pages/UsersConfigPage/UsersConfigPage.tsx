@@ -1,65 +1,60 @@
-import React, { useState } from 'react';
+// src/app/home/pages/UsersConfigPage/UsersConfigPage.tsx
+import React, { useState, useEffect } from 'react';
+import UserList from '../../../../shared/components/ListUser/UserList';
+import { User } from '../../../../shared/types/User';
+import { fetchUsers, deleteUser } from '../../../../shared/services/userService';
+import '../../../../../src/app/home/pages/UserPage/styles.css';
 
-const UsersConfigPage = () => {
-    const [user, setUser] = useState({
-        nome: '',
-        email: '',
-        telefone: '',
-        endereco: ''
-    });
+const UsersConfigPage: React.FC = () => {
+    const [users, setUsers] = useState<User[]>([]);
+    const [message, setMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Lógica de cadastro de usuário
-        alert('Usuário cadastrado com sucesso!');
+    useEffect(() => {
+        const getUsers = async () => {
+            setLoading(true);
+            try {
+                const users = await fetchUsers();
+                setUsers(users);
+            } catch (error) {
+                console.error('Erro ao buscar usuários:', error);
+                setMessage('Erro ao buscar usuários');
+            } finally {
+                setLoading(false);
+            }
+        };
+        getUsers();
+    }, []);
+
+    useEffect(() => {
+        if (message) {
+            const timer = setTimeout(() => {
+                setMessage(null);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [message]);
+
+    const handleDeleteUser = async (id: string) => {
+        try {
+            await deleteUser(id);
+            setUsers(users.filter(user => user.id !== id));
+            setMessage('Usuário deletado com sucesso');
+        } catch (error) {
+            console.error('Erro ao deletar usuário:', error);
+            setMessage('Erro ao deletar usuário');
+        }
     };
 
     return (
-        <div className="users-config-page">
-            <h1>Cadastro de Usuário</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="nome">Nome:</label>
-                    <input 
-                        type="text" 
-                        id="nome" 
-                        value={user.nome} 
-                        onChange={(e) => setUser({ ...user, nome: e.target.value })}
-                        data-cy="nome"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        value={user.email} 
-                        onChange={(e) => setUser({ ...user, email: e.target.value })}
-                        data-cy="email"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="telefone">Telefone:</label>
-                    <input 
-                        type="text" 
-                        id="telefone" 
-                        value={user.telefone} 
-                        onChange={(e) => setUser({ ...user, telefone: e.target.value })}
-                        data-cy="telefone"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="endereco">Endereço:</label>
-                    <input 
-                        type="text" 
-                        id="endereco" 
-                        value={user.endereco} 
-                        onChange={(e) => setUser({ ...user, endereco: e.target.value })}
-                        data-cy="endereco"
-                    />
-                </div>
-                <button type="submit" data-cy="cadastrar">Cadastrar</button>
-            </form>
+        <div className="container">
+            <h1>Configuração de Usuários</h1>
+            {message && <p className="message">{message}</p>}
+            {loading ? (
+                <p>Carregando usuários...</p>
+            ) : (
+                <UserList users={users} deleteUser={handleDeleteUser} />
+            )}
         </div>
     );
 };
