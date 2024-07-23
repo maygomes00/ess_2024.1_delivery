@@ -38,24 +38,19 @@ const ResetPasswordPage: React.FC = () => {
         <h2>Redefinir Senha</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="newPassword">Nova Senha:</label>
+            <label>Nova Senha:</label>
             <input 
-              id="newPassword"
               type="password" 
               value={newPassword} 
               onChange={(e) => setNewPassword(e.target.value)} 
               required 
-              data-cy="new-password-input"
+              data-cy="new-password"
             />
           </div>
-          <button type="submit" className={styles.button} data-cy="reset-password-button">Redefinir Senha</button>
+          <button type="submit" className={styles.button} data-cy="submit-button">Redefinir Senha</button>
         </form>
         {isModalOpen && (
-          <Modal 
-            message={message} 
-            isSuccess={isSuccess} 
-            onClose={handleCloseModal} 
-          />
+          <Modal message={message} isSuccess={isSuccess} onClose={handleCloseModal} />
         )}
       </div>
     </div>
