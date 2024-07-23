@@ -1,0 +1,21 @@
+.CircularButton {
+  width: 4vw;
+  height: 4vw;
+  max-width: 50px;
+  max-height: 50px;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid gray;
+  border-radius: 50%;
+  font-size: 30px;
+  cursor: pointer;
+  color: black;
+  background-color: transparent;
+}
+
+.CircularButton:hover {
+  color: black;
+  background-color: var(--hover_background);
+}

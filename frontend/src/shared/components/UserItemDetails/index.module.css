@@ -1,0 +1,9 @@
+.list {
+  list-style: none;
+  margin: 20px 10px;
+  cursor: pointer;
+}
+
+.list:hover {
+  text-decoration: underline;
+}

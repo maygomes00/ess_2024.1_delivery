@@ -1,0 +1,120 @@
+:root {
+  --white: #ffffff;
+  --light: #fff5f5;
+  --dark: #440001;
+  --primary: #9f2234;
+  --secondary: #6e0001;
+  --info: #4e0f48;
+  --success: #549400;
+  --warning: #ffb952;
+  --danger: #ea0063;
+}
+
+body {
+  font-family: 'Roboto Light', sans-serif;
+  background-color: var(--light);
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+.container {
+  background-color: var(--white);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: none;
+  margin-top: 20px;
+  width: 860px;
+}
+
+.button {
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-right: 10px;
+}
+
+.button:hover {
+  background-color: var(--secondary);
+  transform: scale(1.05);
+}
+
+.signupButton {
+  background-color: var(--primary);
+}
+
+.signupButton:hover {
+  background-color: var(--secondary);
+  transform: scale(1.05);
+}
+
+.loading-button {
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form {
+  margin-bottom: 20px;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--dark);
+  margin-top: 5px;
+  background-color: #fffae5; /* Light yellow background */
+}
+
+.error {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
+
+.message {
+  color: var(--info);
+  font-size: 14px;
+  margin-top: 10px;
+  display: block;
+}
+
+a {
+  color: var(--info);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+}
+
+h2 {
+  color: var(--primary);
+}

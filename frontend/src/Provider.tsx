@@ -1,8 +1,12 @@
-import { ReactNode } from "react";
-import { HomeProvider } from "./app/home/context/HomeContext";
+import { ReactNode, useEffect, useState } from "react";
+import { localContextStart } from "./app/home/context/LocalContext";
 
 const Provider = ({ children }: { children: ReactNode }) => {
-  return <HomeProvider>{children}</HomeProvider>;
+  return (
+    <div>
+        {children}
+    </div>
+  );
 };
 
 export default Provider;

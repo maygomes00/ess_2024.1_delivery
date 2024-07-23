@@ -4,6 +4,7 @@ import { login, logout } from '../controllers/login_cliente.controller';
 const clienteRouter = Router();
 
 clienteRouter.post('/', login);
-clienteRouter.post('/logout', logout);
+clienteRouter.post('/logout-client', logout);
 
 export default clienteRouter;
+
