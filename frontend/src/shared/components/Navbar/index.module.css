@@ -1,18 +1,22 @@
 .navbar {
   display: flex;
   background-color: var(--primary);
-  color: black;
   box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.3);
   align-items: center;
   justify-content: flex-start;
   padding: 0.1em 2em;
-  height: 40px;
+  height: 42px;
 }
 
 .navbarLogo {
   flex: 1;
   display: flex;
   align-items: center;
+}
+
+.navbarLogo p {
+  color: white;
+  margin-bottom: 0px;
 }
 
 .navbarLogoImage {
