@@ -12,6 +12,14 @@ export async function loadItens(restaurantId: string) {
   return itensList;
 }
 
+export async function loadItem(itemId: string) {
+  const route: string =
+    "http://localhost:5001/restaurant/menu/item/"+itemId;
+  const response = await axios.get(route);
+  const item: Item = response.data;
+  return item;
+}
+
 // Carrega informacao de Item, dado ID
 export const getItemDetails = async (itemId: string): Promise<Item> => {
   const response = await fetch(`${API_URL}/${itemId}/includeInactive`, {

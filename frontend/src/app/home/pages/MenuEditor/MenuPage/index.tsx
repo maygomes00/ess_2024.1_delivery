@@ -3,7 +3,7 @@ import { Category } from "../../../../../shared/types/category";
 import { Item } from "../../../../../shared/types/Item";
 import { loadCategories } from "../../../../../shared/services/CategoriesService";
 import { loadItens } from "../../../../../shared/services/ItensService";
-import styles from "./index.module.css";
+import styles from "../MenuEditor.module.css";
 import CategoryCard from "./CategoryCard";
 import ItemBlock from "../ItemBlock";
 
@@ -17,7 +17,9 @@ const MenuPage = ({ restaurantId }) => {
         {categories.map((category) => (
           <div>
             <CategoryCard category={category}></CategoryCard>
-            {showItens(category.name)}
+            <div>
+              {showItens(category.name)}
+            </div>
           </div>
         ))}
       </div>
@@ -26,7 +28,7 @@ const MenuPage = ({ restaurantId }) => {
 
   const showItens = (categoryName: string) => {
     return (
-      <div>
+      <div className={styles.ShowItens}>
         {itens.map((item) => createItemBlock(categoryName, item))}
       </div>
     )
@@ -65,7 +67,7 @@ const MenuPage = ({ restaurantId }) => {
   }, [restaurantId]);
 
   return (
-    <div className={styles.menuPage}>
+    <div className={styles.Page}>
       {showCategories()}
     </div>
   );

@@ -1,7 +1,6 @@
-import { forwardRef, useContext, useImperativeHandle, useState } from "react";
-import styles from "./index.module.css";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import styles from "../../MenuEditor.module.css";
 import Popup from "../../../../../../shared/components/Popup";
-import Button from "../../../../../../shared/components/Button";
 import { removeItem } from "../../../../../../shared/services/ItensService";
 import { localContextGetInfo } from "../../../../context/LocalContext";
 
@@ -49,13 +48,13 @@ const DeletePopup = forwardRef<DeletePopupMethods, DeletePopupProps>((props, ref
 
   return(
     <Popup id={props.id} visible={visible}>
-      <div className={styles.contentDiv}>
-        <p className={styles.p}>
+      <div className={styles.DeletePopupContainer}>
+        <p className={styles.DeletePopupP}>
           Deseja deletar o item {localContextGetInfo("item", "name")} do cardapio?
         </p>
-        <div className={styles.buttons}>
-          <Button width="fit-content" padding_h="22px" padding_w="10px" border={2} hover_background="#fc2c2c" onClick={handleCancel}>Cancelar</Button>
-          <Button width="fit-content" padding_h="22px" padding_w="10px" border={2} hover_background="#09d321" onClick={handleConfirm}>Confirmar</Button>
+        <div className={styles.DeletePopupButtonContainer}>
+          <button className={styles.ConfirmButton} onClick={handleConfirm}>Confirmar</button>
+          <button className={styles.CancelButton} onClick={handleCancel}>Cancelar</button>
         </div>
       </div>
     </Popup>

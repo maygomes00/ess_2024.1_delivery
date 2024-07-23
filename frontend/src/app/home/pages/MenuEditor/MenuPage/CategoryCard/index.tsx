@@ -1,4 +1,4 @@
-import styles from './index.module.css';
+import styles from "../../MenuEditor.module.css"
 import { Category } from '../../../../../../shared/types/category';
 
 type CategoryCardProps = {
@@ -7,8 +7,8 @@ type CategoryCardProps = {
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
   return (
-    <div className={styles.categoryCard}>
-      <div className={styles.categoryHeader}>
+    <div className={styles.CategoryCard}>
+      <div className={styles.CategoryCardHeader}>
         <h2>{category.name}</h2>
       </div>
     </div>

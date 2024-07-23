@@ -191,3 +191,12 @@ progress[style*="background-color: yellow"]::-webkit-progress-value {
 progress[style*="background-color: green"]::-webkit-progress-value {
   background-color: var(--success);
 }
+
+img {
+  margin-bottom: 10px;
+}
+
+.checkbox {
+  width: fit-content;
+  margin-right: 10px;
+}

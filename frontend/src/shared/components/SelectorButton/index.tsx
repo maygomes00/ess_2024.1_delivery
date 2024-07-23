@@ -14,27 +14,19 @@ interface SelectorButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 /*
   Botão para ser usado no PageSelector; quando selected = true, 
 */
-const SelectorButton = ({ children, selected=false, font_size=16, side_padding=10, line_size=2, width="100%", color="black", ...buttonProps }: SelectorButtonProps) => {
+const SelectorButton = ({ children, selected=false, ...buttonProps }: SelectorButtonProps) => {
   // Retorna o estilo do botão de acordo com ele está selecionado ou não.
   function set_button_style(is_selected) {
     if (is_selected) {
-      return `${styles.button} ${styles.button_selected}`
+      return `${styles.SelectorButton} ${styles.SelectorButton_selected}`
     }
     else {
-      return styles.button
+      return styles.SelectorButton
     }
   }
 
-  const buttonStyle = {
-    "--width": width,
-    "--font_size": `${font_size}px`,
-    "--color": color,
-    "--side_padding": `${side_padding}px`,
-    "--line_size": `${line_size}px`
-  } as React.CSSProperties
-
   return (
-    <button {...buttonProps} className={set_button_style(selected)} style={buttonStyle}>
+    <button {...buttonProps} className={set_button_style(selected)}>
       {children}
     </button>
   );

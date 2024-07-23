@@ -2,13 +2,19 @@
   "categorias": [
     {
       "id": "1",
-      "nome": "Salgado",
+      "nome": "Salgados",
       "restauranteId": "f257adef-dda8-46c7-bbfd-4275a90d837e",
       "temItens": false
     },
     {
       "id": "2",
       "nome": "ess",
+      "restauranteId": "f257adef-dda8-46c7-bbfd-4275a90d837e",
+      "temItens": false
+    },
+    {
+      "id": "3",
+      "nome": "Doce",
       "restauranteId": "f257adef-dda8-46c7-bbfd-4275a90d837e",
       "temItens": false
     }

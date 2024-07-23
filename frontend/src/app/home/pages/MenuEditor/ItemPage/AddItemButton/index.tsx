@@ -1,14 +1,14 @@
 import { ButtonHTMLAttributes } from "react";
-import styles from "./index.module.css";
+import styles from "../../MenuEditor.module.css";
 import { IoAddCircleOutline } from "react-icons/io5";
 
 type AddButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 const AddItemButton = (props: AddButtonProps) => {
   return (
-    <button {...props} className={styles.button}>
+    <button {...props} className={styles.AddButtom}>
       <p>Adicionar item</p>
-      <IoAddCircleOutline />
+      <IoAddCircleOutline size={25}/>
     </button>
   );
 };
