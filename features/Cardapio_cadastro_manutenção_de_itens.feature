@@ -3,6 +3,23 @@ Feature: Cadastro e manutenção de itens no cardápio
     I want to poder criar, editar e remover itens do meu cardapio
     So that eu possa exibir os itens para os clientes
 
+Scenario Entrar na tela de editor de cardápio
+    Given estou logado como “Restaurante” com login “restaurante_generico” e senha “senha_super_dificil_123”
+    And estou na tela “Perfil do restaurante”
+    When seleciono a opção “Cardapio”
+    Then estou na tela “Editor de cardápio”
+
+Scenario: Entrar na tela de itens
+    Given estou na tela “Editor de cardápio”
+    When seleciono a opção “Itens”
+    Then estou na tela  "Editor de cardápio - Itens”
+
+Scenario: Ir para a tela de adicionar item
+    Given estou na tela "Editor de cardápio - Itens”
+    And há uma categoria no cardápio
+    When seleciono a opção “Adicionar”
+    Then estou na tela “Adicionar novo item”
+
 Scenario: Tentar ir para a tela de adicionar item sem ter uma categoria no cardapio
     Given estou na tela "Editor de cardápio - Itens”
     And Não há categorias no cardápio

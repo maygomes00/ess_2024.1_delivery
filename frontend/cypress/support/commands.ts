@@ -48,9 +48,6 @@ declare global {
   }
 }
 
-
-let userId: string | undefined;
-
 Cypress.Commands.add("getDataCy", (dataCySelector) => {
   return cy.get(`[data-cy="${dataCySelector}"]`);
 });
@@ -65,7 +62,7 @@ Cypress.Commands.add('getUserId', () => {
 
 Cypress.Commands.add("getMenuEditorPage", (page) => {
   if (page == "menu") {
-    return cy.wrap("menu-editor/menu")
+    return cy.wrap("menu-editor")
   }
   else if (page == "itens") {
     return cy.wrap("menu-editor/itens")
