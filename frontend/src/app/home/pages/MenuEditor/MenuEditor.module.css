@@ -23,28 +23,6 @@
     width: 60vw;
 }
 
-/* MenuPage */
-.ShowItens {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    margin-bottom: 10px;
-}
-
-/* CategoryCard */
-.CategoryCard {
-    border-bottom: 1px solid gray;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: transparent;
-}
-
-.CategoryCardHeader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 /* ItemBlock */
 .ItemBox {
     display: flex;
@@ -117,7 +95,132 @@
     align-content: center;
 }
 
-/**/
+.ShowItens {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 10px;
+}
 
+/* CategoryCard */
+.CategoryCard {
+    border-bottom: 1px solid gray;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+.CategoryCardHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ItemEditContainer */
+.ItemEditContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    align-content: center;
+    width: 100%;
+    height: 20vh;
+}
+
+.ItemEditContainerItem {
+    width: 92%;
+    height: 100%;
+    min-width: 92%;
+    min-height: 100%;
+}
+
+.ItemEditContainerEditButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+
+    width: 8%;
+    height: 100%;
+    max-width: 8%;
+}
+
+/* DeletePopup */
+.DeletePopupContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 9px 9px rgba(0, 0, 0, 0.1);
+    width: 30vw;
+}
+
+.DeletePopupP {
+    padding-bottom: 20px;
+    text-align: center;
+    word-break: keep-all;
+    font-size: large;
+}
+
+.DeletePopupButtonContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Buttons */
+.ConfirmButton {
+    background-color: #ea0063;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.ConfirmButton:hover {
+    background-color: #ea0063;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.CancelButton {
+    background-color: #4e0f48;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.CancelButton:hover {
+    background-color: #4e0f48;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.AddButtom {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: black;
+    background-color: transparent;
+    width: 100%;
+    gap: 1%;
+    padding: 0px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    margin-top: 20px;
+    font-size: large;
+    cursor: pointer;
+}
+
+.AddButtom:hover {
+    color: #912234;
+    background-color: transparent;
+}
 
 /**/

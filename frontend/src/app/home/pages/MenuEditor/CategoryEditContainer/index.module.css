@@ -22,7 +22,7 @@
 }
 
 .editButtonContainer button {
-    width: 90px; /* Diminuir o tamanho dos botões */
+    width: 30px; /* Diminuir o tamanho dos botões */
     height: 30px;
     font-size: 13px; /* Ajustar o tamanho da fonte dentro dos botões */
     margin: -10px 0; /* Adiciona uma margem vertical entre os botões */

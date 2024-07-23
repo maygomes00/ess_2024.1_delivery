@@ -1,4 +1,4 @@
-import styles from "./index.module.css";
+import styles from "../../MenuEditor.module.css";
 import CircularButton from "../../../../../../shared/components/CircularButton";
 import { MdClose } from "react-icons/md";
 import { CiEdit } from "react-icons/ci";
@@ -16,8 +16,6 @@ type ItemEditContainerProps = {
 */
 const ItemEditContainer = ({ item_info, onClickDelete, onClickEdit }: ItemEditContainerProps) => {
   let {id, name} = item_info
-  const buttonSize = "3.5vw"
-  const buttonFontSize = "2vw"
 
   const handleOnClickDelete = () => {
     onClickDelete(id, name)
@@ -28,13 +26,13 @@ const ItemEditContainer = ({ item_info, onClickDelete, onClickEdit }: ItemEditCo
   }
 
   return(
-    <div className={styles.container}>
-        <div className={styles.itemContainer}>
+    <div className={styles.ItemEditContainer}>
+        <div className={styles.ItemEditContainerItem}>
           <ItemBlock item_info={item_info} />
         </div>
-        <div className={styles.editButtonContainer}>
-          <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#09d321" onClick={handleOnClickEdit}><CiEdit /></CircularButton>
-          <CircularButton size={buttonSize} font_size={buttonFontSize} border={2} hover_background="#fc2c2c" onClick={handleOnClickDelete}><MdClose /></CircularButton>
+        <div className={styles.ItemEditContainerEditButtons}>
+          <CircularButton hover_background="#008000" onClick={handleOnClickEdit}><CiEdit /></CircularButton>
+          <CircularButton hover_background="#912234" onClick={handleOnClickDelete}><MdClose /></CircularButton>
         </div>
       </div>
   )

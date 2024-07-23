@@ -33,18 +33,12 @@ const CategoryEditContainer = ({
       <div className={styles.categoryContainer}>{children}</div>
       <div className={styles.editButtonContainer}>
         <CircularButton
-          size={buttonSize}
-          font_size={buttonFontSize}
-          border={2}
           hover_background="#008000"
           onClick={onEditClick}
         >
           <CiEdit />
         </CircularButton>
         <CircularButton
-          size={buttonSize}
-          font_size={buttonFontSize}
-          border={2}
           hover_background="#912234"
           onClick={onDeleteClick}
         >

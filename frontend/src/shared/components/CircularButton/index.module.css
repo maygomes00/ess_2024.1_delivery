@@ -1,20 +1,21 @@
-.button {
-  width: var(--size);
-  height: var(--size);
-  max-width: var(--size);
-  max-height: var(--size);
+.CircularButton {
+  width: 4vw;
+  height: 4vw;
+  max-width: 50px;
+  max-height: 50px;
+  padding: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: var(--border) solid gray;
+  border: 2px solid gray;
   border-radius: 50%;
-  font-size: var(--font_size);
+  font-size: 30px;
   cursor: pointer;
-  color: var(--color);
-  background-color: var(--background);
+  color: black;
+  background-color: transparent;
 }
 
-.button:hover {
-  color: var(--hover_color);
+.CircularButton:hover {
+  color: black;
   background-color: var(--hover_background);
 }
