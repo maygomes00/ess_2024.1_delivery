@@ -2,123 +2,151 @@ import path from 'path';
 import fs from 'fs';
 import { Router } from 'express';
 import { storer } from '../multer.config';
+import Controller from './ControllerClass';
 
 const store_path = './src/data/itens/images';
 const description_length = 60;
 
-export default class ItemController {
-  private prefix: string = '/restaurant/menu/item';
-  private using_path: boolean;
-  public router: Router;
-  private itens_path: string;
+export default class ItemController extends Controller {
   private restaurant_path: string;
-  private item_data: any;
-  private restaurant_data: any;
+  private restaurant_local: any;
 
-  constructor(
-    use_path: boolean,
-    router: Router,
-    item_data_path: any = null,
-    restaurant_data_path: any = null,
-    item_data: any = null,
-    restaurant_data: any = null
-  ) {
-    this.using_path = use_path;
-    this.router = router;
-    if (this.using_path) {
-      this.itens_path = item_data_path;
-      this.restaurant_path = restaurant_data_path;
+
+  constructor(use_path: boolean, router: Router, item_path: any = null, restaurant_path: any = null, item_local: any = null, restaurant_local: any = null) {
+    super(use_path, router, item_path, item_local)
+    this.restaurant_path = restaurant_path
+    if (restaurant_local != null) {
+      this.restaurant_local = restaurant_local
     } else {
-      this.item_data = item_data;
-      this.restaurant_data = restaurant_data;
+      this.restaurant_local = JSON.parse("[]")
     }
   }
 
+
+  // Inicia as rotas e define as funções que serao executadas quando a rota é chamada.
   public startRouter() {
     // Get item:
     this.router.get('/:itemId', this.getItemById);
     this.router.get('/:itemId/includeInactive', this.getAnyItemById);
     this.router.get('/all/:restaurantId', this.getRestaurantItens);
-
     // Post item:
     this.router.post('/', storer.any(), this.addItem);
-
     // Put item:
     this.router.put('/:itemId', storer.any(), this.updateItem);
-
     // Delete item:
     this.router.delete('/:itemId', this.removeItem);
   }
 
+
+  // ----- Funcoes do banco de dados do restaurante ----- //
+  // Retorna o banco de dados que está sendo usado.
+  public getDatabaseRestaurant(): any {
+    if (this.using_path) {
+        return JSON.parse(fs.readFileSync(this.restaurant_path, 'utf-8'))
+    } else {
+        return this.restaurant_local
+    }
+  }
+
+
+  // Substitui os dados que estao sendo usados atualmente pelos dados recebidos.
+  public setDatabaseRestaurant(data: any): any {
+    if (this.using_path) {
+      fs.writeFileSync(path.resolve(this.restaurant_path), JSON.stringify(data, null, 2))
+    } else {
+      return this.restaurant_local= data
+    }
+  }
+
+
+  // Adiciona dados ao banco de dados que está sendo usado atualmente.
+  public pushDataRestaurant(data: any) {
+    if (this.using_path) {
+      const current_data = JSON.parse(fs.readFileSync(this.restaurant_path, 'utf-8'))
+      current_data.push(data)
+      fs.writeFileSync(path.resolve(this.restaurant_path),JSON.stringify(current_data, null, 2))
+    } else {
+      this.restaurant_local.push(data);
+    }
+  }
+
+
+  // Limpa o banco de dados sendo usado atualmente.
+  public resetDatabaseRestaurant(): any {
+    if (this.using_path) {
+      fs.writeFileSync(path.resolve(this.restaurant_path), JSON.stringify(JSON.parse('[]'), null, 2))
+    } else {
+      return this.restaurant_local = JSON.parse('[]')
+    }
+  }
+
+
+  // Função de criar um novo arquivo com os bancos de dados que está sendo usado atualmente:
+  public create_arquive(arquive_path: string) {
+    const new_data = this.getDatabase();
+    fs.writeFileSync(path.resolve(arquive_path), JSON.stringify(new_data, null, 2));
+  }
+  // ---------------------------------------------------- //
+
+
+  // ----------------- Funções de rotas ----------------- //
+  // GET ITEM By ID
   // Recebe um requerimento GET e da como resposta um item de acordo com o id recebido como parametro.
   private getItemById = (req: any, res: any) => {
     try {
       // Carrega o banco de dados de itens:
-      var parser = this.get_itens_database();
+      var parser = this.getDatabase();
 
-      // Procura item nos dados e dá a resposta.
-      this.getById(parser, req, res);
+      const requested_id = req.params.itemId;
+
+      // Verifica se tem um item com o id especificado:
+      if (!this.id_exists(parser, requested_id, res)) {
+        return;
+      }
+
+      // Verifica se o item é ativo ou não:
+      if (!this.is_active(parser, requested_id, res)) {
+        return;
+      }
+
+      // Filtra dos dados pegando apenas aquele com o id igual ao especificado:
+      const database_data = parser.filter(
+        (element: { id: any }) => element.id == requested_id
+      );
+
+      // Cria o conjunto de dados que será enviado, com os dados do item e a imagem codificada:
+      const item_data = {
+        id: database_data[0].id,
+        restaurant_id: database_data[0].restaurant_id,
+        name: database_data[0].name,
+        price: database_data[0].price,
+        description: database_data[0].description,
+        categories: database_data[0].categories,
+        image64: database_data[0].image64,
+      };
+
+      // Manda os dados como resposta:
+      res.status(200).json(item_data);
+
     } catch (error: any) {
       console.log('Erro in getItemById:', error.message);
       res.status(500).json({ Erro: 'Internal Server Error' });
     }
   };
 
-  // Retorna um elemento dos dados do parse de acordo com seu id.
-  private getById(parser: any, req: any, res: any) {
-    const requested_id = req.params.itemId;
 
-    // Verifica se tem um item com o id especificado:
-    if (!this.id_exists(parser, requested_id)) {
-      console.log(`Erro: item with id ${requested_id} not found`);
-      res.status(404).json({ Erro: `item with id ${requested_id} not found` });
-      return;
-    }
-
-    // Verifica se o item é ativo ou não:
-    if (!this.is_active(parser, requested_id)) {
-      console.log(`Erro: item with id ${requested_id} is deactivated`);
-      res
-        .status(400)
-        .json({ Erro: `item with id ${requested_id} is deactivated` });
-      return;
-    }
-
-    // Filtra dos dados pegando apenas aquele com o id igual ao especificado:
-    const database_data = parser.filter(
-      (element: { id: any }) => element.id == requested_id
-    );
-
-    // Cria o conjunto de dados que será enviado, com os dados do item e a imagem codificada:
-    const item_data = {
-      id: database_data[0].id,
-      restaurant_id: database_data[0].restaurant_id,
-      name: database_data[0].name,
-      price: database_data[0].price,
-      description: database_data[0].description,
-      categories: database_data[0].categories,
-      image64: database_data[0].image64,
-    };
-
-    // Manda os dados como resposta:
-    res.status(200).json(item_data);
-  }
-
+  // GET ANY ITEM BY ID
   // Recebe um requerimento GET e dá como resposta um item de acordo com o id recebido como parâmetro,
   // mesmo que esteja desativado.
   private getAnyItemById = (req: any, res: any) => {
     try {
       // Carrega o banco de dados de itens:
-      var parser = this.get_itens_database();
+      var parser = this.getDatabase();
 
       const requested_id = req.params.itemId;
 
       // Verifica se tem um item com o id especificado:
-      if (!this.id_exists(parser, requested_id)) {
-        console.log(`Erro: item with id ${requested_id} not found`);
-        res
-          .status(404)
-          .json({ Erro: `item with id ${requested_id} not found` });
+      if (!this.id_exists(parser, requested_id, res)) {
         return;
       }
 
@@ -146,11 +174,13 @@ export default class ItemController {
     }
   };
 
+
+  // ADD ITEM
   // Adiciona item ao banco de dados.
   private addItem = (req: any, res: any) => {
     try {
       // Carrega o banco de dados de itens:
-      var data = this.get_itens_database();
+      var data = this.getDatabase();
 
       // Define o id do item:
       var new_id = this.define_new_item_id();
@@ -186,7 +216,7 @@ export default class ItemController {
       });
 
       // Guarda dos dados no banco de dados de itens:
-      this.set_itens_database(data);
+      this.setDatabase(data);
 
       res.status(201).json('Item data was saved successfully');
     } catch (error: any) {
@@ -198,33 +228,25 @@ export default class ItemController {
     }
   };
 
+
+  // REMOVE ITEM
   // Remove item do banco de dados.
   private removeItem = (req: any, res: any) => {
     try {
       // Carrega o banco de dados de itens:
-      var data = this.get_itens_database();
+      var data = this.getDatabase();
 
       const requested_id = req.params.itemId;
 
-      // Verifica se o item com o id especificado exista:
-      if (!this.id_exists(data, requested_id)) {
-        console.log(`Erro: item with id ${requested_id} not found`);
-        res
-          .status(404)
-          .json({ Erro: `item with id ${requested_id} not found` });
+      // Verifica se tem um item com o id especificado:
+      if (!this.id_exists(data, requested_id, res)) {
         return;
       }
 
       // Verifica se o item é ativo ou não:
       if (!this.is_active(data, requested_id)) {
-        console.log(
-          `Erro: item with id ${requested_id} is already deactivated`
-        );
-        res
-          .status(400)
-          .json({
-            Erro: `item with id ${requested_id} is already deactivated`,
-          });
+        console.log(`Erro: item with id ${requested_id} is already deactivated`)
+        res.status(400).json({ Erro: `item with id ${requested_id} is already deactivated`})
         return;
       }
 
@@ -237,7 +259,7 @@ export default class ItemController {
       data[index].active = '0';
 
       // Guarda dos dados no banco de dados de itens:
-      this.set_itens_database(data);
+      this.setDatabase(data);
 
       res.status(200).json('Item data was removed successfully');
     } catch (error: any) {
@@ -246,29 +268,23 @@ export default class ItemController {
     }
   };
 
+
+  // UPDATE ITEM
   // Atualiza informações de um item no banco de dados
   private updateItem = (req: any, res: any) => {
     try {
       // Carrega o banco de dados de itens:
-      var data = this.get_itens_database();
+      var data = this.getDatabase();
 
       const requested_id = req.params.itemId;
 
-      // Verifica se o item com o id especificado exista:
-      if (!this.id_exists(data, requested_id)) {
-        console.log(`Erro: item with id ${requested_id} not found`);
-        res
-          .status(404)
-          .json({ Erro: `item with id ${requested_id} not found` });
+      // Verifica se tem um item com o id especificado:
+      if (!this.id_exists(data, requested_id, res)) {
         return;
       }
 
       // Verifica se o item é ativo ou não:
-      if (!this.is_active(data, requested_id)) {
-        console.log(`Erro: item with id ${requested_id} is deactivated`);
-        res
-          .status(400)
-          .json({ Erro: `item with id ${requested_id} is deactivated` });
+      if (!this.is_active(data, requested_id, res)) {
         return;
       }
 
@@ -308,7 +324,7 @@ export default class ItemController {
       };
 
       // Guarda dos dados no banco de dados de itens:
-      this.set_itens_database(data);
+      this.setDatabase(data);
 
       res.status(200).json('Item data has been updated successfully');
     } catch (error: any) {
@@ -320,15 +336,18 @@ export default class ItemController {
     }
   };
 
+
+  // GET RESTAURANT ITENS
+  // Retorna todos os itens ativos cadastrados por um restaurante:
   private getRestaurantItens = (req: any, res: any) => {
     try {
       // Carrega o banco de dados de itens:
-      var itens_database = this.get_itens_database();
+      var itens_database = this.getDatabase();
 
       const requested_id = req.params.restaurantId;
 
       // Carrega o banco de dados de restaurantes:
-      const restaurant_database = this.get_restaurant_database();
+      const restaurant_database = this.getDatabaseRestaurant();
 
       // Filtra dos dados pegando apenas aquele com o restaurant_id igual ao especificado:
       var restaurant_itens = itens_database.filter(
@@ -368,139 +387,43 @@ export default class ItemController {
       res.status(500).json({ Erro: 'Internal Server Error' });
     }
   };
+  // ---------------------------------------------------- //
 
-  public set_using_path(value: boolean) {
-    this.using_path = value;
-  }
 
-  // Gets dos bancos de dados:
-  // Retorna o banco de dados dos itens que está sendo usado.
-  public get_itens_database(): any {
-    if (this.using_path) {
-      return JSON.parse(fs.readFileSync(this.itens_path, 'utf-8'));
-    } else {
-      return this.item_data;
-    }
-  }
-
-  // Retorna o banco de dados dos restaurantes que está sendo usado.
-  public get_restaurant_database(): any {
-    if (this.using_path) {
-      return JSON.parse(fs.readFileSync(this.restaurant_path, 'utf-8'));
-    } else {
-      return this.restaurant_data;
-    }
-  }
-
-  // Funções modificadoras do bancos de dados:
-  // Limpa a base de dados.
-  public reset_data() {
-    if (this.using_path) {
-      fs.writeFileSync(
-        path.resolve(this.itens_path),
-        JSON.stringify(JSON.parse('[]'), null, 2)
-      );
-      fs.writeFileSync(
-        path.resolve(this.restaurant_path),
-        JSON.stringify(JSON.parse('[]'), null, 2)
-      );
-    } else {
-      this.item_data = JSON.parse('[]');
-      this.restaurant_data = JSON.parse('[]');
-    }
-  }
-
-  // Atualiza a base de dados de item pela base de dados recebida.
-  public set_itens_database(data: any): any {
-    if (this.using_path) {
-      fs.writeFileSync(
-        path.resolve(this.itens_path),
-        JSON.stringify(data, null, 2)
-      );
-    } else {
-      this.item_data = data;
-    }
-  }
-
-  // Atualiza a base de dados de restaurantes pela base de dados recebida.
-  public set_restaurant_database(data: any): any {
-    if (this.using_path) {
-      fs.writeFileSync(
-        path.resolve(this.restaurant_path),
-        JSON.stringify(data, null, 2)
-      );
-    } else {
-      this.restaurant_data = data;
-    }
-  }
-
-  // Adiciona dados ao banco de dados dos itens.
-  public push_item_data(data: any) {
-    if (this.using_path) {
-      const current_data = JSON.parse(
-        fs.readFileSync(this.itens_path, 'utf-8')
-      );
-      current_data.push(data);
-      fs.writeFileSync(
-        path.resolve(this.itens_path),
-        JSON.stringify(current_data, null, 2)
-      );
-    } else {
-      this.item_data.push(data);
-    }
-  }
-
-  // Adiciona dados ao banco de dados dos restaurantes.
-  public push_restaurant_data(data: any) {
-    if (this.using_path) {
-      const current_data = JSON.parse(
-        fs.readFileSync(this.restaurant_path, 'utf-8')
-      );
-      current_data.push(data);
-      fs.writeFileSync(
-        path.resolve(this.restaurant_path),
-        JSON.stringify(current_data, null, 2)
-      );
-    } else {
-      this.restaurant_data.push(data);
-    }
-  }
-
-  // Funções de id de item:
+  // ----------------- Funções De item ----------------- //
   // Função responsavel por dar o indice de um novo item.
   private define_new_item_id(): any {
-    const data = this.get_itens_database();
+    const data = this.getDatabase();
     const new_id = data.length;
     return new_id;
   }
 
-  // Função responsavel por atualizar os indices dos itens, depois que um é removido.
-  private update_itens_id(item_data: any): any {
-    for (let i = 0; i < item_data.length; i++) {
-      item_data[i].id = JSON.stringify(i);
+  private id_exists(data_item: any, id: String, res?: any): Boolean {
+    const id_data1 = data_item.filter((element: { id: any }) => element.id == id)
+    if (id_data1.length > 0) {
+      return true
     }
-    return item_data;
+    else {
+      if (res) {
+        console.log(`Erro: item with id ${id} not found`)
+        res.status(404).json({ Erro: `item with id ${id} not found`})
+      }
+      return false
+    }
   }
 
-  private id_exists(data_item: any, id: String): Boolean {
-    const id_data1 = data_item.filter(
-      (element: { id: any }) => element.id == id
-    );
-    return id_data1.length > 0;
-  }
-
-  private id_exists_rest(data_rest: any, id: String): Boolean {
-    const id_data2 = data_rest.filter(
-      (element: { id: any }) => element.id == id
-    );
-    return id_data2.length > 0;
-  }
-
-  private is_active(data_item: any, id: String) {
-    const item_list = data_item.filter(
-      (element: { id: any }) => element.id == id
-    );
-    return item_list[0].active == '1';
+  private is_active(data_item: any, id: String, res?: any) {
+    const item_list = data_item.filter((element: { id: any }) => element.id == id)
+    if (item_list[0].active == '1') {
+      return true
+    }
+    else {
+      if (res) {
+        console.log(`Erro: item with id ${id} is deactivated`)
+        res.status(400).json({ Erro: `item with id ${id} is deactivated`})
+      }
+      return false
+    }
   }
 
   // Funções de verificações de dados:
@@ -570,8 +493,9 @@ export default class ItemController {
     }
     return error_list;
   }
+  // ---------------------------------------------------- //
 
-  // Funções de imagem:
+  // ---------------- Funções de imagem ----------------- //
   // Retorna a imagem que veiro na requisição em uma string base 64.
   private image_to_64(req: any, res: any) {
     if (req.body.image64) {
@@ -591,16 +515,5 @@ export default class ItemController {
         console.log('Erro ao deletar o arquivo:', err);
       }
     });
-  }
-
-  // Função de criar um arquivo com os bancos de dados:
-  public create_arquive(path_item: string, path_restaurant: string) {
-    const item = this.get_itens_database();
-    const rest = this.get_itens_database();
-    fs.writeFileSync(path.resolve(path_item), JSON.stringify(item, null, 2));
-    fs.writeFileSync(
-      path.resolve(path_restaurant),
-      JSON.stringify(rest, null, 2)
-    );
   }
 }

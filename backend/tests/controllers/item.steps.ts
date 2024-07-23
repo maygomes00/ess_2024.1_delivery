@@ -2,7 +2,6 @@ import { loadFeature, defineFeature } from 'jest-cucumber';
 import supertest from 'supertest';
 import app from '../../src/app';
 import item_controller from '../../src/routes/item.routes'
-import { URLType } from 'superagent/types';
 
 const feature = loadFeature('./tests/features/itens.feature');
 const request = supertest(app);
@@ -11,11 +10,12 @@ defineFeature(feature, (test) => {
   // Mock do repositório
   let response: supertest.Response | null;
 
-  item_controller.set_using_path(false)
+  item_controller.setUsingPath(false)
 
   beforeEach(() => {
     response = null;
-    item_controller.reset_data()
+    item_controller.resetDatabase()
+    item_controller.resetDatabaseRestaurant()
   })
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -413,18 +413,18 @@ defineFeature(feature, (test) => {
 // - Givens:
 function garante_banco_de_dados_tem_item(itemId: any, ativo: any, restId: any, nome: any, preco: any, descricao: any, categorias: any, imagem: any) {
   const item = {id: itemId, active: ativo, restaurant_id: restId, name: nome, price: preco, description: descricao, categories: categorias, image64: imagem}
-  item_controller.push_item_data(item)
+  item_controller.pushData(item)
 }
 
 function garante_banco_de_dados_nao_tem_item(itemId: any) {
-  var data = item_controller.get_itens_database()
+  var data = item_controller.getDatabase()
   const no_item_data = data.filter((element: {id: any}) => element.id != itemId)
-  item_controller.set_itens_database(no_item_data)
+  item_controller.setDatabase(no_item_data)
 }
 
 function garante_banco_de_dados_tem_retaurante(restId: any) {
   const item = {id: restId}
-  item_controller.push_restaurant_data(item)
+  item_controller.pushDataRestaurant(item)
 }
 
 // Whens:
@@ -477,7 +477,7 @@ function retorna_mensagem_erro(response: any, mensagem: any){
 
 function item_esta_no_banco_de_dados(itemId: any, ativo: any, restId: any, nome: any, preco: any, descricao: any, categorias: any, imagem: any) {
   const item = {id: itemId, active: ativo, restaurant_id: restId, name: nome, price: preco, description: descricao, categories: categorias, image64: imagem}
-  const data = item_controller.get_itens_database()
+  const data = item_controller.getDatabase()
   const resultado = data.filter((element: {id: any, active: any, restaurant_id: any, name: any, price: any, description: any, categories:any, image64: any}) =>
     element.id == itemId && element.active == ativo && element.restaurant_id == restId && element.name == nome && element.price == preco &&
     element.description == descricao && element.categories == categorias && element.image64 == imagem)
@@ -486,7 +486,7 @@ function item_esta_no_banco_de_dados(itemId: any, ativo: any, restId: any, nome:
 }
 
 function numero_itens_banco_de_dados(numero: any) {
-  expect(item_controller.get_itens_database().length).toBe(parseInt(numero, 10))
+  expect(item_controller.getDatabase().length).toBe(parseInt(numero, 10))
 }
 
 function retorna_lista_que_contem_item(response: any, itemId: any, restId: any) {
