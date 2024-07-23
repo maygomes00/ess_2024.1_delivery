@@ -44,6 +44,6 @@ Scenario: Navegar para a página de recuperação de senha
   Then o usuário deve ser redirecionado para a página "forgot-password"
 
 Scenario: Redirecionar para a página de cadastro
-    Given o usuário está na página de login de cliente
-    When o usuário clica no botão "Cadastre-se"
-    Then o usuário deve ser redirecionado para a página "users"
+  Given o usuário está na página "login-client"
+  When o usuário clica no botão "Cadastre-se"
+  Then o usuário deve ser redirecionado para a página "users"
