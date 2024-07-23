@@ -22,10 +22,10 @@ Scenario: Ir para a tela de adicionar item
     Then o usuario deve ser redirecionado para a sua pagina de adicionar item
     And o usuario deve ver a mensagem "Adicionar item"
 
-Scenario: Adicionar item no cardapio
+Scenario: Adicionar item no menu
     Given o usuario esta logado com email "teste@example.com", password "teste123" e id "idTeste1"
     And o usuario esta na sua pagina de adicionar item
-    When o usuario preenche o campo "Name" com "Brigadeiro"
+    When o usuario preenche o campo "Name" com "Brigadeiro (Teste)"
     And o usuario preenche o campo "Description" com "Brigadeiro normal."
     And o usuario preenche o campo "Price" com "1.50"
     And o usuario adiciona uma imagem ".\brigadeiro.jpeg"
@@ -34,5 +34,5 @@ Scenario: Adicionar item no cardapio
     And espera "400" ms
     Then o usuario deve ser redirecionado para a sua pagina "menu" do editor de menu
     And o usuario deve ver a mensagem "Doce"
-    And o usuario deve ver a mensagem "Brigadeiro"
+    And o usuario deve ver a mensagem "Brigadeiro (Teste)"
     

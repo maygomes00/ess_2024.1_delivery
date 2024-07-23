@@ -4,7 +4,7 @@
       "id": "1",
       "nome": "João Silva",
       "email": "john.doe@example.com",
-      "password": "senha123",
+      "password": "novaSenha123",
       "telefone": "(11) 9876-5432",
       "endereco": "Rua Nova, 123, Bairro Novo, Cidade Nova, Estado Novo, 12345-678",
       "pedidos": [
@@ -38,9 +38,7 @@
           ],
           "total": 81.97
         }
-      ],
-      "resetPasswordToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzIxNzAxODgyLCJleHAiOjE3MjE3MDU0ODJ9.ELIB9QouE5qhmufhQM3aVYt8WT437nXlpBKaIKNlaUU",
-      "resetPasswordExpires": "2024-07-23T03:31:22.620Z"
+      ]
     },
     {
       "id": "2",
