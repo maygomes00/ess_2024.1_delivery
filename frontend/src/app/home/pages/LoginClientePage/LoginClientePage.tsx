@@ -50,22 +50,22 @@ const LoginClientPage: React.FC = () => {
         <form onSubmit={handleSubmit(handleLogin)} className={styles.form}>
           <div>
             <label>Email:</label>
-            <input type="email" {...register('email')} />
+            <input type="email" {...register('email')} data-cy="email" />
             {errors.email && <p className={styles.error}>{errors.email.message}</p>}
           </div>
           <div>
             <label>Senha:</label>
-            <input type="password" {...register('password')} />
+            <input type="password" {...register('password')} data-cy="password" />
             {errors.password && <p className={styles.error}>{errors.password.message}</p>}
           </div>
           <div>
-            <Link to="/forgot-password">Esqueci minha Senha</Link>
+            <Link to="/forgot-password" data-cy="forgot-password-link">Esqueci minha Senha</Link>
           </div>
           <div className={styles.buttonContainer}>
-            <button type="submit" className={loading ? styles.loadingButton : styles.button} disabled={loading}>
+            <button type="submit" className={loading ? styles.loadingButton : styles.button} disabled={loading} data-cy="Entrar">
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
-            <button type="button" onClick={handleSignUp} className={`${styles.button} ${styles.signupButton}`}>
+            <button type="button" onClick={handleSignUp} className={`${styles.button} ${styles.signupButton}`} data-cy="Cadastre-se">
               Cadastre-se
             </button>
           </div>

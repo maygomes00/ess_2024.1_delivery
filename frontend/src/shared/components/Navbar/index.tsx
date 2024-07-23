@@ -1,6 +1,5 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/react.svg";
+import logo from "../../assets/logo-delivery-branco.svg";
 import styles from "./index.module.css";
 import { localContextGetInfo } from "../../../app/home/context/LocalContext";
 
