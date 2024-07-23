@@ -1,20 +1,6 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 Given(
-  "que eu estou logado como {string} com o login {string} e senha {string}",
-  (role: string, email: string, password: string) => {
-    cy.visit("/login-client");
-    cy.get('input[name="email"]').type(email);
-    cy.get('input[name="password"]').type(password);
-    cy.get('button[data-cy="Entrar"]').click();
-  }
-);
-
-Given("eu estou na página {string}", (page: string) => {
-  cy.url().should("include", `/${page}`);
-});
-
-Given(
   "eu vou para a página {string} do usuário de id {string}",
   (page: string, userId: string) => {
     cy.visit(`/${userId}/${page}`);
@@ -51,29 +37,6 @@ Given(
 //     ]
 //   }).as('getOrders');
 // });
-
-When("eu escolho a opção {string}", (option: string) => {
-  cy.get(`a[data-cy="${option}"]`).click();
-});
-
-Then("eu vejo uma mensagem {string}", (message: string) => {
-  cy.contains(message).should("be.visible");
-});
-
-Then("eu clico no botão {string}", (button: string) => {
-  cy.get(`button[data-cy="${button}"]`).click();
-});
-
-Then("eu continuo na página {string}", (page: string) => {
-  cy.url().should("include", page);
-});
-
-Then(
-  "eu estou na página {string} do usuário de id {string}",
-  (page: string, userId: string) => {
-    cy.url().should("include", `/${userId}/${page}`);
-  }
-);
 
 Then("eu consigo visualizar a lista {string}", (lista: string) => {
   cy.get(`[data-cy="${lista}"]`).should("be.visible");

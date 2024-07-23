@@ -6,15 +6,15 @@ Feature: Histórico de pedidos
 Scenario: Acessar página de histórico de pedidos sem haver pedidos feitos no aplicativo
     Given que eu estou logado como "cliente" com o login "cascadebala@example.com" e senha "senha987"
     And eu estou na página "home-client"
-    When eu escolho a opção "historico"
-    Then eu vejo uma mensagem "Não há detalhes de pedidos para o seu perfil"
+    When eu escolho a opção "historico" na barra de navegação
+    Then eu consigo visualizar o texto "Não há detalhes de pedidos para o seu perfil"
     And eu clico no botão "confirmar"
     And eu continuo na página "home-client"
 
 Scenario: Acessar página de histórico de pedidos com pedidos feitos no aplicativo
     Given que eu estou logado como "cliente" com o login "usuarioteste1@example.com" e senha "senhateste1"
-    And eu estou na página "home"
-    When eu escolho a opção "historico"
+    And eu estou na página "home-client"
+    When eu escolho a opção "historico" na barra de navegação
     Then eu estou na página "history" do usuário de id "33"
     And eu consigo visualizar a lista "pedidos"
 

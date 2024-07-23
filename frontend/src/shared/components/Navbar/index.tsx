@@ -18,7 +18,9 @@ const Navbar = () => {
           {userId ? (
             <>
               <li className={styles.listItem}>
-                <Link to={`/${userId}/statistics`}>Estatísticas</Link>
+                <Link to={`/${userId}/statistics`} data-cy="estatisticas">
+                  Estatísticas
+                </Link>
               </li>
               <li className={styles.listItem}>
                 <Link to={`/${userId}/history`} data-cy="historico">

@@ -107,10 +107,18 @@ const UserStatistics = () => {
     <div className={styles.statisticsPage}>
       <h1 className={styles.title}>Estatísticas de Pedidos</h1>
       <div className={styles.buttonsBox}>
-        <button className={styles.button} onClick={() => setPeriodo("mensal")}>
+        <button
+          className={styles.button}
+          onClick={() => setPeriodo("mensal")}
+          data-cy="mensal"
+        >
           Mensal
         </button>
-        <button className={styles.button} onClick={() => setPeriodo("diario")}>
+        <button
+          className={styles.button}
+          onClick={() => setPeriodo("diario")}
+          data-cy="diario"
+        >
           Diário
         </button>
       </div>
