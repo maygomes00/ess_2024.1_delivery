@@ -1,3 +1,58 @@
-[{"id":"f257adef-dda8-46c7-bbfd-4275a90d837e","email":"undecillion2@example.com","password":"!secureP4$$W0RD1234","owner_name":"Owner 0000","owner_cpf":"123.456.789-00","owner_address":"1234 Main St, Anytown, AN","owner_telephone":"33 33 33333-3333","restaurant_name":"0000's Diner","restaurant_cnpj":"12.345.678/0002-99","restaurant_address":"5678 Second St, Anytown, AN","restaurant_telephone":"99 99 99999-9999","items":[]},
-{"id":"f257bdef-cca8-46c7-bbfd-4275a90d837e","email":"undecillion@example.com","password":"!secureP4$$W0RD1234","owner_name":"Owner 0000","owner_cpf":"123.456.789-00","owner_address":"1234 Main St, Anytown, AN","owner_telephone":"33 33 33333-3333","restaurant_name":"0000's Diner","restaurant_cnpj":"12.345.678/0002-99","restaurant_address":"5678 Second St, Anytown, AN","restaurant_telephone":"99 99 99999-9999","items":[]},
-{"id":"idTeste1","email":"teste@example.com","password":"teste123","owner_name":"Owner","owner_cpf":"123.456.789-00","owner_address":"1234 Main St, Anytown, AN","owner_telephone":"33 33 33333-3333","restaurant_name":"0000's Diner","restaurant_cnpj":"12.345.678/0002-99","restaurant_address":"5678 Second St, Anytown, AN","restaurant_telephone":"99 99 99999-9999","items":[]}]
+[
+  {
+    "id": "f257adef-dda8-46c7-bbfd-4275a90d837e",
+    "email": "undecillion2@example.com",
+    "password": "!secureP4$$W0RD1234",
+    "owner_name": "Owner 0000",
+    "owner_cpf": "123.456.789-00",
+    "owner_address": "1234 Main St, Anytown, AN",
+    "owner_telephone": "33 33 33333-3333",
+    "restaurant_name": "0000's Diner",
+    "restaurant_cnpj": "12.345.678/0002-99",
+    "restaurant_address": "5678 Second St, Anytown, AN",
+    "restaurant_telephone": "99 99 99999-9999",
+    "items": []
+  },
+  {
+    "id": "f257bdef-cca8-46c7-bbfd-4275a90d837e",
+    "email": "undecillion@example.com",
+    "password": "!secureP4$$W0RD1234",
+    "owner_name": "Owner 0000",
+    "owner_cpf": "123.456.789-00",
+    "owner_address": "1234 Main St, Anytown, AN",
+    "owner_telephone": "33 33 33333-3333",
+    "restaurant_name": "0000's Diner",
+    "restaurant_cnpj": "12.345.678/0002-99",
+    "restaurant_address": "5678 Second St, Anytown, AN",
+    "restaurant_telephone": "99 99 99999-9999",
+    "items": []
+  },
+  {
+    "id": "idTeste1",
+    "email": "teste@example.com",
+    "password": "teste123",
+    "owner_name": "Owner",
+    "owner_cpf": "123.456.789-00",
+    "owner_address": "1234 Main St, Anytown, AN",
+    "owner_telephone": "33 33 33333-3333",
+    "restaurant_name": "0000's Diner",
+    "restaurant_cnpj": "12.345.678/0002-99",
+    "restaurant_address": "5678 Second St, Anytown, AN",
+    "restaurant_telephone": "99 99 99999-9999",
+    "items": []
+  },
+  {
+    "id": "f055cf88-2888-48e2-b2d2-9622ad6011f2",
+    "email": "undecillionblabla@example.com",
+    "password": "!secureP4$$W0RD1234",
+    "owner_name": "UNDECILLION",
+    "owner_cpf": "123.456.789-00",
+    "owner_address": "1234 Abcd Ab, Abcdefg, AB",
+    "owner_telephone": "55 (81) 12345-6789",
+    "restaurant_name": "Abcde Fghij",
+    "restaurant_cnpj": "12.345.678/0001-99",
+    "restaurant_address": "5678 Ijklmn Ij, Ijkmlno, IJ",
+    "restaurant_telephone": "55 81 1111-1111",
+    "items": []
+  }
+]
