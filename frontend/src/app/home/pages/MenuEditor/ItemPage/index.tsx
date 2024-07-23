@@ -7,11 +7,13 @@ import ItemEditContainer from "./ItemEditContainer";
 import DeletePopup, { DeletePopupMethods } from "./DeletePopup";
 import { useNavigate } from "react-router-dom";
 import { localContextUpdateInfo } from "../../../context/LocalContext";
+import { loadCategories } from "../../../../../shared/services/CategoriesService";
 
 const ItemPage = ({restaurantId}) => {
   const navigate = useNavigate()
   const addPath = `/${restaurantId}/add-item`
   const editPath = `/${restaurantId}/edit-item/`
+  const categoriesPath = `/${restaurantId}/menu-editor/categorias`
 
   // Variaveis:
   const [restaurantItens, setRestaurantItens] = useState<Item[]>([])
@@ -52,6 +54,16 @@ const ItemPage = ({restaurantId}) => {
     navigate(editPath + item_id)
   }
 
+  const handleOnClickAdd = async () => {
+    let categories = await loadCategories(restaurantId)
+    if (categories.length > 0) {
+      navigate(addPath)
+    }
+    else {
+      navigate(categoriesPath)
+    }
+  }
+
   const reloadPage = () => {
     setReload(!reload)
   }
@@ -73,7 +85,7 @@ const ItemPage = ({restaurantId}) => {
   return (
     <div id="exibidorDeItens" className={styles.Page}>
       {createItensContainers()}
-      <AddItemButton onClick={() => {navigate(addPath)}}/>
+      <AddItemButton onClick={handleOnClickAdd}/>
       <DeletePopup ref={deletePopupRef} reload={reloadPage} />
     </div>
   );
