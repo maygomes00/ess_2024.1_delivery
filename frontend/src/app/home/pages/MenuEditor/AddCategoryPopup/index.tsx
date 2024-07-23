@@ -52,12 +52,20 @@ const AddCategoryPopup = ({ isOpen, onClose, onAddCategory, restaurantId, existi
       <input
         type="text"
         placeholder="Nome da Categoria"
-        data-cy={categoryName}
+        data-cy="input-nome-da-categoria"
+        value={categoryName}
         onChange={(e) => setCategoryName(e.target.value)}
       />
       {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       <div className={styles.buttonContainer}>
-        <button className={styles.acceptButton} onClick={handleAddCategory}>Adicionar</button>
+      <button
+  className={styles.acceptButton}
+  onClick={handleAddCategory}
+  data-cy="popup-add-category-button" // Adicione este atributo
+>
+  Adicionar
+</button>
+
         <button className={styles.cancelButton} onClick={onClose}>Cancelar</button>
       </div>
     </Modal>

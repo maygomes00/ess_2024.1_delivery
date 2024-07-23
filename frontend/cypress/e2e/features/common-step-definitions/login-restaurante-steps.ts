@@ -5,15 +5,15 @@ Given("o usuário está na página {string}", (page: string) => {
 });
 
 When("o usuário preenche o campo {string} com {string}", (field: string, value: string) => {
-  cy.get(`input[name="${field}"]`).type(value);
+  cy.get(`[data-cy="${field}-input"]`).type(value);
 });
 
 When("o usuário deixa o campo {string} em branco", (field: string) => {
-  cy.get(`input[name="${field}"]`).clear();
+  cy.get(`[data-cy="${field}-input"]`).clear();
 });
 
 When("o usuário clica no botão {string}", (button: string) => {
-  cy.contains("button", button).click();
+  cy.get(`[data-cy="${button}"]`).click();
 });
 
 Then("o usuário deve ser redirecionado para a página {string}", (page: string) => {
@@ -21,11 +21,5 @@ Then("o usuário deve ser redirecionado para a página {string}", (page: string)
 });
 
 Then("o usuário deve ver a mensagem {string}", (message: string) => {
-  cy.get("body").then(($body) => {
-    if ($body.find(`[class*="message"]`).length) {
-      cy.get(`[class*="message"]`).should("contain.text", message);
-    } else {
-      cy.contains(message).should("be.visible");
-    }
-  });
+  cy.contains(message).should("be.visible");
 });
