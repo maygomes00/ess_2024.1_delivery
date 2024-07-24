@@ -40,6 +40,25 @@ Given("o usuario esta na sua pagina de adicionar item", () => {
     })
 });
 
+// Verifica se usuario esta na pagina de adicionar item que tem seu id:
+Given("o usuario esta na sua pagina de editar item, para o item {string}", (item) => {
+    // Vai para a pagina de itens do editor de menu:
+    cy.getUserId().then(restaurantId => {
+        cy.getMenuEditorPage("itens").then(menuEditorPage => {
+            let userPage: string = `/${restaurantId}/${menuEditorPage}`
+            cy.visit(userPage);
+        })
+    })
+    // Clica no botão de editar do item:
+    cy.get(`[data-cy=${item}-remove]`).click();
+});
+
+
+// Verifica se o item está na pagina
+Given("o usuario ve o item {string}", (message: string) => {
+    cy.contains(message).should("be.visible");
+});
+
 
 
 // Acao de clicar em um botao:
@@ -103,6 +122,13 @@ Then("o usuario deve ser redirecionado para a sua pagina de adicionar item", () 
     })
 });
 
+// Verifica se usuario esta na pagina de adicionar item que tem seu id:
+Then("o usuario deve ser redirecionado para a sua pagina de editar item", () => {
+    cy.getUserId().then(restaurantId => {
+        let userPage: string = `/${restaurantId}/edit-item/`
+        cy.url().should("include", userPage);
+    })
+});
 
 // Verifica se um texto está na tela:
 Then("o usuario deve ver a mensagem {string}", (message: string) => {
@@ -120,4 +146,19 @@ Then('a categoria "{string}" existe no cardapio', (category: string) => {
             });
         });
     });
+});
+
+// Verifica se um texto está na tela:
+Then("o usuario não deve ver a mensagem {string}", (message: string) => {
+    cy.contains(message).should("not.exist");
+});
+
+// Verifica se o valor do campo é o esperado:
+Then("o usuario ve o campo {string} com {string}", (field: string, value: string) => {
+    cy.get(`[data-cy="${field}"]`).should('have.value', value);
+});
+
+// Verifica se o valor da checkbox é o esperado:
+Then("o usuario ve que a checkbox de {string} esta marcada", (field: string) => {
+    cy.get(`[data-cy="checkbox-${field}"]`).should('be.checked')
 });
