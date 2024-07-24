@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./index.module.css";
 import { getUserOrders } from "../../../../shared/services/userService";
-import { Pedido, EstatisticaDiaria, EstatisticaMensal } from "../../../../shared/types/User";
+import { EstatisticaDiaria, EstatisticaMensal } from "../../../../shared/types/User";
 import NoOrdersModal from "../../../../shared/components/NoOrdersModal/NoOrdersModal";
 import { calculateStatistcs } from "../../../../shared/utils/calculateStatistcs";
 import StatisticsList from "./StatisticsList";
@@ -10,7 +10,6 @@ import PeriodSelector from "./PeriodSelector";
 
 const UserStatistics = () => {
   const { user_id } = useParams<{ user_id: string }>();
-  const [orders, setOrders] = useState<Pedido[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [periodo, setPeriodo] = useState<string>("mensal");
   const [estatisticasMensais, setEstatisticasMensais] = useState<EstatisticaMensal[]>([]);
@@ -32,7 +31,6 @@ const UserStatistics = () => {
           setShowModal(true);
           return;
         }
-        setOrders(orders);
         calculateStatistcs(orders, setEstatisticasMensais, setEstatisticasDiarias);
       } catch (error) {
         setError("Erro ao pegar histórico de pedidos do usuário");
