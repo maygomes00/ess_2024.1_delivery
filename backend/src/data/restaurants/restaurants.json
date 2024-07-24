@@ -54,5 +54,33 @@
     "restaurant_address": "5678 Ijklmn Ij, Ijkmlno, IJ",
     "restaurant_telephone": "55 81 1111-1111",
     "items": []
+  },
+  {
+    "id": "eebcd76c-c7be-45b3-ba14-feb4f3a89caf",
+    "email": "emailsdflab@dfalsjdf.com",
+    "password": "asdfasdgasdadfh423453245%%#@$%@#Q$&&&&22",
+    "owner_name": "james smith",
+    "owner_cpf": "3452345dfgbn",
+    "owner_address": "q3i4h5333333",
+    "owner_telephone": "2342342",
+    "restaurant_name": "propri1",
+    "restaurant_cnpj": "2332234243223434243464537356feg",
+    "restaurant_address": "degasd",
+    "restaurant_telephone": "asdfasdg",
+    "items": []
+  },
+  {
+    "id": "98af65d0-5b0b-472b-ad69-0adb18d26bb5",
+    "email": "undecillio6346346n@ex346346346ample.com",
+    "password": "!secureP4$$W0RD1234",
+    "owner_name": "UNDECILLION",
+    "owner_cpf": "123.456.789-00",
+    "owner_address": "1234 Abcd Ab, Abcdefg, AB",
+    "owner_telephone": "55 (81) 12345-6789",
+    "restaurant_name": "Abcde Fghij",
+    "restaurant_cnpj": "12.345.678/00432t63401-99",
+    "restaurant_address": "5678 Ijklmn Ij, Ijkmlno, IJ",
+    "restaurant_telephone": "55 81 1111-1111",
+    "items": []
   }
 ]
