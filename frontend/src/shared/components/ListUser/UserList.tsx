@@ -24,7 +24,7 @@ const UserList: React.FC<UserListProps> = ({ users, deleteUser }) => {
     };
 
     return (
-        <Table striped bordered hover responsive className="mt-4">
+        <Table striped bordered hover responsive className="mt-4" data-cy="user-table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -32,22 +32,36 @@ const UserList: React.FC<UserListProps> = ({ users, deleteUser }) => {
                     <th>Email</th>
                     <th>Telefone</th>
                     <th>Endereço</th>
-                    <th>password</th> {/* Nova coluna para password */}
+                    <th>Password</th> {/* Nova coluna para password */}
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
                 {users.map(user => (
-                    <tr key={user.id}>
-                        <td>{user.id}</td>
-                        <td>{user.nome}</td>
-                        <td>{user.email}</td>
-                        <td>{user.telefone}</td>
-                        <td>{user.endereco}</td>
-                        <td>{user.password}</td> {/* Exibindo a password */}
+                    <tr key={user.id} data-cy={`user-row-${user.id}`}>
+                        <td data-cy={`user-id-${user.id}`}>{user.id}</td>
+                        <td data-cy={`user-nome-${user.id}`}>{user.nome}</td>
+                        <td data-cy={`user-email-${user.id}`}>{user.email}</td>
+                        <td data-cy={`user-telefone-${user.id}`}>{user.telefone}</td>
+                        <td data-cy={`user-endereco-${user.id}`}>{user.endereco}</td>
+                        <td data-cy={`user-password-${user.id}`}>{user.password}</td> {/* Exibindo a password */}
                         <td>
-                            <Button variant="warning" onClick={() => handleEdit(user.id)} className="action-button edit">Editar</Button>
-                            <Button variant="danger" onClick={() => handleDelete(user.id)} className="action-button delete">Deletar</Button>
+                            <Button 
+                                variant="warning" 
+                                onClick={() => handleEdit(user.id)} 
+                                className="action-button edit" 
+                                data-cy={`edit-button-${user.id}`}
+                            >
+                                Editar
+                            </Button>
+                            <Button 
+                                variant="danger" 
+                                onClick={() => handleDelete(user.id)} 
+                                className="action-button delete" 
+                                data-cy={`delete-button-${user.id}`}
+                            >
+                                Deletar
+                            </Button>
                         </td>
                     </tr>
                 ))}
