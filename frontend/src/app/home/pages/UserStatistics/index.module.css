@@ -30,4 +30,6 @@
 
 .title {
   margin-bottom: 20px;
+  padding-left: 0px;
+  border: none;
 }
