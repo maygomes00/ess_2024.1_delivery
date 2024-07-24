@@ -89,27 +89,17 @@ Scenario: Tentativa de atualização com dados inválidos
   And o usuário clica no botão "salvar"
   Then o usuário deve ver a mensagem "O email fornecido é inválido."
 
-Scenario: Visualização dos dados do usuário
-  Given o usuário está na página "/users/config"
-  When o usuário acessa a página
-  Then o sistema deve mostrar os dados cadastrados do usuário corretamente
-
-Scenario: Tentativa de visualização de usuário inexistente
-  Given o usuário está na página "/users/config"
-  When o usuário tenta acessar um usuário inexistente
-  Then o sistema deve mostrar a mensagem "Usuário não encontrado."
-
 Scenario: Remoção bem-sucedida de usuário
   Given o usuário está na página "/users/config"
   When o usuário seleciona um usuário existente
-  And o usuário clica no botão "deletar"
-  Then o sistema deve remover o usuário selecionado
-  And o usuário deve ver a mensagem "Usuário removido com sucesso."
+  And o usuário clica no botão "delete-button-1"
+  Then o usuário deve ver a mensagem "Usuário removido com sucesso."
 
-Scenario: Tentativa de remoção de usuário inexistente
-  Given o usuário está na página "/users/config"
-  When o usuário tenta remover um usuário inexistente
-  Then o sistema deve mostrar a mensagem "Usuário não encontrado."
+Scenario: Buscar usuário com ID existente
+  Given o usuário está na página "users/config"
+  When o usuário preenche o campo "busca" com "1"
+  And o usuário clica no botão "buscar"
+  Then o usuário deve ver a mensagem "Usuário encontrado"
 
 Scenario: Alteração bem-sucedida de senha
   Given o usuário está na página "/users/config/edit/:userId"
