@@ -31,8 +31,8 @@ const ItemEditContainer = ({ item_info, onClickDelete, onClickEdit }: ItemEditCo
           <ItemBlock item_info={item_info} />
         </div>
         <div className={styles.ItemEditContainerEditButtons}>
-          <CircularButton hover_background="#008000" onClick={handleOnClickEdit}><CiEdit /></CircularButton>
-          <CircularButton hover_background="#912234" onClick={handleOnClickDelete}><MdClose /></CircularButton>
+          <CircularButton data-cy={`${item_info.name}-edit`} hover_background="#008000" onClick={handleOnClickEdit}><CiEdit /></CircularButton>
+          <CircularButton data-cy={`${item_info.name}-remove`} hover_background="#912234" onClick={handleOnClickDelete}><MdClose /></CircularButton>
         </div>
       </div>
   )
