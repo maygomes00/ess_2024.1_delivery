@@ -46,11 +46,12 @@ Given("o usuario esta na sua pagina de editar item, para o item {string}", (item
     cy.getUserId().then(restaurantId => {
         cy.getMenuEditorPage("itens").then(menuEditorPage => {
             let userPage: string = `/${restaurantId}/${menuEditorPage}`
-            cy.visit(userPage);
+            cy.visit(userPage).then(() => {
+                // Clica no botão de editar do item:
+                cy.get(`[data-cy=${item}-remove]`).click();
+            })
         })
     })
-    // Clica no botão de editar do item:
-    cy.get(`[data-cy=${item}-remove]`).click();
 });
 
 
