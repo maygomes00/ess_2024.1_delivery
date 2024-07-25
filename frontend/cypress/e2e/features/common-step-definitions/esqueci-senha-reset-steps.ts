@@ -1,6 +1,20 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
 Given("o usuário está na página {string}", (page: string) => {
+  // Mock 
+  if (page.includes('valid-token')) {
+    cy.intercept('POST', '/forgot-password/reset/valid-token', {
+      statusCode: 200,
+      body: { msg: 'Senha nova confirmada! Tente fazer login novamente!', msgCode: 'success', code: 200 }
+    }).as('resetPassword');
+  }
+  // Mock 
+  else if (page.includes('invalid-token')) {
+    cy.intercept('POST', '/forgot-password/reset/invalid-token', {
+      statusCode: 400,
+      body: { msg: 'Token is invalid or has expired', msgCode: 'failure', code: 400 }
+    }).as('resetPassword');
+  }
   cy.visit(`http://localhost:3000/${page}`);
 });
 
@@ -13,6 +27,7 @@ When("o usuário clica no botão {string}", (button: string) => {
 });
 
 Then("o usuário deve ver a mensagem {string}", (message: string) => {
+  cy.wait('@resetPassword'); // Wait for the mock response
   cy.get('[data-cy="modal-message"]').should('contain.text', message);
 });
 
