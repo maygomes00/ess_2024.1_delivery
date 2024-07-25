@@ -1,5 +1,5 @@
 .section {
-    width: 50vw;
+    width: inherit;
     height: fit-content;
     display: flex; 
     flex-direction: column;
