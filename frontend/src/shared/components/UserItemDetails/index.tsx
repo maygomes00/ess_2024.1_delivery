@@ -8,17 +8,18 @@ interface UserItemDetailsProps {
   restaurantId: string;
   userItem: UserItem;
   item: Item | undefined;
+  setUnavailableModal: (value: boolean) => void;
 }
 
-const UserItemDetails: React.FC<UserItemDetailsProps> = ({
-  restaurantId,
-  userItem,
-  item,
-}) => {
+const UserItemDetails: React.FC<UserItemDetailsProps> = ({ restaurantId, userItem, item, setUnavailableModal }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/restaurant/${restaurantId}/cardapio/${item?.id}`);
+    if (item?.active === "0") {
+      setUnavailableModal(true);
+    } else {
+      navigate(`/restaurant/${restaurantId}/cardapio/${item?.id}`);
+    }
   };
 
   return item ? (

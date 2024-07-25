@@ -9,26 +9,29 @@ import OrderBoxHeader from "./OrderBoxHeader";
 import { fetchOrders } from "./FetchOrders/fetchOrders";
 import { groupItemsByRestaurant } from "./GroupItemsByRestaurant/groupItemsByRestaurant";
 import RestaurantOrderItems from "./RestaurantOrderItems";
+import UnavailableModal from "./UnavailableModal";
 
 const UserHistory = () => {
   const { user_id } = useParams<{ user_id: string }>();
   const [orders, setOrders] = useState<Pedido[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [items, setItems] = useState<{ [key: string]: Item }>({});
-  const [showModal, setShowModal] = useState(false);
+  const [showNoOrdersModal, setShowNoOrdersModal] = useState(false);
+  const [showUnavailableModal, setShowUnavailableModal] = useState(false);
 
-  const handleCloseModal = () => setShowModal(false);
+  const handleCloseNoOrdersModal = () => setShowNoOrdersModal(false);
+  const handleCloseUnavailableModal = () => setShowUnavailableModal(false);
 
   useEffect(() => {
-    fetchOrders(user_id!, setOrders, setShowModal, setError, setItems);
+    fetchOrders(user_id!, setOrders, setShowNoOrdersModal, setError, setItems);
   }, [user_id]);
 
   if (error) {
     return <div>{error}</div>;
   }
 
-  if (showModal) {
-    return <NoOrdersModal show={showModal} handleClose={handleCloseModal} />;
+  if (showNoOrdersModal) {
+    return <NoOrdersModal show={showNoOrdersModal} handleClose={handleCloseNoOrdersModal} />;
   }
 
   return (
@@ -39,11 +42,16 @@ const UserHistory = () => {
           <OrderBoxHeader date={formatDate(order.data)} orderId={order.order_id} />
           <div className={styles.orderBox}>
             <ul className={styles.itemsInfo} data-cy="pedidos">
-              <RestaurantOrderItems groupedItems={groupItemsByRestaurant(order.itens, items)} items={items} />
+              <RestaurantOrderItems
+                groupedItems={groupItemsByRestaurant(order.itens, items)}
+                items={items}
+                setUnavailableModal={setShowUnavailableModal}
+              />
             </ul>
           </div>
         </div>
       ))}
+      <UnavailableModal show={showUnavailableModal} handleClose={handleCloseUnavailableModal}></UnavailableModal>
     </div>
   );
 };
