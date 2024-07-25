@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import e, { Request, Response } from 'express';
-import { User, Restaurant } from './login_common_interfaces';
+import { Request, Response } from 'express';
+import { Restaurant } from './login_common_interfaces';
 import FuzzySearch from 'fuzzy-search';
 
 let restaurants_path = './src/data/restaurants/restaurants.json';

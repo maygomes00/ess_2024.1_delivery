@@ -18,7 +18,10 @@ interface RestaurantListProps {
   onCreate: () => void;
 }
 
-const RestaurantList: React.FC<RestaurantListProps> = ({ onEdit, onCreate }) => {
+const RestaurantList: React.FC<RestaurantListProps> = ({
+  onEdit,
+  onCreate,
+}) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
   useEffect(() => {
@@ -39,13 +42,12 @@ const RestaurantList: React.FC<RestaurantListProps> = ({ onEdit, onCreate }) => 
     <Container>
       <Row className="mb-4">
         <Col>
-        <h2>Edição e deleção de restaurantes</h2>
+          <h2>Edição e deleção de restaurantes</h2>
           <Button variant="success" onClick={onCreate}>
             Criar Restaurante
           </Button>
         </Col>
-        <Col>
-        </Col>
+        <Col></Col>
       </Row>
       <Row>
         {restaurants.map((restaurant) => (
