@@ -117,4 +117,4 @@ Scenario: Criar uma categoria
     And o usuário clica no botão "Deletar" da categoria "Bebidas Geladas"
     And o usuário aperta o botão "Confirmar"
     Then o usuário deve ver a categoria "Salgados" no modal
-    And o usuário deve ver a categoria "Doce" no modal  
+    And o usuário deve ver a categoria "Doce" no modal
