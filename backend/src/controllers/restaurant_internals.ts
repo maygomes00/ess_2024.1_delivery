@@ -27,3 +27,16 @@ export const getRestaurantNameById = (req: Request, res: Response): void => {
     });
   }
 };
+
+export const getAllRestaurants = (req: Request, res: Response): void => {
+  try {
+    const data = fs.readFileSync(gi_restaurants_path, 'utf8');
+    const restaurants: Restaurant[] = JSON.parse(data);
+    res.status(200).json(restaurants);
+  } catch (error) {
+    console.error('Error reading or parsing restaurants database:', error);
+    res.status(500).json({
+      error: 'Erro interno do servidor',
+    });
+  }
+};

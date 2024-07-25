@@ -5,13 +5,14 @@ import { Category } from "../types/category";
 export async function loadCategories(restaurantId: string): Promise<Category[]> {
   try {
     const response = await axios.get(`http://localhost:5001/restaurant/menu/category`);
-    const categories: Category[] = response.data.map((cat: any) => ({
+    const allCategories: Category[] = response.data.map((cat: any) => ({
       id: cat.id,
       name: cat.nome,
       restauranteId: cat.restauranteId,
       temItens: cat.temItens
     }));
-    return categories;
+    const filteredCategories = allCategories.filter(category => category.restauranteId === restaurantId);
+    return filteredCategories;
   } catch (error) {
     console.error("Erro ao carregar categorias:", error);
     throw error;

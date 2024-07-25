@@ -5,9 +5,14 @@ import { loadCategories } from "../../../../../shared/services/CategoriesService
 import { loadItens } from "../../../../../shared/services/ItensService";
 import styles from "../MenuEditor.module.css";
 import CategoryCard from "./CategoryCard";
-import ItemBlock from "../ItemBlock";
+import ItemButton from "./ItemButton";
 
-const MenuPage = ({ restaurantId }) => {
+type MenuPageProps = {
+  restaurantId: string
+  onClickItem?: any
+}
+
+const MenuPage = ({ restaurantId, onClickItem }: MenuPageProps) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [itens, setItens] = useState<Item[]>([]);
 
@@ -37,7 +42,7 @@ const MenuPage = ({ restaurantId }) => {
   const createItemBlock = (categoryName: string, itemInfo: Item) => {
     if (itemIncludesCategory(categoryName, itemInfo)) {
       return (
-        <ItemBlock item_info={itemInfo}></ItemBlock>
+        <ItemButton key={itemInfo.id} item_info={itemInfo} onClick={onClickItem}></ItemButton>
       )
     }
     else {

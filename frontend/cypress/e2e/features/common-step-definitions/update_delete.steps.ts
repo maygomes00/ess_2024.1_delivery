@@ -1,33 +1,10 @@
 import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
-// Given
 Given('que visito a página CRUD de restaurante', () => {
   cy.visit('/restaurant-crud'); // Página CRUD de restaurante
 });
 
-// When
-When('preencho o formulário do restaurante', () => {
-  cy.get('input[data-cy="restaurant_name"]').type('Novo Restaurante');
-  cy.get('input[data-cy="restaurant_address"]').type('Rua Nova, 123');
-  cy.get('input[data-cy="email"]').type('novo@restaurante.com');
-  cy.get('input[data-cy="password"]').type('SenhaSegura123');
-  cy.get('input[data-cy="owner_name"]').type('Novo Dono');
-  cy.get('input[data-cy="owner_cpf"]').type('123.456.789-00');
-  cy.get('input[data-cy="owner_address"]').type('Rua Velha, 456');
-  cy.get('input[data-cy="owner_telephone"]').type('11 1111-1111');
-  cy.get('input[data-cy="restaurant_cnpj"]').type('12.345.678/0001-99');
-  cy.get('input[data-cy="restaurant_telephone"]').type('22 2222-2222');
-});
-
-When('envio o formulário', () => {
-  cy.get('button[data-cy="submit-button"]').click();
-});
-
-Then('devo ver o novo restaurante na lista', () => {
-  cy.get('div[data-cy="restaurant-list"]').should('contain', 'Novo Restaurante');
-});
-
-// Edit Scenario
+// Edição
 When('clico no botão de editar para um restaurante', () => {
   cy.get('button[data-cy="edit-button"]').first().click();
 });
@@ -49,7 +26,7 @@ Then('devo ver o restaurante atualizado na lista', () => {
   cy.get('div[data-cy="restaurant-list"]').should('contain', 'Restaurante Atualizado');
 });
 
-// Delete Scenario
+// Deleção Scenario
 When('clico no botão de excluir para um restaurante', () => {
   cy.get('button[data-cy="delete-button"]').first().click();
 });

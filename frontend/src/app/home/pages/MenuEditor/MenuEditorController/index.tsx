@@ -16,7 +16,7 @@ const MenuEditorController = () => {
   const buttons_side_padding = 25
 
   // Variaveis:
-  const {restaurant_id, page=""} = useParams()
+  const {restaurant_id="", page=""} = useParams()
   const [blockIndex, setBlockIndex] = useState(0)
 
   // Funcao:

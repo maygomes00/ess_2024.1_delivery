@@ -67,3 +67,16 @@ export const fetchUserById = async (id: string): Promise<User> => {
   const user = await response.json();
   return user;
 };
+
+// Nova função para adicionar pedido ao usuário
+export const addUserOrder = async (userId: string, produtoId: string): Promise<Pedido> => {
+  const response = await fetch(`${API_URL}/${userId}/${produtoId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  });
+  if (!response.ok) {
+    throw new Error("Erro ao adicionar pedido");
+  }
+  const newOrder = await response.json();
+  return newOrder;
+};
