@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo-delivery-branco.svg";
 import styles from "./index.module.css";
 import { localContextGetInfo } from "../../../app/home/context/LocalContext";
+import SearchBar from "../SearchBar";
 
 const Navbar = () => {
   useLocation(); // Hook para monitorar mudanças na URL
@@ -13,6 +14,7 @@ const Navbar = () => {
         <img src={logo} alt="logo" className={styles.navbarLogoImage} />
         <p>DeliveryApp</p>
       </div>
+      <SearchBar />
       <div className={styles.navbarLinks}>
         <ul className={styles.list}>
           {userId ? (

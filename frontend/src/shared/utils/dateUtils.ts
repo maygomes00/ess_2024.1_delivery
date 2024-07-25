@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 const capitalizeFirstLetter = (string: string) => {
@@ -10,10 +10,11 @@ const formatDate = (dateString: string) => {
 
   // Check if the date is in the format "dd/MM/yyyy"
   if (dateString.includes("/")) {
-    date = new Date(dateString.split("/").reverse().join("-"));
+    // Parse the date correctly
+    date = parse(dateString, "dd/MM/yyyy", new Date());
   } else {
     // Assume the date is in the format "yyyy-MM-dd"
-    date = new Date(dateString);
+    date = parse(dateString, "yyyy-MM-dd", new Date());
   }
 
   const formattedDate = format(date, "EEE dd MMMM yyyy", { locale: ptBR });

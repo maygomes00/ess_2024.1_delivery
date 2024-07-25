@@ -1,6 +1,6 @@
 import { Restaurant } from "../../shared/types/Restaurant";
 
-const API_URL = "http://localhost:5001/restaurant/";
+const API_URL = "http://localhost:5001/restaurant";
 
 export const getRestaurant = async (id: string): Promise<Restaurant> => {
   const response = await fetch(`${API_URL}/${id}`, {
@@ -8,6 +8,17 @@ export const getRestaurant = async (id: string): Promise<Restaurant> => {
   });
   if (!response.ok) {
     throw new Error("Erro ao pegar restaurante");
+  }
+  const result = await response.json();
+  return result;
+};
+
+export const getAllRestaurants = async (): Promise<Restaurant[]> => {
+  const response = await fetch(`${API_URL}/all`, {
+    method: "GET",
+  });
+  if (!response.ok) {
+    throw new Error("Erro ao pegar lista de restaurantes");
   }
   const result = await response.json();
   return result;

@@ -7,10 +7,8 @@ interface Pedido {
   order_id: number;
   data: string;
   itens: {
-    produto_id: number;
-    name: string;
+    produto_id: string;
     quantity: number;
-    price: number;
   }[];
   total: number;
 }
@@ -37,7 +35,10 @@ const readJsonFile = (filePath: string) => {
 };
 
 // Função para escrever JSON em um arquivo
-const writeJsonFile = (filePath: string, data: { clientes: Cliente[] }): void => {
+const writeJsonFile = (
+  filePath: string,
+  data: { clientes: Cliente[] }
+): void => {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
 };
 
@@ -54,18 +55,21 @@ const handleError = (error: unknown, res: Response, message: string) => {
   if (error instanceof Error) {
     console.error(message, error.message);
   } else {
-    console.error("Erro desconhecido:", message);
+    console.error('Erro desconhecido:', message);
   }
   res.status(500).json({
-    error: "Erro interno do servidor"
+    error: 'Erro interno do servidor',
   });
 };
 
-export const clienteGetAllJson = async (req: Request, res: Response): Promise<void> => {
+export const clienteGetAllJson = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     if (!fs.existsSync(clienteFilePath)) {
-      console.error("File not found:", clienteFilePath);
-      res.status(404).json({ error: "File not found" });
+      console.error('File not found:', clienteFilePath);
+      res.status(404).json({ error: 'File not found' });
       return;
     }
 
@@ -79,29 +83,35 @@ export const clienteGetAllJson = async (req: Request, res: Response): Promise<vo
 
     res.status(200).json(data);
   } catch (error) {
-    handleError(error, res, "Erro em clienteGetAllJson:");
+    handleError(error, res, 'Erro em clienteGetAllJson:');
   }
 };
 
-export const clienteGetById = async (req: Request, res: Response): Promise<void> => {
+export const clienteGetById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const clienteId = req.params.id;
     const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
 
-    const cliente = data.clientes.find(cliente => cliente.id === clienteId);
+    const cliente = data.clientes.find((cliente) => cliente.id === clienteId);
 
     if (!cliente) {
-      res.status(404).json({ error: "Cliente não encontrado!" });
+      res.status(404).json({ error: 'Cliente não encontrado!' });
       return;
     }
 
     res.status(200).json(cliente);
   } catch (error) {
-    handleError(error, res, "Erro em clienteGetById:");
+    handleError(error, res, 'Erro em clienteGetById:');
   }
 };
 
-export const clienteAddJson = async (req: Request, res: Response): Promise<void> => {
+export const clienteAddJson = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const nomeCliente = req.body.nome?.trim();
     const emailCliente = req.body.email?.trim();
@@ -110,16 +120,29 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
     const enderecoCliente = req.body.endereco?.trim();
     const pedidosCliente: Pedido[] = req.body.pedidos ?? [];
 
-    if (!nomeCliente || nomeCliente.length === 0 || !emailCliente || emailCliente.length === 0 || !passwordCliente || passwordCliente.trim().length === 0 || !telefoneCliente || telefoneCliente.length === 0 || !enderecoCliente || enderecoCliente.length === 0) {
-      res.status(400).json({ error: "Todos os campos são obrigatórios!" });
+    if (
+      !nomeCliente ||
+      nomeCliente.length === 0 ||
+      !emailCliente ||
+      emailCliente.length === 0 ||
+      !passwordCliente ||
+      passwordCliente.trim().length === 0 ||
+      !telefoneCliente ||
+      telefoneCliente.length === 0 ||
+      !enderecoCliente ||
+      enderecoCliente.length === 0
+    ) {
+      res.status(400).json({ error: 'Todos os campos são obrigatórios!' });
       return;
     }
 
     const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
 
-    const existingCliente = data.clientes.find(cliente => cliente.email === emailCliente);
+    const existingCliente = data.clientes.find(
+      (cliente) => cliente.email === emailCliente
+    );
     if (existingCliente) {
-      res.status(400).json({ error: "Já existe um cliente com esse email!" });
+      res.status(400).json({ error: 'Já existe um cliente com esse email!' });
       return;
     }
 
@@ -130,7 +153,7 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
       password: passwordCliente,
       telefone: telefoneCliente,
       endereco: enderecoCliente,
-      pedidos: pedidosCliente
+      pedidos: pedidosCliente,
     };
 
     data.clientes.push(newCliente);
@@ -139,16 +162,19 @@ export const clienteAddJson = async (req: Request, res: Response): Promise<void>
 
     res.status(201).json(newCliente);
   } catch (error) {
-    handleError(error, res, "Erro em clienteAddJson:");
+    handleError(error, res, 'Erro em clienteAddJson:');
   }
 };
 
-export const clienteUpdateJson = async (req: Request, res: Response): Promise<void> => {
+export const clienteUpdateJson = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
-    console.log("Iniciando atualização de cliente...");
+    console.log('Iniciando atualização de cliente...');
 
     const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
-    console.log("Dados lidos do arquivo JSON:", data);
+    console.log('Dados lidos do arquivo JSON:', data);
 
     const clienteId = req.params.id;
     const newName = req.body.nome;
@@ -160,22 +186,39 @@ export const clienteUpdateJson = async (req: Request, res: Response): Promise<vo
 
     console.log(`Atualizando cliente ID: ${clienteId}`);
 
-    if (!newName || newName.trim().length === 0 || !newEmail || newEmail.trim().length === 0 || !newPassword || newPassword.trim().length === 0 || !newTelefone || newTelefone.trim().length === 0 || !newEndereco || newEndereco.trim().length === 0) {
-      res.status(400).json({ error: "Todos os campos são obrigatórios!" });
+    if (
+      !newName ||
+      newName.trim().length === 0 ||
+      !newEmail ||
+      newEmail.trim().length === 0 ||
+      !newPassword ||
+      newPassword.trim().length === 0 ||
+      !newTelefone ||
+      newTelefone.trim().length === 0 ||
+      !newEndereco ||
+      newEndereco.trim().length === 0
+    ) {
+      res.status(400).json({ error: 'Todos os campos são obrigatórios!' });
       return;
     }
 
-    const clienteIndex = data.clientes.findIndex(cliente => cliente.id === clienteId);
+    const clienteIndex = data.clientes.findIndex(
+      (cliente) => cliente.id === clienteId
+    );
 
     if (clienteIndex === -1) {
-      res.status(404).json({ error: "Cliente não encontrado!" });
+      res.status(404).json({ error: 'Cliente não encontrado!' });
       return;
     }
 
-    const emailExists = data.clientes.some(cliente => cliente.email.toLowerCase() === newEmail.toLowerCase() && cliente.id !== clienteId);
+    const emailExists = data.clientes.some(
+      (cliente) =>
+        cliente.email.toLowerCase() === newEmail.toLowerCase() &&
+        cliente.id !== clienteId
+    );
 
     if (emailExists) {
-      res.status(400).json({ error: "Já existe um cliente com esse email!" });
+      res.status(400).json({ error: 'Já existe um cliente com esse email!' });
       return;
     }
 
@@ -187,67 +230,132 @@ export const clienteUpdateJson = async (req: Request, res: Response): Promise<vo
     data.clientes[clienteIndex].pedidos = newPedidos;
 
     writeJsonFile(clienteFilePath, data);
-    console.log("Cliente atualizado com sucesso:", data.clientes[clienteIndex]);
+    console.log('Cliente atualizado com sucesso:', data.clientes[clienteIndex]);
 
     res.status(200).json(data.clientes[clienteIndex]);
   } catch (error) {
-    handleError(error, res, "Erro em clienteUpdateJson:");
+    handleError(error, res, 'Erro em clienteUpdateJson:');
   }
 };
 
-export const clienteDeleteJson = async (req: Request, res: Response): Promise<void> => {
+export const clienteDeleteJson = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const clienteId = req.params.id;
 
     if (!fs.existsSync(clienteFilePath)) {
-      console.error("Arquivo de cliente não encontrado:", clienteFilePath);
-      res.status(404).json({ error: "Cliente não encontrado!" });
+      console.error('Arquivo de cliente não encontrado:', clienteFilePath);
+      res.status(404).json({ error: 'Cliente não encontrado!' });
       return;
     }
 
     const clienteData: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
-    const clienteIndex = clienteData.clientes.findIndex(cliente => cliente.id === clienteId);
+    const clienteIndex = clienteData.clientes.findIndex(
+      (cliente) => cliente.id === clienteId
+    );
 
     if (clienteIndex === -1) {
-      console.error("Cliente não encontrado com ID:", clienteId);
-      res.status(404).json({ error: "Cliente não encontrado!" });
+      console.error('Cliente não encontrado com ID:', clienteId);
+      res.status(404).json({ error: 'Cliente não encontrado!' });
       return;
     }
 
-    clienteData.clientes = clienteData.clientes.filter(cliente => cliente.id !== clienteId);
+    clienteData.clientes = clienteData.clientes.filter(
+      (cliente) => cliente.id !== clienteId
+    );
 
     writeJsonFile(clienteFilePath, clienteData);
-    console.log("Cliente deletado com sucesso!");
-    res.status(200).json({ message: "Cliente deletado com sucesso!" });
+    console.log('Cliente deletado com sucesso!');
+    res.status(200).json({ message: 'Cliente deletado com sucesso!' });
   } catch (error) {
-    handleError(error, res, "Erro em clienteDeleteJson:");
+    handleError(error, res, 'Erro em clienteDeleteJson:');
   }
 };
 
 // Função para obter os pedidos de um cliente
-export const getUserOrders = async (req: Request, res: Response): Promise<void> => {
+export const getUserOrders = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   try {
     const clienteId = req.params.id;
     const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
 
-    const cliente = data.clientes.find(cliente => cliente.id === clienteId);
+    const cliente = data.clientes.find((cliente) => cliente.id === clienteId);
 
     if (!cliente) {
-      res.status(404).json({ error: "Cliente não encontrado!" });
+      res.status(404).json({ error: 'Cliente não encontrado!' });
       return;
     }
 
     const orders = cliente.pedidos || [];
     if (orders.length === 0) {
-      res.status(200).json({ message: "Não há pedidos registrados para o perfil" });
+      res
+        .status(200)
+        .json({ message: 'Não há pedidos registrados para o perfil' });
       return;
     }
 
     res.status(200).json(orders);
   } catch (error) {
-    console.log("Error in getUserOrders:", error instanceof Error ? error.message : 'Erro desconhecido');
+    console.log(
+      'Error in getUserOrders:',
+      error instanceof Error ? error.message : 'Erro desconhecido'
+    );
     res.status(500).json({
-      error: "Erro interno do servidor"
+      error: 'Erro interno do servidor',
     });
+  }
+};
+
+// Função de pedidos implementada parcialmente apenas para demonstração de funcionamento da aplicação
+export const addUserOrder = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const clienteId = req.params.id;
+    const produtoId = req.params.produto_id;
+    const data: { clientes: Cliente[] } = readJsonFile(clienteFilePath);
+
+    const cliente = data.clientes.find((cliente) => cliente.id === clienteId);
+
+    if (!cliente) {
+      res.status(404).json({ error: 'Cliente não encontrado!' });
+      return;
+    }
+
+    const novoPedido: Pedido = {
+      order_id: Math.floor(Math.random() * 100000),
+      data: new Date().toISOString().split('T')[0], // Data atual no formato yyyy-mm-dd
+      itens: [],
+      total: 43.99, // Preço fixo
+    };
+
+    const additionalItem = {
+      produto_id: '1',
+      quantity: 1,
+    };
+
+    // se o prudto adicionado for o mesmo do produto fixo, junte eles em 1 só e coloque quantity = 2
+    if (produtoId === '1') {
+      additionalItem.quantity = 2;
+    } else {
+      novoPedido.itens.push({ produto_id: produtoId, quantity: 1 });
+    }
+
+    novoPedido.itens.push(additionalItem);
+
+    cliente.pedidos = cliente.pedidos
+      ? [novoPedido, ...cliente.pedidos]
+      : [novoPedido];
+
+    writeJsonFile(clienteFilePath, data);
+
+    res.status(201).json(novoPedido);
+  } catch (error) {
+    handleError(error, res, 'Erro em addOrderToUser:');
   }
 };
