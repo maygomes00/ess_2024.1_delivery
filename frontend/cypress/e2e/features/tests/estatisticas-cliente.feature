@@ -25,7 +25,7 @@ Scenario: visualizar estatísticas mensais
     And eu clico no botão "mensal"
     Then eu estou na página "statistics" do usuário de id "33"
     And eu consigo visualizar o texto "Detalhes Mensais"
-    And eu consigo visualizar o texto "Março 2024"
+    And eu consigo visualizar o texto "Junho 2024"
     And eu consigo visualizar o texto "Gastos Totais: 73.99, Número de Itens: 2"
 
 Scenario: visualizar estatísticas diárias
@@ -35,5 +35,5 @@ Scenario: visualizar estatísticas diárias
     And eu clico no botão "diario"
     Then eu estou na página "statistics" do usuário de id "33"
     And eu consigo visualizar o texto "Detalhes Diários"
-    And eu consigo visualizar o texto "Sábado 30 março 2024"
+    And eu consigo visualizar o texto "Sexta 31 maio 2024"
     And eu consigo visualizar o texto "Gastos Totais: 73.99, Número de Itens: 2"

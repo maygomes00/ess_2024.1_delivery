@@ -28,12 +28,9 @@ Then("eu consigo visualizar o texto {string}", (text: string) => {
   cy.contains(text).should("be.visible");
 });
 
-Then(
-  "eu estou na página {string} do usuário de id {string}",
-  (page: string, userId: string) => {
-    cy.url().should("include", `/${userId}/${page}`);
-  }
-);
+Then("eu estou na página {string} do usuário de id {string}", (page: string, userId: string) => {
+  cy.url().should("include", `/${userId}/${page}`);
+});
 
 // clicar em botão com data-cy="${button}"
 Then("eu clico no botão {string}", (button: string) => {
@@ -41,5 +38,9 @@ Then("eu clico no botão {string}", (button: string) => {
 });
 
 Then("eu continuo na página {string}", (page: string) => {
+  cy.url().should("include", page);
+});
+
+Then("eu continuo na página {string} do usuário de id {string}", (page: string, id: string) => {
   cy.url().should("include", page);
 });

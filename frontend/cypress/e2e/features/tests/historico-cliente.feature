@@ -22,7 +22,7 @@ Scenario: Acessar restaurante através de pedido do histórico
     Given que eu estou logado como "cliente" com o login "usuarioteste1@example.com" e senha "senhateste1"
     And eu vou para a página "history" do usuário de id "33"
     When eu clico no nome "Super Pizzas" no primeiro pedido da lista "pedidos"
-    Then eu estou na página "restaurant" do restaurante id "f257adef-dda8-46c7-bbfd-4275a90d837e"
+    Then eu estou na página "restaurant" do restaurante id "f257bdef-cca8-46c7-bbfd-4275a90d837e"
 
 Scenario: Acessar item através de pedido do histórico
     Given que eu estou logado como "cliente" com o login "usuarioteste1@example.com" e senha "senhateste1"
