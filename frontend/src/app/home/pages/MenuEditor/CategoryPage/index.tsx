@@ -28,12 +28,8 @@ const CategoryPage = ({ restaurantId }: { restaurantId: string }) => {
   
     try {
       // Obtém todas as categorias do backend
-      const allCategories = await loadCategories(restaurantId); 
-  
-      // Filtra as categorias para manter apenas aquelas que pertencem ao restaurantId atual
-      const filteredCategories = allCategories.filter(category => category.restauranteId === restaurantId);
-  
-      setRestaurantCategories(filteredCategories);
+      const categories = await loadCategories(restaurantId); 
+      setRestaurantCategories(categories);
     } catch (error) {
       console.error("Erro ao carregar categorias:", error);
     }

@@ -12,6 +12,10 @@ const Index = () => {
     return <div className={styles.restaurantPage}>Restaurant not found</div>;
   }
 
+  const handleOnClickItem = (item_id: string) => {
+    console.log(item_id) // Substituir pela logica de adicionar pedido!!!!
+  }
+
   return (
     <div className={styles.restaurantPage}>
       <RestaurantHeader restaurantId={restaurant_id} />
@@ -28,7 +32,7 @@ const Index = () => {
         <h1>Menu</h1>
       </div>
       <div>
-        <MenuPage restaurantId={restaurant_id}></MenuPage>
+        <MenuPage restaurantId={restaurant_id} onClickItem={handleOnClickItem}></MenuPage>
       </div>
     </div>
   );
