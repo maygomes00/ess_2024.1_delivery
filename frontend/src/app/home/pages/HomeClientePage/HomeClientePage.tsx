@@ -60,7 +60,7 @@ const HomeClientePage: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', backgroundColor: '#f0f2f5', minHeight: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', backgroundColor: '#fff5f5', minHeight: '100vh' }}>
       <h2 style={{ color: '#333', marginBottom: '20px' }}>Home Cliente {localStorage.getItem("start")}</h2>
       {error ? (
         <p style={{ color: 'red' }}>{error}</p>
