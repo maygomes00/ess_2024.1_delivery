@@ -6,6 +6,7 @@ import { loadItens } from "../../../../../shared/services/ItensService";
 import styles from "../MenuEditor.module.css";
 import CategoryCard from "./CategoryCard";
 import ItemBlock from "../ItemBlock";
+import ItemButton from "./ItemButton";
 
 const MenuPage = ({ restaurantId }) => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -37,7 +38,7 @@ const MenuPage = ({ restaurantId }) => {
   const createItemBlock = (categoryName: string, itemInfo: Item) => {
     if (itemIncludesCategory(categoryName, itemInfo)) {
       return (
-        <ItemBlock item_info={itemInfo}></ItemBlock>
+        <ItemButton item_info={itemInfo}></ItemButton>
       )
     }
     else {
