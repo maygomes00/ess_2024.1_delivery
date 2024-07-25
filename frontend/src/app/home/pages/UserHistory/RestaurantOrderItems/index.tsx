@@ -8,9 +8,10 @@ import UserItemDetails from "../../../../../shared/components/UserItemDetails";
 interface RestaurantOrderItemsProps {
   groupedItems: { [key: string]: UserItem[] };
   items: { [key: string]: Item };
+  setUnavailableModal: (value: boolean) => void;
 }
 
-const RestaurantOrderItems: React.FC<RestaurantOrderItemsProps> = ({ groupedItems, items }) => {
+const RestaurantOrderItems: React.FC<RestaurantOrderItemsProps> = ({ groupedItems, items, setUnavailableModal }) => {
   return (
     <>
       {Object.entries(groupedItems).map(([restaurantId, userItems]) => (
@@ -23,6 +24,7 @@ const RestaurantOrderItems: React.FC<RestaurantOrderItemsProps> = ({ groupedItem
                 restaurantId={restaurantId}
                 userItem={userItem}
                 item={items[userItem.produto_id]}
+                setUnavailableModal={setUnavailableModal}
               />
             ))}
           </ul>
