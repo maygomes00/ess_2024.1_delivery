@@ -11,17 +11,22 @@ export default class ItemController extends Controller {
   private restaurant_path: string;
   private restaurant_local: any;
 
-
-  constructor(use_path: boolean, router: Router, item_path: any = null, restaurant_path: any = null, item_local: any = null, restaurant_local: any = null) {
-    super(use_path, router, item_path, item_local)
-    this.restaurant_path = restaurant_path
+  constructor(
+    use_path: boolean,
+    router: Router,
+    item_path: any = null,
+    restaurant_path: any = null,
+    item_local: any = null,
+    restaurant_local: any = null
+  ) {
+    super(use_path, router, item_path, item_local);
+    this.restaurant_path = restaurant_path;
     if (restaurant_local != null) {
-      this.restaurant_local = restaurant_local
+      this.restaurant_local = restaurant_local;
     } else {
-      this.restaurant_local = JSON.parse("[]")
+      this.restaurant_local = JSON.parse('[]');
     }
   }
-
 
   // Inicia as rotas e define as funções que serao executadas quando a rota é chamada.
   public startRouter() {
@@ -37,57 +42,65 @@ export default class ItemController extends Controller {
     this.router.delete('/:itemId', this.removeItem);
   }
 
-
   // ----- Funcoes do banco de dados do restaurante ----- //
   // Retorna o banco de dados que está sendo usado.
   public getDatabaseRestaurant(): any {
     if (this.using_path) {
-        return JSON.parse(fs.readFileSync(this.restaurant_path, 'utf-8'))
+      return JSON.parse(fs.readFileSync(this.restaurant_path, 'utf-8'));
     } else {
-        return this.restaurant_local
+      return this.restaurant_local;
     }
   }
-
 
   // Substitui os dados que estao sendo usados atualmente pelos dados recebidos.
   public setDatabaseRestaurant(data: any): any {
     if (this.using_path) {
-      fs.writeFileSync(path.resolve(this.restaurant_path), JSON.stringify(data, null, 2))
+      fs.writeFileSync(
+        path.resolve(this.restaurant_path),
+        JSON.stringify(data, null, 2)
+      );
     } else {
-      return this.restaurant_local= data
+      return (this.restaurant_local = data);
     }
   }
-
 
   // Adiciona dados ao banco de dados que está sendo usado atualmente.
   public pushDataRestaurant(data: any) {
     if (this.using_path) {
-      const current_data = JSON.parse(fs.readFileSync(this.restaurant_path, 'utf-8'))
-      current_data.push(data)
-      fs.writeFileSync(path.resolve(this.restaurant_path),JSON.stringify(current_data, null, 2))
+      const current_data = JSON.parse(
+        fs.readFileSync(this.restaurant_path, 'utf-8')
+      );
+      current_data.push(data);
+      fs.writeFileSync(
+        path.resolve(this.restaurant_path),
+        JSON.stringify(current_data, null, 2)
+      );
     } else {
       this.restaurant_local.push(data);
     }
   }
 
-
   // Limpa o banco de dados sendo usado atualmente.
   public resetDatabaseRestaurant(): any {
     if (this.using_path) {
-      fs.writeFileSync(path.resolve(this.restaurant_path), JSON.stringify(JSON.parse('[]'), null, 2))
+      fs.writeFileSync(
+        path.resolve(this.restaurant_path),
+        JSON.stringify(JSON.parse('[]'), null, 2)
+      );
     } else {
-      return this.restaurant_local = JSON.parse('[]')
+      return (this.restaurant_local = JSON.parse('[]'));
     }
   }
-
 
   // Função de criar um novo arquivo com os bancos de dados que está sendo usado atualmente:
   public create_arquive(arquive_path: string) {
     const new_data = this.getDatabase();
-    fs.writeFileSync(path.resolve(arquive_path), JSON.stringify(new_data, null, 2));
+    fs.writeFileSync(
+      path.resolve(arquive_path),
+      JSON.stringify(new_data, null, 2)
+    );
   }
   // ---------------------------------------------------- //
-
 
   // ----------------- Funções de rotas ----------------- //
   // GET ITEM By ID
@@ -127,13 +140,11 @@ export default class ItemController extends Controller {
 
       // Manda os dados como resposta:
       res.status(200).json(item_data);
-
     } catch (error: any) {
       console.log('Erro in getItemById:', error.message);
       res.status(500).json({ Erro: 'Internal Server Error' });
     }
   };
-
 
   // GET ANY ITEM BY ID
   // Recebe um requerimento GET e dá como resposta um item de acordo com o id recebido como parâmetro,
@@ -158,6 +169,7 @@ export default class ItemController extends Controller {
       // Cria o conjunto de dados que será enviado, com os dados do item e a imagem codificada:
       const item_data = {
         id: database_data[0].id,
+        active: database_data[0].active,
         restaurant_id: database_data[0].restaurant_id,
         name: database_data[0].name,
         price: database_data[0].price,
@@ -173,7 +185,6 @@ export default class ItemController extends Controller {
       res.status(500).json({ Erro: 'Internal Server Error' });
     }
   };
-
 
   // ADD ITEM
   // Adiciona item ao banco de dados.
@@ -228,7 +239,6 @@ export default class ItemController extends Controller {
     }
   };
 
-
   // REMOVE ITEM
   // Remove item do banco de dados.
   private removeItem = (req: any, res: any) => {
@@ -245,8 +255,14 @@ export default class ItemController extends Controller {
 
       // Verifica se o item é ativo ou não:
       if (!this.is_active(data, requested_id)) {
-        console.log(`Erro: item with id ${requested_id} is already deactivated`)
-        res.status(400).json({ Erro: `item with id ${requested_id} is already deactivated`})
+        console.log(
+          `Erro: item with id ${requested_id} is already deactivated`
+        );
+        res
+          .status(400)
+          .json({
+            Erro: `item with id ${requested_id} is already deactivated`,
+          });
         return;
       }
 
@@ -267,7 +283,6 @@ export default class ItemController extends Controller {
       res.status(500).json({ Erro: 'Internal Server Error' });
     }
   };
-
 
   // UPDATE ITEM
   // Atualiza informações de um item no banco de dados
@@ -336,7 +351,6 @@ export default class ItemController extends Controller {
     }
   };
 
-
   // GET RESTAURANT ITENS
   // Retorna todos os itens ativos cadastrados por um restaurante:
   private getRestaurantItens = (req: any, res: any) => {
@@ -389,7 +403,6 @@ export default class ItemController extends Controller {
   };
   // ---------------------------------------------------- //
 
-
   // ----------------- Funções De item ----------------- //
   // Função responsavel por dar o indice de um novo item.
   private define_new_item_id(): any {
@@ -399,30 +412,32 @@ export default class ItemController extends Controller {
   }
 
   private id_exists(data_item: any, id: String, res?: any): Boolean {
-    const id_data1 = data_item.filter((element: { id: any }) => element.id == id)
+    const id_data1 = data_item.filter(
+      (element: { id: any }) => element.id == id
+    );
     if (id_data1.length > 0) {
-      return true
-    }
-    else {
+      return true;
+    } else {
       if (res) {
-        console.log(`Erro: item with id ${id} not found`)
-        res.status(404).json({ Erro: `item with id ${id} not found`})
+        console.log(`Erro: item with id ${id} not found`);
+        res.status(404).json({ Erro: `item with id ${id} not found` });
       }
-      return false
+      return false;
     }
   }
 
   private is_active(data_item: any, id: String, res?: any) {
-    const item_list = data_item.filter((element: { id: any }) => element.id == id)
+    const item_list = data_item.filter(
+      (element: { id: any }) => element.id == id
+    );
     if (item_list[0].active == '1') {
-      return true
-    }
-    else {
+      return true;
+    } else {
       if (res) {
-        console.log(`Erro: item with id ${id} is deactivated`)
-        res.status(400).json({ Erro: `item with id ${id} is deactivated`})
+        console.log(`Erro: item with id ${id} is deactivated`);
+        res.status(400).json({ Erro: `item with id ${id} is deactivated` });
       }
-      return false
+      return false;
     }
   }
 
