@@ -22,7 +22,7 @@ const RRegistrationPage: React.FC = () => {
     <Container>
       <RestaurantForm />
       <Container>
-        <Button variant="dark" onClick={handleSanityTest}>
+        <Button variant="dark" onClick={handleSanityTest} data-cy="Run Sanity Test">
           Run Sanity Test
         </Button>
         <Container>
