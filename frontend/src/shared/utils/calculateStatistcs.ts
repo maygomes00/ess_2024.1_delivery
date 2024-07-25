@@ -1,22 +1,21 @@
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Pedido, EstatisticaMensal, EstatisticaDiaria } from "../types/User";
 
 export const calculateStatistcs = (
   orders: Pedido[],
-  setEstatisticasMensais: React.Dispatch<
-    React.SetStateAction<EstatisticaMensal[]>
-  >,
-  setEstatisticasDiarias: React.Dispatch<
-    React.SetStateAction<EstatisticaDiaria[]>
-  >
+  setEstatisticasMensais: React.Dispatch<React.SetStateAction<EstatisticaMensal[]>>,
+  setEstatisticasDiarias: React.Dispatch<React.SetStateAction<EstatisticaDiaria[]>>
 ) => {
   const estatMensais: { [key: string]: EstatisticaMensal } = {};
   const estatDiarias: { [key: string]: EstatisticaDiaria } = {};
 
   orders.forEach((order) => {
-    const mes = format(new Date(order.data), "MMMM yyyy", { locale: ptBR });
-    const dia = format(new Date(order.data), "dd/MM/yyyy", { locale: ptBR });
+    // Parse a data para garantir que é interpretada corretamente
+    const orderDate = parse(order.data, "yyyy-MM-dd", new Date());
+
+    const mes = format(orderDate, "MMMM yyyy", { locale: ptBR });
+    const dia = format(orderDate, "dd/MM/yyyy", { locale: ptBR });
 
     // Estatísticas Mensais
     if (!estatMensais[mes]) {
