@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Restaurant } from "../../../shared/types/Restaurant";
 import { registerRestaurant } from "../../../shared/services/RestaurantRegistrationService";
-// import "../pages/RestaurantRegistration/styles.css";
-import { defineConfig } from "cypress";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Form,
@@ -83,12 +81,11 @@ const RestaurantForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission logic here
     console.log("Restaurant to submit:", restaurant);
     registerRestaurant(restaurant)
       .then((response) => {
         setsuccessfulRegistration(
-          "Restaurante registrado com sucesso, você será redirecionado para a página de login em 3 segundos"
+          "Restaurante registrado com sucesso, você será redirecionado para a página de login em 3 segundos."
         );
         console.log(response);
         setTimeout(() => {
@@ -134,6 +131,7 @@ const RestaurantForm: React.FC = () => {
                 value={restaurant.restaurant_name}
                 onChange={handleChange}
                 placeholder="Insira o nome do restaurante"
+                data-cy="restaurant_name"
               />
             </Form.Group>
 
@@ -145,6 +143,7 @@ const RestaurantForm: React.FC = () => {
                 value={restaurant.restaurant_address}
                 onChange={handleChange}
                 placeholder="Insira o endereço do restaurante"
+                data-cy="restaurant_address"
               />
             </Form.Group>
 
@@ -233,16 +232,17 @@ const RestaurantForm: React.FC = () => {
                 value={restaurant.restaurant_telephone}
                 onChange={handleChange}
                 placeholder="Insira o telefone do restaurante"
+                data-cy="restaurant_telephone"
               />
             </Form.Group>
 
             <ButtonToolbar
               style={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Button variant="outline-primary" type="submit">
+              <Button variant="outline-primary" type="submit" data-cy="submitButton">
                 Submit
               </Button>
-              <Button variant="danger" type="reset" onClick={handleReset}>
+              <Button variant="danger" type="reset" onClick={handleReset} data-cy="resetButton">
                 Limpar
               </Button>
               <Button variant="info" onClick={handleDummy}>
