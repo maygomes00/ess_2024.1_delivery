@@ -21,6 +21,7 @@ import ForgotPasswordPage from "./app/home/pages/EsqueciClientePage/ForgotPage";
 import ResetPasswordPage from "./app/home/pages/EsqueciClientePage/ResetPage";
 import RestaurantRegistrationPage from "./app/home/pages/RestaurantRegistration/RestaurantRegistrationPage";
 import RestaurantProfilePage from "./app/home/pages/RestaurantProfilePage";
+import RestaurantCRUD from "./app/home/pages/RestaurantCRUDPage/RestaurantCRUD";
 import Layout from "./shared/components/Layout";
 
 const router = createBrowserRouter([
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
       {
         path: "/register-restaurant",
         element: <RestaurantRegistrationPage />,
+      },
+      {
+        path: "/restaurantsCRUD",
+        element: <RestaurantCRUD />,
       },
       {
         path: "*",

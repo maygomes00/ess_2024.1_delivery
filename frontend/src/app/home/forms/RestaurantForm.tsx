@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Restaurant } from "../../../shared/types/Restaurant";
 import { registerRestaurant } from "../../../shared/services/RestaurantRegistrationService";
 // import "../pages/RestaurantRegistration/styles.css";
-import { defineConfig } from 'cypress';
+import { defineConfig } from "cypress";
+import { useNavigate, Link } from "react-router-dom";
 
 import {
   Form,
@@ -11,38 +12,38 @@ import {
   Row,
   Col,
   ButtonToolbar,
+  Alert,
 } from "react-bootstrap";
 
 const initialRestaurantState = {
-  id: '',
-  email: '',
-  password: '',
-  owner_name: '',
-  owner_cpf: '',
-  owner_address: '',
-  owner_telephone: '',
-  restaurant_name: '',
-  restaurant_cnpj: '',
-  restaurant_address: '',
-  restaurant_telephone: '',
+  id: "",
+  email: "",
+  password: "",
+  owner_name: "",
+  owner_cpf: "",
+  owner_address: "",
+  owner_telephone: "",
+  restaurant_name: "",
+  restaurant_cnpj: "",
+  restaurant_address: "",
+  restaurant_telephone: "",
   items: [],
 };
 
 const dummyRestaurant = {
-  id: '',
-  email: 'undecillion@example.com',
-  password: '!secureP4$$W0RD1234',
-  owner_name: 'UNDECILLION',
-  owner_cpf: '123.456.789-00',
-  owner_address: '1234 Abcd Ab, Abcdefg, AB',
-  owner_telephone: '55 (81) 12345-6789',
-  restaurant_name: 'Abcde Fghij',
-  restaurant_cnpj: '12.345.678/0001-99',
-  restaurant_address: '5678 Ijklmn Ij, Ijkmlno, IJ',
-  restaurant_telephone: '55 81 1111-1111',
+  id: "",
+  email: "undecillion@example.com",
+  password: "!secureP4$$W0RD1234",
+  owner_name: "UNDECILLION",
+  owner_cpf: "123.456.789-00",
+  owner_address: "1234 Abcd Ab, Abcdefg, AB",
+  owner_telephone: "55 (81) 12345-6789",
+  restaurant_name: "Abcde Fghij",
+  restaurant_cnpj: "12.345.678/0001-99",
+  restaurant_address: "5678 Ijklmn Ij, Ijkmlno, IJ",
+  restaurant_telephone: "55 81 1111-1111",
   items: [],
-}
-
+};
 
 const RestaurantForm: React.FC = () => {
   const [restaurant, setRestaurant] = useState<Restaurant>({
@@ -68,16 +69,46 @@ const RestaurantForm: React.FC = () => {
     }));
   };
 
+  const navigate = useNavigate();
+
+  const [successfulRegistration, setsuccessfulRegistration] = useState<
+    string | null
+  >(null);
+  const [lackingInformation, setlackingInformation] = useState<string | null>(
+    null
+  );
+  const [sameCNPJ, setsameCNPJ] = useState<string | null>(null);
+  const [sameEmail, setsameEmail] = useState<string | null>(null);
+  const [weakPassword, setweakPassword] = useState<string | null>(null);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
     console.log("Restaurant to submit:", restaurant);
     registerRestaurant(restaurant)
       .then((response) => {
-        console.log("Restaurant registered successfully:", response);
+        setsuccessfulRegistration(
+          "Restaurante registrado com sucesso, você será redirecionado para a página de login em 3 segundos"
+        );
+        console.log(response);
+        setTimeout(() => {
+          navigate("/login-restaurant");
+        }, 3000);
       })
       .catch((error) => {
-        console.error("Error registering restaurant:", error);
+        switch (error.response.data) {
+          case "Empresa com mesmo CNPJ já cadastrada":
+            setsameCNPJ("Empresa com mesmo CNPJ já cadastrada");
+            break;
+          case "Restaurante de mesmo email já cadastrado":
+            setsameEmail("Restaurante de mesmo email já cadastrado");
+            break;
+          case "Senha fraca":
+            setweakPassword("Senha fraca");
+            break;
+          case "Faltando informações obrigatórias":
+            setlackingInformation("Faltando informações obrigatórias");
+        }
       });
   };
 
@@ -194,6 +225,17 @@ const RestaurantForm: React.FC = () => {
               />
             </Form.Group>
 
+            <Form.Group controlId="formRestaurantTelephone">
+              <Form.Label>Telefone do restaurante</Form.Label>
+              <Form.Control
+                type="text"
+                name="restaurant_telephone"
+                value={restaurant.restaurant_telephone}
+                onChange={handleChange}
+                placeholder="Insira o telefone do restaurante"
+              />
+            </Form.Group>
+
             <ButtonToolbar
               style={{ display: "flex", justifyContent: "space-between" }}
             >
@@ -207,6 +249,17 @@ const RestaurantForm: React.FC = () => {
                 Dummy
               </Button>
             </ButtonToolbar>
+            <Container>
+              {successfulRegistration && (
+                <Alert variant="success">{successfulRegistration}</Alert>
+              )}
+              {lackingInformation && (
+                <Alert variant="danger">{lackingInformation}</Alert>
+              )}
+              {sameCNPJ && <Alert variant="danger">{sameCNPJ}</Alert>}
+              {sameEmail && <Alert variant="danger">{sameEmail}</Alert>}
+              {weakPassword && <Alert variant="danger">{weakPassword}</Alert>}
+            </Container>
           </Form>
         </Col>
       </Row>
