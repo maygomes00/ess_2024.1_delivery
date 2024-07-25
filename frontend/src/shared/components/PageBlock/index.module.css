@@ -1,5 +1,6 @@
 .div {
-    max-width: fit-content;
-    max-height: fit-content;
+    width: inherit;
+    max-height: inherit;
+    justify-items: center;
     border: var(--border, 2px) solid var(--border_color, black);
 }

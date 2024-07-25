@@ -3,26 +3,31 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { localContextEnd, localContextGetInfo } from '../../context/LocalContext';
 
-interface User {
-  id: number;
-  nome: string;
+interface Restaurant {
+  id: string;
   email: string;
-  telefone: string;
-  endereco: string;
+  password: string;
+  owner_name: string;
+  owner_cpf: string;
+  owner_address: string;
+  owner_telephone: string;
+  restaurant_name: string;
+  restaurant_cnpj: string;
+  restaurant_address: string;
+  restaurant_telephone: string;
 }
 
 const HomeRestaurantePage: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<Restaurant | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [restauranteId, setRestaurantId] = useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        setRestaurantId(localContextGetInfo("user", "id"));
-        if (restauranteId != "") {
-          const response = await axios.get(`http://localhost:5001/restaurant/${restauranteId}`);
+        const id = localContextGetInfo("user", "id");
+        if (id) {
+          const response = await axios.get(`http://localhost:5001/restaurant/${id}`);
           console.log('User data fetched:', response.data);
           setUser(response.data);
         } else {
@@ -50,22 +55,27 @@ const HomeRestaurantePage: React.FC = () => {
   };
 
   const handleNavigateToMenuEditor = () => {
-    navigate("/"+restauranteId+"/menu-editor");
+    const id = localContextGetInfo("user", "id");
+    if (id) {
+      navigate(`/${id}/menu-editor`);
+    } else {
+      setError('Nenhum usuário logado encontrado');
+    }
   };
 
   return (
     <div>
-      <h2>Home Restaurante {localStorage.getItem("start")}</h2>
+      <h2>Home Restaurante</h2>
       {error ? (
         <p>{error}</p>
       ) : user ? (
         <div>
           <h3>Dados do Restaurante</h3>
-          <p>Nome: {user.nome}</p>
+          <p>Nome: {user.owner_name}</p>
           <p>Email: {user.email}</p>
-          <p>Telefone: {user.telefone}</p>
-          <p>Endereço: {user.endereco}</p>
-          <button onClick={handleLogout}>Logout</button>
+          <p>Telefone: {user.restaurant_telephone}</p>
+          <p>Endereço: {user.restaurant_address}</p>
+          <button type="button" onClick={handleLogout}>Logout</button>
         </div>
       ) : (
         <p>Carregando dados do usuário...</p>

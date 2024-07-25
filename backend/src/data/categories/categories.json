@@ -3,19 +3,31 @@
     {
       "id": "1",
       "nome": "Salgados",
-      "restauranteId": "f257adef-dda8-46c7-bbfd-4275a90d837e",
+      "restauranteId": "f257bdef-cca8-46c7-bbfd-4275a90d837e",
       "temItens": false
     },
     {
       "id": "2",
       "nome": "Doces",
-      "restauranteId": "f257adef-dda8-46c7-bbfd-4275a90d837e",
+      "restauranteId": "f257bdef-cca8-46c7-bbfd-4275a90d837e",
       "temItens": false
     },
     {
       "id": "3",
       "nome": "Doce",
       "restauranteId": "idTeste1",
+      "temItens": false
+    },
+    {
+      "id": "4",
+      "nome": "Gelados",
+      "restauranteId": "f257bdef-cca8-46c7-bbfd-4275a90d837e",
+      "temItens": false
+    },
+    {
+      "id": "5",
+      "nome": "Quentes",
+      "restauranteId": "f257bdef-cca8-46c7-bbfd-4275a90d837e",
       "temItens": false
     }
   ]
