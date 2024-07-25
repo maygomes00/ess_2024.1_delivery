@@ -29,9 +29,6 @@ const CategoryPage = ({ restaurantId }: { restaurantId: string }) => {
     try {
       // Obtém todas as categorias do backend
       const categories = await loadCategories(restaurantId); 
-  
-      
-  
       setRestaurantCategories(categories);
     } catch (error) {
       console.error("Erro ao carregar categorias:", error);
